@@ -152,20 +152,26 @@
   padding: 1rem !important;
   background: var(--color-bg-cream);
   border-top: 1px solid #f3f4f6 !important;
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
 }
 .woocommerce-cart .shop_table .actions .coupon {
-  display: flex;
-  gap: 0.5rem;
+  display: flex !important;
+  gap: 0.625rem;
   align-items: center;
-  flex-wrap: wrap;
+  flex: 1 1 auto;
+  max-width: 520px;
 }
 .woocommerce-cart .shop_table .actions .coupon label {
   display: none !important;
 }
 .woocommerce-cart .shop_table .actions .coupon input.input-text {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 180px;
-  max-width: 280px;
+  max-width: 320px;
   margin: 0 !important;
 }
 
@@ -176,6 +182,8 @@
   box-shadow: 0 1px 4px rgba(15, 74, 122, 0.2) !important;
   text-decoration: none !important;
   white-space: nowrap;
+  flex-shrink: 0;
+  padding: 0.625rem 1.5rem !important;
 }
 .woocommerce-cart .shop_table .actions button.button:hover {
   background: var(--color-brand-2) !important;
@@ -184,16 +192,39 @@
 .woocommerce-cart .shop_table .actions button[name="update_cart"] {
   background: white !important;
   color: var(--color-brand) !important;
-  border: 1px solid var(--color-brand-light) !important;
-  margin-left: auto;
+  border: 1.5px solid var(--color-brand-light) !important;
+  margin-left: 0 !important;
+  flex-shrink: 0;
 }
-.woocommerce-cart .shop_table .actions button[name="update_cart"]:hover {
+.woocommerce-cart .shop_table .actions button[name="update_cart"]:hover:not([disabled]):not(:disabled) {
   background: var(--color-brand-light) !important;
   color: var(--color-brand-2) !important;
+  border-color: var(--color-brand) !important;
 }
 .woocommerce-cart .shop_table .actions button[name="update_cart"][disabled],
 .woocommerce-cart .shop_table .actions button[name="update_cart"]:disabled {
-  opacity: 0.5 !important; cursor: not-allowed !important;
+  opacity: 0.45 !important; cursor: not-allowed !important;
+}
+
+/* Mobile: empilha tudo */
+@media (max-width: 639px) {
+  .woocommerce-cart .shop_table .actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.625rem;
+  }
+  .woocommerce-cart .shop_table .actions .coupon {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+  .woocommerce-cart .shop_table .actions .coupon input.input-text {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .woocommerce-cart .shop_table .actions button.button,
+  .woocommerce-cart .shop_table .actions button[name="update_cart"] {
+    width: 100%;
+  }
 }
 
 /* ============ Card de totais ============ */
