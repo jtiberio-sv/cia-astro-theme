@@ -33,23 +33,32 @@
 }
 .cdm-footer-social a:hover { background: rgba(255,255,255,0.2); color: white; }
 
-.cdm-footer-col h3 {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;
-  margin: 0 0 1rem;
-  color: white;
+.cdm-footer h3,
+.cdm-footer-col h3,
+.cdm-footer-col h3.mt {
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  font-size: 0.875rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  margin: 0 0 1rem !important;
+  color: white !important;
+  line-height: 1.2 !important;
 }
-.cdm-footer-col h3.mt { margin-top: 1.5rem; }
+.cdm-footer-col h3.mt { margin-top: 1.5rem !important; }
+.cdm-footer-brand p { color: rgba(255,255,255,0.85) !important; }
 .cdm-footer-col ul {
   list-style: none; padding: 0; margin: 0;
 }
 .cdm-footer-col ul li + li { margin-top: 0.5rem; }
 .cdm-footer-col ul a {
-  color: rgba(255,255,255,0.8); font-size: 0.875rem;
+  color: rgba(255,255,255,0.85) !important;
+  font-size: 0.875rem;
+  text-decoration: none !important;
   transition: color 0.15s;
   display: inline-flex; align-items: center; gap: 0.5rem;
 }
-.cdm-footer-col ul a:hover { color: var(--color-cta); }
+.cdm-footer-col ul a:hover { color: var(--color-cta) !important; }
 .cdm-footer-col .hours {
   color: rgba(255,255,255,0.6); font-size: 0.75rem; margin-top: 0.75rem; display: block;
 }

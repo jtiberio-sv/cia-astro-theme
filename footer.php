@@ -47,10 +47,10 @@ $cia_footer_topcats = get_terms([
     <nav class="cdm-footer-col" aria-label="Comprar">
       <h3>Comprar</h3>
       <ul>
-        <li><a href="<?php echo esc_url(home_url('/loja/')); ?>">Todos os produtos</a></li>
-        <li><a href="<?php echo esc_url(home_url('/promocoes/')); ?>">🔥 Promoções</a></li>
+        <li><a href="<?php echo esc_url(cia_astro_frontend_url('/loja/')); ?>">Todos os produtos</a></li>
+        <li><a href="<?php echo esc_url(cia_astro_frontend_url('/promocoes/')); ?>">🔥 Promoções</a></li>
         <?php if (!is_wp_error($cia_footer_topcats)) : foreach ($cia_footer_topcats as $c): ?>
-          <li><a href="<?php echo esc_url(home_url('/categoria/' . $c->slug . '/')); ?>"><?php echo esc_html($c->name); ?></a></li>
+          <li><a href="<?php echo esc_url(cia_astro_frontend_url('/categoria/' . $c->slug . '/')); ?>"><?php echo esc_html($c->name); ?></a></li>
         <?php endforeach; endif; ?>
       </ul>
     </nav>
@@ -58,19 +58,19 @@ $cia_footer_topcats = get_terms([
     <nav class="cdm-footer-col" aria-label="Ajuda">
       <h3>Ajuda</h3>
       <ul>
-        <li><a href="<?php echo esc_url(home_url('/como-comprar/')); ?>">Como comprar</a></li>
-        <li><a href="<?php echo esc_url(home_url('/prazo-e-entrega/')); ?>">Prazo e entrega</a></li>
-        <li><a href="<?php echo esc_url(home_url('/trocas-e-devolucoes/')); ?>">Trocas e devoluções</a></li>
-        <li><a href="<?php echo esc_url(home_url('/track-my-order/')); ?>">Rastrear pedido</a></li>
-        <li><a href="<?php echo esc_url(home_url('/politica-de-privacidade/')); ?>">Política de Privacidade</a></li>
-        <li><a href="<?php echo esc_url(home_url('/termos-de-uso/')); ?>">Termos de Uso</a></li>
+        <li><a href="<?php echo esc_url(cia_astro_frontend_url('/como-comprar/')); ?>">Como comprar</a></li>
+        <li><a href="<?php echo esc_url(cia_astro_frontend_url('/prazo-e-entrega/')); ?>">Prazo e entrega</a></li>
+        <li><a href="<?php echo esc_url(cia_astro_frontend_url('/trocas-e-devolucoes/')); ?>">Trocas e devoluções</a></li>
+        <li><a href="<?php echo esc_url(cia_astro_backend_url('/track-my-order/')); ?>">Rastrear pedido</a></li>
+        <li><a href="<?php echo esc_url(cia_astro_frontend_url('/politica-de-privacidade/')); ?>">Política de Privacidade</a></li>
+        <li><a href="<?php echo esc_url(cia_astro_frontend_url('/termos-de-uso/')); ?>">Termos de Uso</a></li>
         <li><a href="https://www.reclameaqui.com.br/empresa/cia-das-mochilas/" target="_blank" rel="noopener">Reclame Aqui</a></li>
       </ul>
       <h3 class="mt">Institucional</h3>
       <ul>
-        <li><a href="<?php echo esc_url(home_url('/quem-somos/')); ?>">Quem somos</a></li>
-        <li><a href="<?php echo esc_url(home_url('/blog/')); ?>">Blog</a></li>
-        <li><a href="<?php echo esc_url(home_url('/contato/')); ?>">Contato</a></li>
+        <li><a href="<?php echo esc_url(cia_astro_frontend_url('/quem-somos/')); ?>">Quem somos</a></li>
+        <li><a href="<?php echo esc_url(cia_astro_frontend_url('/blog/')); ?>">Blog</a></li>
+        <li><a href="<?php echo esc_url(cia_astro_frontend_url('/contato/')); ?>">Contato</a></li>
       </ul>
     </nav>
 

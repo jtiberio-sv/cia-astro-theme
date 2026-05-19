@@ -9,7 +9,8 @@ if (!defined('ABSPATH')) { exit; }
 require_once CIA_ASTRO_DIR . '/inc/header-data.php';
 $cia_topcats = cia_astro_get_top_categories(6);
 $cia_logo    = CIA_ASTRO_URI . '/assets/img/logo.webp';
-$cia_home    = home_url('/');
+// Logo aponta pra vitrine (Astro), nao pro backend WP
+$cia_home    = cia_astro_frontend_url('/');
 // Fallback de logo: pega o custom_logo configurado no Customizer se existir
 $cia_custom_logo_id = get_theme_mod('custom_logo');
 if ($cia_custom_logo_id) {
@@ -47,7 +48,7 @@ if ($cia_custom_logo_id) {
       </ul>
     </div>
     <div class="cdm-topbar-links">
-      <a href="<?php echo esc_url(home_url('/track-my-order/')); ?>">
+      <a href="<?php echo esc_url(cia_astro_backend_url('/track-my-order/')); ?>">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         Rastrear pedido
       </a>
@@ -72,7 +73,7 @@ if ($cia_custom_logo_id) {
         <img src="<?php echo esc_url($cia_logo); ?>" alt="Cia das Mochilas" width="200" height="40" fetchpriority="high" />
       </a>
 
-      <form role="search" class="cdm-search-form" action="<?php echo esc_url(home_url('/busca/')); ?>" method="get">
+      <form role="search" class="cdm-search-form" action="<?php echo esc_url(cia_astro_frontend_url('/busca/')); ?>" method="get">
         <label for="cdm-header-search" class="cdm-sr-only">Buscar produtos</label>
         <input id="cdm-header-search" name="q" type="search" class="cdm-search-input"
                placeholder="O que está procurando? mochila, lápis, caderno, marca…" autocomplete="off" />
@@ -85,11 +86,11 @@ if ($cia_custom_logo_id) {
         <button type="button" id="cdm-search-mobile" class="cdm-search-mobile" aria-label="Buscar">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         </button>
-        <a href="<?php echo esc_url(home_url('/minha-conta/')); ?>" class="cdm-action-link" aria-label="Minha conta">
+        <a href="<?php echo esc_url(cia_astro_backend_url('/minha-conta/')); ?>" class="cdm-action-link" aria-label="Minha conta">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
           <span>Minha conta</span>
         </a>
-        <a href="<?php echo esc_url(home_url('/my-wishlist/')); ?>" class="cdm-action-link wishlist" aria-label="Favoritos">
+        <a href="<?php echo esc_url(cia_astro_backend_url('/my-wishlist/')); ?>" class="cdm-action-link wishlist" aria-label="Favoritos">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
           <span>Favoritos</span>
         </a>
@@ -119,12 +120,12 @@ if ($cia_custom_logo_id) {
   <nav class="cdm-nav" aria-label="Categorias principais">
     <ul class="cdm-nav-list">
       <li>
-        <a href="<?php echo esc_url(home_url('/loja/')); ?>" class="cdm-nav-item todos">Todos</a>
+        <a href="<?php echo esc_url(cia_astro_frontend_url('/loja/')); ?>" class="cdm-nav-item todos">Todos</a>
       </li>
       <?php foreach ($cia_topcats as $cat): $decor = $cat['decor']; $has_children = !empty($cat['children']); ?>
         <?php if ($has_children): ?>
           <li class="cdm-mega" data-cat="<?php echo esc_attr($decor['confetti']); ?>">
-            <a href="<?php echo esc_url(home_url($cat['url'] . '/')); ?>" class="cdm-nav-item" aria-haspopup="true">
+            <a href="<?php echo esc_url(cia_astro_frontend_url($cat['url'] . '/')); ?>" class="cdm-nav-item" aria-haspopup="true">
               <?php echo esc_html($cat['name']); ?>
               <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </a>
@@ -142,7 +143,7 @@ if ($cia_custom_logo_id) {
                   <ul class="cdm-mega-sublist<?php echo count($cat['children']) > 6 ? ' wide' : ''; ?>">
                     <?php foreach ($cat['children'] as $sub): ?>
                       <li>
-                        <a href="<?php echo esc_url(home_url('/categoria/' . $sub->slug . '/')); ?>"
+                        <a href="<?php echo esc_url(cia_astro_frontend_url('/categoria/' . $sub->slug . '/')); ?>"
                            style="--cdm-sub-hover: var(--color-confetti-<?php echo esc_attr($decor['confetti']); ?>); background-image: linear-gradient(currentColor, currentColor); background-size: 0 0;"
                            onmouseover="this.style.background='var(--cdm-sub-hover)';"
                            onmouseout="this.style.background='transparent';"
@@ -161,7 +162,7 @@ if ($cia_custom_logo_id) {
                     <span class="badge" style="background: var(--color-confetti-<?php echo esc_attr($decor['confetti']); ?>); color: <?php echo $decor['confetti'] === 'yellow' ? 'var(--color-ink)' : 'white'; ?>;">Categoria</span>
                     <h4><?php echo esc_html($cat['name']); ?></h4>
                     <p><?php echo (int) $cat['count']; ?> <?php echo $cat['count'] === 1 ? 'produto' : 'produtos'; ?> · <?php echo count($cat['children']); ?> sub-categorias</p>
-                    <a href="<?php echo esc_url(home_url($cat['url'] . '/')); ?>" class="cta">
+                    <a href="<?php echo esc_url(cia_astro_frontend_url($cat['url'] . '/')); ?>" class="cta">
                       Ver todos
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
@@ -172,15 +173,15 @@ if ($cia_custom_logo_id) {
           </li>
         <?php else: ?>
           <li class="cdm-mega" data-cat="<?php echo esc_attr($decor['confetti']); ?>">
-            <a href="<?php echo esc_url(home_url($cat['url'] . '/')); ?>" class="cdm-nav-item"><?php echo esc_html($cat['name']); ?></a>
+            <a href="<?php echo esc_url(cia_astro_frontend_url($cat['url'] . '/')); ?>" class="cdm-nav-item"><?php echo esc_html($cat['name']); ?></a>
           </li>
         <?php endif; ?>
       <?php endforeach; ?>
       <li>
-        <a href="<?php echo esc_url(home_url('/marcas/')); ?>" class="cdm-nav-item marcas">Marcas</a>
+        <a href="<?php echo esc_url(cia_astro_frontend_url('/marcas/')); ?>" class="cdm-nav-item marcas">Marcas</a>
       </li>
       <li style="margin-left:auto;">
-        <a href="<?php echo esc_url(home_url('/promocoes/')); ?>" class="cdm-promo-link">🔥 Promoções</a>
+        <a href="<?php echo esc_url(cia_astro_frontend_url('/promocoes/')); ?>" class="cdm-promo-link">🔥 Promoções</a>
       </li>
     </ul>
   </nav>
@@ -197,7 +198,7 @@ if ($cia_custom_logo_id) {
       </button>
     </div>
 
-    <form role="search" action="<?php echo esc_url(home_url('/busca/')); ?>" method="get" class="cdm-drawer-search">
+    <form role="search" action="<?php echo esc_url(cia_astro_frontend_url('/busca/')); ?>" method="get" class="cdm-drawer-search">
       <label for="cdm-drawer-search" class="cdm-sr-only">Buscar produtos</label>
       <div class="wrap">
         <input id="cdm-drawer-search" name="q" type="search" placeholder="Buscar mochilas, lápis, marcas…" autocomplete="off" />
@@ -208,11 +209,11 @@ if ($cia_custom_logo_id) {
     </form>
 
     <div class="cdm-drawer-section">
-      <a href="<?php echo esc_url(home_url('/promocoes/')); ?>" class="cdm-drawer-cta sale">
+      <a href="<?php echo esc_url(cia_astro_frontend_url('/promocoes/')); ?>" class="cdm-drawer-cta sale">
         <span>🔥 Promoções</span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
       </a>
-      <a href="<?php echo esc_url(home_url('/loja/')); ?>" class="cdm-drawer-cta shop">
+      <a href="<?php echo esc_url(cia_astro_frontend_url('/loja/')); ?>" class="cdm-drawer-cta shop">
         <span>🛍️ Todos os produtos</span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
       </a>
@@ -232,21 +233,21 @@ if ($cia_custom_logo_id) {
               <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </summary>
             <ul>
-              <li><a href="<?php echo esc_url(home_url($cat['url'] . '/')); ?>" class="see-all">Ver todos →</a></li>
+              <li><a href="<?php echo esc_url(cia_astro_frontend_url($cat['url'] . '/')); ?>" class="see-all">Ver todos →</a></li>
               <?php foreach ($cat['children'] as $sub): ?>
-                <li><a href="<?php echo esc_url(home_url('/categoria/' . $sub->slug . '/')); ?>"><span><?php echo esc_html($sub->name); ?></span><span class="count"><?php echo (int) $sub->count; ?></span></a></li>
+                <li><a href="<?php echo esc_url(cia_astro_frontend_url('/categoria/' . $sub->slug . '/')); ?>"><span><?php echo esc_html($sub->name); ?></span><span class="count"><?php echo (int) $sub->count; ?></span></a></li>
               <?php endforeach; ?>
             </ul>
           </details>
         <?php else: ?>
-          <a href="<?php echo esc_url(home_url($cat['url'] . '/')); ?>" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;border-radius:0.5rem;">
+          <a href="<?php echo esc_url(cia_astro_frontend_url($cat['url'] . '/')); ?>" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;border-radius:0.5rem;">
             <span style="font-size:1.25rem;" aria-hidden="true"><?php echo $decor['emoji']; ?></span>
             <span style="font-weight:500;"><?php echo esc_html($cat['name']); ?></span>
             <span style="margin-left:auto;font-size:0.75rem;color:#9ca3af;">(<?php echo (int) $cat['count']; ?>)</span>
           </a>
         <?php endif; ?>
       <?php endforeach; ?>
-      <a href="<?php echo esc_url(home_url('/marcas/')); ?>" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;border-radius:0.5rem;margin-top:0.25rem;">
+      <a href="<?php echo esc_url(cia_astro_frontend_url('/marcas/')); ?>" style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;border-radius:0.5rem;margin-top:0.25rem;">
         <span style="font-size:1.25rem;" aria-hidden="true">🏷️</span>
         <span style="font-weight:500;">Marcas</span>
       </a>
@@ -254,15 +255,15 @@ if ($cia_custom_logo_id) {
 
     <div class="cdm-drawer-section cdm-drawer-account">
       <h4>Sua conta</h4>
-      <a href="<?php echo esc_url(home_url('/minha-conta/')); ?>">
+      <a href="<?php echo esc_url(cia_astro_backend_url('/minha-conta/')); ?>">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#4b5563;"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
         <span>Minha conta</span>
       </a>
-      <a href="<?php echo esc_url(home_url('/my-wishlist/')); ?>">
+      <a href="<?php echo esc_url(cia_astro_backend_url('/my-wishlist/')); ?>">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-confetti-pink);"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
         <span>Favoritos</span>
       </a>
-      <a href="<?php echo esc_url(home_url('/track-my-order/')); ?>">
+      <a href="<?php echo esc_url(cia_astro_backend_url('/track-my-order/')); ?>">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-brand);"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         <span>Rastrear pedido</span>
       </a>

@@ -39,8 +39,8 @@
 
   /* Tipografia */
   --color-ink: #1A2B42;
-  --font-display: "Fredoka", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  --font-display: "Fredoka", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", system-ui, sans-serif;
+  --font-body: "Inter", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", system-ui, sans-serif;
 
   /* Layout (proprio do WP — Astro usa Tailwind container) */
   --container-max: 1536px;
