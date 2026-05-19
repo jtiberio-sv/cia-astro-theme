@@ -1,0 +1,197 @@
+/* woo-account.css — paginas de conta/track/lost-password/order-received.
+   Forms compactos em card centralizado + my-account autenticado (nav + content).
+   Carregado na cascata depois de woo-base.css. */
+
+/* ============ Container generico das paginas conta ============ */
+.woocommerce-account .cdm-content,
+.woocommerce-page.woocommerce-checkout-pay .cdm-content,
+.woocommerce-order-tracking-page .cdm-content,
+.woocommerce-lost-password .cdm-content,
+.woocommerce-thankyou .cdm-content {
+  padding-top: 1.5rem !important;
+}
+
+/* h1 padrao (Track My Order, Minha Conta, etc) */
+.cdm-content > .entry-title,
+.cdm-content > article > .entry-title,
+.cdm-content .page-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin: 0 0 1.25rem;
+}
+
+/* ============ Forms compactos (track + lost-password + login) ============ */
+.woocommerce form.track_order,
+.woocommerce form.lost_reset_password,
+.woocommerce form.woocommerce-form-track-order {
+  max-width: 520px;
+  margin: 0 auto !important;
+  padding: 1.75rem !important;
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.woocommerce form.track_order > p,
+.woocommerce form.lost_reset_password > p {
+  margin: 0 0 1rem !important;
+  font-size: 0.92rem;
+  color: #4b5563;
+  line-height: 1.55;
+}
+.woocommerce form.track_order .form-row,
+.woocommerce form.lost_reset_password .form-row {
+  margin: 0 0 1rem !important;
+  padding: 0 !important;
+  float: none !important;
+  width: 100% !important;
+}
+.woocommerce form.track_order button[type="submit"],
+.woocommerce form.lost_reset_password button[type="submit"] {
+  background: var(--color-brand) !important;
+  color: white !important;
+  width: 100%;
+  padding: 0.75rem 1.25rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  border-radius: 9999px !important;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 6px rgba(15, 74, 122, 0.2) !important;
+}
+.woocommerce form.track_order button[type="submit"]:hover,
+.woocommerce form.lost_reset_password button[type="submit"]:hover {
+  background: var(--color-brand-2) !important;
+  color: white !important;
+}
+
+/* ============ Resultado do track (apos submit) ============ */
+.woocommerce .order_details {
+  list-style: none !important;
+  padding: 1.25rem 1.5rem !important;
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin: 0 auto 1.5rem !important;
+  max-width: 720px;
+}
+@media (min-width: 640px) {
+  .woocommerce .order_details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.woocommerce .order_details li {
+  padding: 0.5rem 0 !important;
+  border: none !important;
+  font-size: 0.9rem;
+}
+.woocommerce .order_details li strong {
+  display: block;
+  color: var(--color-ink);
+  font-size: 1rem;
+  margin-top: 0.15rem;
+}
+
+/* ============ Paginacao da listagem de pedidos (my-account) ============ */
+.woocommerce-pagination ul.page-numbers {
+  display: inline-flex;
+  gap: 0.25rem;
+  list-style: none;
+  padding: 0;
+  border: none !important;
+}
+.woocommerce-pagination ul.page-numbers li {
+  border: none !important;
+}
+.woocommerce-pagination ul.page-numbers li a,
+.woocommerce-pagination ul.page-numbers li span {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  min-width: 36px; height: 36px;
+  padding: 0 0.5rem !important;
+  background: white !important;
+  border: 1px solid var(--color-brand-light) !important;
+  color: var(--color-brand) !important;
+  border-radius: 0.5rem !important;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none !important;
+}
+.woocommerce-pagination ul.page-numbers li span.current {
+  background: var(--color-brand) !important;
+  color: white !important;
+}
+
+/* ============ My account autenticado (dashboard + nav lateral) ============ */
+.woocommerce-account .woocommerce {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .woocommerce-account .woocommerce {
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+  }
+}
+.woocommerce-account .woocommerce-MyAccount-content {
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  min-width: 0;
+}
+.woocommerce-account .woocommerce-MyAccount-content h2,
+.woocommerce-account .woocommerce-MyAccount-content h3 {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  margin-top: 0;
+}
+.woocommerce-account .woocommerce-MyAccount-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============ Order-received (pos-checkout) ============ */
+.woocommerce-thankyou .woocommerce-order {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.woocommerce-thankyou .woocommerce-thankyou-order-received {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-pix);
+  text-align: center;
+  padding: 1.5rem;
+  background: var(--color-bg-mint);
+  border-radius: 1rem;
+  margin: 0 0 1.5rem;
+}
+.woocommerce-thankyou .woocommerce-thankyou-order-details {
+  margin-top: 0 !important;
+}
+.woocommerce-thankyou .woocommerce-order-details,
+.woocommerce-thankyou .woocommerce-customer-details {
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 0 0 1.25rem !important;
+}
+.woocommerce-thankyou .woocommerce-order-details h2,
+.woocommerce-thankyou .woocommerce-column__title {
+  font-family: var(--font-display);
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  color: var(--color-ink);
+  margin: 0 0 1rem !important;
+}
+
+/* ============ Mensagem post-form / aviso geral ============ */
+.woocommerce-account .woocommerce > .woocommerce-notices-wrapper,
+.woocommerce-page .woocommerce > .woocommerce-notices-wrapper {
+  grid-column: 1 / -1;
+}
