@@ -1,0 +1,93 @@
+/* footer.css — espelha src/components/Footer.astro */
+
+.cdm-footer {
+  background: var(--color-brand-3);
+  color: white;
+  margin-top: auto;
+}
+.cdm-footer-main {
+  max-width: var(--container-max); margin: 0 auto;
+  padding: 3.5rem var(--container-px);
+  display: grid; gap: 2.5rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .cdm-footer-main { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.cdm-footer-brand img {
+  height: 2.5rem; width: auto;
+  filter: brightness(0) invert(1);
+}
+.cdm-footer-brand p {
+  margin: 1.25rem 0 0;
+  font-size: 0.875rem; color: rgba(255,255,255,0.8); line-height: 1.6;
+}
+.cdm-footer-social {
+  display: flex; gap: 0.5rem; margin-top: 1.25rem;
+}
+.cdm-footer-social a {
+  width: 2.25rem; height: 2.25rem; border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: white; transition: background 0.15s;
+}
+.cdm-footer-social a:hover { background: rgba(255,255,255,0.2); color: white; }
+
+.cdm-footer-col h3 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;
+  margin: 0 0 1rem;
+  color: white;
+}
+.cdm-footer-col h3.mt { margin-top: 1.5rem; }
+.cdm-footer-col ul {
+  list-style: none; padding: 0; margin: 0;
+}
+.cdm-footer-col ul li + li { margin-top: 0.5rem; }
+.cdm-footer-col ul a {
+  color: rgba(255,255,255,0.8); font-size: 0.875rem;
+  transition: color 0.15s;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.cdm-footer-col ul a:hover { color: var(--color-cta); }
+.cdm-footer-col .hours {
+  color: rgba(255,255,255,0.6); font-size: 0.75rem; margin-top: 0.75rem; display: block;
+}
+
+.cdm-footer-payments {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  font-size: 0.75rem; color: rgba(255,255,255,0.8);
+}
+.cdm-footer-payments span {
+  background: rgba(255,255,255,0.1);
+  padding: 0.25rem 0.5rem; border-radius: 0.25rem;
+}
+.cdm-footer-payments span.pix {
+  background: var(--color-pix); color: white; font-weight: 600;
+}
+
+.cdm-footer-legal {
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.cdm-footer-legal-inner {
+  max-width: var(--container-max); margin: 0 auto;
+  padding: 1.25rem var(--container-px);
+  font-size: 0.75rem; color: rgba(255,255,255,0.6);
+}
+.cdm-footer-legal-inner p { margin: 0 0 0.5rem; text-align: center; }
+@media (min-width: 768px) { .cdm-footer-legal-inner p { text-align: left; } }
+
+.cdm-footer-sign {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.2);
+}
+.cdm-footer-sign-inner {
+  max-width: var(--container-max); margin: 0 auto;
+  padding: 0.75rem var(--container-px);
+  text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.6);
+}
+.cdm-footer-sign-inner a {
+  margin-left: 0.25rem; font-weight: 600; color: white;
+  transition: color 0.15s;
+}
+.cdm-footer-sign-inner a:hover { color: var(--color-cta); }

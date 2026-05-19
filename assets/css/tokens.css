@@ -1,0 +1,49 @@
+/* Design tokens — espelho de `src/styles/global.css` do repo Astro.
+   Source of truth: github.com/jtiberio-sv/ciadasmochilas/src/styles/global.css
+   Quando atualizar uma cor no Astro, atualizar tambem aqui. */
+
+:root {
+  /* Marca */
+  --color-brand: #1E7BB8;
+  --color-brand-2: #1864A5;
+  --color-brand-3: #0F4A7A;
+  --color-brand-light: #E8F4FB;
+  --color-brand-soft: #D6EBF7;
+
+  /* Confete (acento) */
+  --color-confetti-cyan: #5EBFD6;
+  --color-confetti-mint: #6FCBA4;
+  --color-confetti-green: #8AC95A;
+  --color-confetti-yellow: #F4C842;
+  --color-confetti-orange: #F39233;
+  --color-confetti-coral: #ED6B5A;
+  --color-confetti-pink: #FB7299;
+  --color-confetti-lime: #B5D85F;
+  --color-confetti-purple: #A78BD9;
+
+  /* Acao / preco */
+  --color-cta: #FFC73C;
+  --color-cta-dark: #F0B600;
+  --color-cta-hover: #FFD66B;
+  --color-sale: #ED6B5A;
+  --color-sale-dark: #D14E3F;
+  --color-success: #3CB371;
+  --color-pix: #22BB6E;
+
+  /* Background */
+  --color-bg-cream: #FFF8EC;
+  --color-bg-mint: #EFFAF7;
+  --color-bg-pink: #FFF0F5;
+  --color-bg-blue: #E8F4FB;
+  --color-bg-yellow: #FFF8E1;
+
+  /* Tipografia */
+  --color-ink: #1A2B42;
+  --font-display: "Fredoka", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  /* Layout (proprio do WP — Astro usa Tailwind container) */
+  --container-max: 1536px;
+  --container-px: 1rem;
+  --header-height: 170px;
+}

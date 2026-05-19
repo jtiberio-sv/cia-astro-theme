@@ -1,13 +1,11 @@
 <?php
 /**
- * Enqueue: remove assets pesados do parent Storefront, carrega CSS do tema na ordem certa.
+ * Enqueue: remove assets do parent Storefront que conflitam, carrega cascata propria,
+ * adiciona Google Fonts CDN (Fredoka + Inter) — espelhando Layout.astro do front.
  *
- * Ordem: fonts → tokens → base → header → footer → woo-*
+ * Ordem: google-fonts → tokens → base → header → footer → woo-* → header.js
  *
- * Fase 0: apenas placeholder, nenhum CSS carregado ainda.
- * Fase 1: adiciona fonts.css + tokens.css + base.css + header.css + footer.css
- * Fase 3: woo-cart.css + woo-checkout.css
- * Fase 4: woo-account.css + woo-wishlist.css + woo-track.css
+ * Self-hosting fonts e tech-debt LGPD a revisitar (ver wp-theme/architecture.md secao 4).
  */
 
 if (!defined('ABSPATH')) {
@@ -15,20 +13,33 @@ if (!defined('ABSPATH')) {
 }
 
 add_action('wp_enqueue_scripts', function () {
-    // Remove o style principal do parent Storefront — vamos servir nossa cascata propria.
-    // (Fase 0: comentado para nao quebrar visual ate Fase 1 estar pronta.)
-    // wp_dequeue_style('storefront-style');
-    // wp_dequeue_style('storefront-icons');
-    // wp_dequeue_style('storefront-fonts');
+    // --- Dequeue do parent Storefront ---
+    // Storefront-style traz reset + tipografia + cores default que conflitam com nossa identidade.
+    // Mantemos apenas o ecossistema WC (form/cart/checkout scripts).
+    wp_dequeue_style('storefront-style');
+    wp_dequeue_style('storefront-icons');
+    wp_dequeue_style('storefront-fonts');
+    wp_dequeue_style('storefront-woocommerce-style');
+    wp_dequeue_style('storefront-gutenberg-blocks');
+    wp_deregister_style('storefront-style');
+    wp_deregister_style('storefront-icons');
+    wp_deregister_style('storefront-fonts');
 
+    // --- Google Fonts (mesma URL do Astro Layout.astro) ---
+    // Preconnect via wp_resource_hints (filter abaixo). Aqui apenas o stylesheet.
+    wp_enqueue_style(
+        'cia-google-fonts',
+        'https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap',
+        [],
+        null
+    );
+
+    // --- Cascata propria ---
     $base = CIA_ASTRO_URI . '/assets/css';
     $ver  = CIA_ASTRO_VERSION;
 
-    // Cascata de CSS do tema (sera populada nas proximas fases).
-    // Cada arquivo so e enfileirado se existir, para nao quebrar nada na Fase 0.
     $cascade = [
-        ['cia-fonts',         '/fonts.css',         []],
-        ['cia-tokens',        '/tokens.css',        ['cia-fonts']],
+        ['cia-tokens',        '/tokens.css',        []],
         ['cia-base',          '/base.css',          ['cia-tokens']],
         ['cia-header',        '/header.css',        ['cia-base']],
         ['cia-footer',        '/footer.css',        ['cia-base']],
@@ -43,4 +54,31 @@ add_action('wp_enqueue_scripts', function () {
             wp_enqueue_style($handle, $base . $path, $deps, $ver);
         }
     }
+
+    // --- JS ---
+    $js_files = [
+        ['cia-header', '/assets/js/header.js', ['jquery'], true],
+    ];
+    foreach ($js_files as [$handle, $path, $deps, $in_footer]) {
+        $abs = CIA_ASTRO_DIR . $path;
+        if (file_exists($abs)) {
+            wp_enqueue_script($handle, CIA_ASTRO_URI . $path, $deps, $ver, $in_footer);
+        }
+    }
 }, 100);
+
+/**
+ * Preconnect para Google Fonts (espelhando Layout.astro do front).
+ */
+add_filter('wp_resource_hints', function ($urls, $relation_type) {
+    if ($relation_type === 'preconnect') {
+        $urls[] = [
+            'href' => 'https://fonts.googleapis.com',
+        ];
+        $urls[] = [
+            'href'        => 'https://fonts.gstatic.com',
+            'crossorigin' => 'anonymous',
+        ];
+    }
+    return $urls;
+}, 10, 2);
