@@ -154,6 +154,291 @@
   margin-bottom: 0;
 }
 
+/* ============ Dashboard: card de boas-vindas + atalhos ============ */
+.cdm-account-welcome {
+  background: linear-gradient(135deg, var(--color-brand-light) 0%, white 100%);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 0 0 1.5rem;
+  border: 1px solid var(--color-brand-soft);
+}
+.cdm-account-welcome h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem !important;
+  font-weight: 700 !important;
+  margin: 0 0 0.35rem !important;
+  color: var(--color-ink);
+}
+.cdm-account-welcome h2 .cdm-wave {
+  display: inline-block;
+  margin-right: 0.35rem;
+  animation: cdm-wave 1.5s ease infinite;
+  transform-origin: 70% 70%;
+}
+@keyframes cdm-wave {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(14deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+}
+.cdm-account-welcome p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+.cdm-account-shortcuts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin: 0 0 0.5rem;
+}
+@media (min-width: 640px) {
+  .cdm-account-shortcuts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1280px) {
+  .cdm-account-shortcuts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.cdm-account-shortcuts a {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1.1rem 1.1rem 1rem;
+  background: white;
+  border: 1.5px solid #f3f4f6;
+  border-radius: 0.85rem;
+  text-decoration: none !important;
+  color: var(--color-ink) !important;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+.cdm-account-shortcuts a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  border-color: var(--color-brand);
+}
+.cdm-account-shortcuts a .ico {
+  width: 36px; height: 36px;
+  border-radius: 0.6rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  background: var(--color-brand-light);
+  color: var(--color-brand);
+}
+.cdm-account-shortcuts a .label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+.cdm-account-shortcuts a .hint {
+  font-size: 0.78rem;
+  color: #6b7280;
+  line-height: 1.3;
+}
+
+/* Esconde os 2 paragrafos default do Woo dashboard quando nosso bloco renderiza */
+.woocommerce-account .woocommerce-MyAccount-content .cdm-account-welcome + p {
+  display: none;
+}
+
+/* ============ Tabela de pedidos (orders.php) ============ */
+.woocommerce-account .woocommerce-orders-table,
+.woocommerce-account table.shop_table.my_account_orders,
+.woocommerce-account table.shop_table.woocommerce-MyAccount-orders {
+  width: 100% !important;
+  border: 1px solid #f3f4f6 !important;
+  border-radius: 0.85rem !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  overflow: hidden;
+  margin: 0 !important;
+  background: white;
+}
+.woocommerce-account .woocommerce-orders-table thead th {
+  background: var(--color-bg-cream) !important;
+  padding: 0.75rem 0.875rem !important;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-ink);
+  text-align: left;
+  border: none !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+.woocommerce-account .woocommerce-orders-table tbody td {
+  padding: 0.85rem 0.875rem !important;
+  border: none !important;
+  border-bottom: 1px solid #f9fafb !important;
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+.woocommerce-account .woocommerce-orders-table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+.woocommerce-account .woocommerce-orders-table .woocommerce-orders-table__cell-order-number a {
+  color: var(--color-brand) !important;
+  font-weight: 600 !important;
+}
+.woocommerce-account .woocommerce-orders-table .woocommerce-orders-table__cell-order-status {
+  font-weight: 600;
+}
+.woocommerce-account .woocommerce-orders-table .woocommerce-orders-table__cell-order-actions {
+  text-align: right;
+}
+.woocommerce-account .woocommerce-orders-table .woocommerce-orders-table__cell-order-actions a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.85rem;
+  background: var(--color-brand-light) !important;
+  color: var(--color-brand) !important;
+  border-radius: 9999px;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  margin-left: 0.35rem;
+  transition: background 0.15s;
+}
+.woocommerce-account .woocommerce-orders-table .woocommerce-orders-table__cell-order-actions a:hover {
+  background: var(--color-brand) !important;
+  color: white !important;
+}
+.woocommerce-account .woocommerce-orders-table .woocommerce-orders-table__cell-order-actions a.cancel {
+  background: #fef2f2 !important;
+  color: var(--color-sale) !important;
+}
+.woocommerce-account .woocommerce-orders-table .woocommerce-orders-table__cell-order-actions a.cancel:hover {
+  background: var(--color-sale) !important;
+  color: white !important;
+}
+
+/* Sem pedidos */
+.woocommerce-account .woocommerce-MyAccount-content .woocommerce-Message--info,
+.woocommerce-account .woocommerce-MyAccount-content .woocommerce-info {
+  text-align: center;
+  padding: 2rem 1.5rem !important;
+  background: var(--color-bg-cream) !important;
+  border-left: none !important;
+  border-radius: 0.85rem !important;
+}
+.woocommerce-account .woocommerce-MyAccount-content .woocommerce-Message a.button,
+.woocommerce-account .woocommerce-MyAccount-content .woocommerce-info a.button {
+  margin-top: 0.75rem;
+  background: var(--color-brand) !important;
+  color: white !important;
+}
+
+/* ============ View order (detalhe de 1 pedido dentro do my-account) ============ */
+.woocommerce-view-order .woocommerce-order-overview {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 1.25rem !important;
+  margin: 0 0 1.25rem !important;
+  background: var(--color-bg-cream);
+  border-radius: 0.85rem;
+}
+@media (min-width: 640px) {
+  .woocommerce-view-order .woocommerce-order-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .woocommerce-view-order .woocommerce-order-overview {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.woocommerce-view-order .woocommerce-order-overview li {
+  font-size: 0.85rem;
+  color: #6b7280;
+  padding: 0 !important;
+  border: none !important;
+}
+.woocommerce-view-order .woocommerce-order-overview li strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--color-ink);
+  margin-top: 0.2rem;
+}
+
+/* ============ Forms edit-address / edit-account ============ */
+.woocommerce-account .woocommerce-MyAccount-content form.edit-account .form-row,
+.woocommerce-account .woocommerce-MyAccount-content form.woocommerce-address-fields .form-row,
+.woocommerce-account .woocommerce-EditAccountForm .form-row {
+  margin: 0 0 1rem !important;
+  padding: 0 !important;
+  float: none !important;
+  width: 100% !important;
+}
+.woocommerce-account .woocommerce-MyAccount-content form .woocommerce-address-fields__field-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 1rem;
+}
+@media (min-width: 640px) {
+  .woocommerce-account .woocommerce-MyAccount-content form .woocommerce-address-fields__field-wrapper {
+    grid-template-columns: 1fr 1fr;
+  }
+  .woocommerce-account .woocommerce-MyAccount-content form .woocommerce-address-fields__field-wrapper .form-row-wide { grid-column: 1 / -1; }
+}
+.woocommerce-account .woocommerce-MyAccount-content form .woocommerce-input-wrapper {
+  display: block !important;
+  width: 100% !important;
+}
+.woocommerce-account .woocommerce-MyAccount-content form button[type="submit"] {
+  background: var(--color-brand) !important;
+  color: white !important;
+  padding: 0.7rem 1.5rem !important;
+  border-radius: 9999px !important;
+  font-weight: 600 !important;
+  margin-top: 0.5rem;
+}
+.woocommerce-account .woocommerce-MyAccount-content form button[type="submit"]:hover {
+  background: var(--color-brand-2) !important;
+}
+
+/* ============ Listagem de endereços (edit-address index) ============ */
+.woocommerce-account .woocommerce-Addresses {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 0 !important;
+}
+@media (min-width: 768px) {
+  .woocommerce-account .woocommerce-Addresses { grid-template-columns: 1fr 1fr; }
+}
+.woocommerce-account .woocommerce-Address {
+  width: 100% !important;
+  float: none !important;
+  background: var(--color-bg-cream);
+  border-radius: 0.85rem;
+  padding: 1.25rem !important;
+}
+.woocommerce-account .woocommerce-Address-title h2,
+.woocommerce-account .woocommerce-Address-title h3 {
+  font-family: var(--font-display);
+  font-size: 1rem !important;
+  font-weight: 700;
+  margin: 0 0 0.5rem !important;
+}
+.woocommerce-account .woocommerce-Address-title a.edit {
+  font-size: 0.78rem;
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.woocommerce-account .woocommerce-Address address {
+  font-style: normal;
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.55;
+}
+
 /* ============ Order-received (pos-checkout) ============ */
 .woocommerce-thankyou .woocommerce-order {
   max-width: 720px;
