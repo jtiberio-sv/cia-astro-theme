@@ -16,5 +16,6 @@ define('CIA_ASTRO_URI', get_stylesheet_directory_uri());
 require_once CIA_ASTRO_DIR . '/inc/theme-setup.php';
 require_once CIA_ASTRO_DIR . '/inc/enqueue.php';
 require_once CIA_ASTRO_DIR . '/inc/urls.php';
+require_once CIA_ASTRO_DIR . '/inc/url-rewrites.php';
 require_once CIA_ASTRO_DIR . '/inc/woo-config.php';
 require_once CIA_ASTRO_DIR . '/inc/woo-hooks.php';
