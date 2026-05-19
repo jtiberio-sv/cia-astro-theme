@@ -54,9 +54,9 @@ function cia_astro_backend_only_slugs() {
         'minha-conta', 'my-account',
         'my-wishlist', 'wishlist',
         'track-my-order',
-        'lost-password',
-        'order-received',
-        'pedido-recebido',
+        'lost-password', 'esqueci-a-senha',
+        'order-received', 'pedido-recebido',
+        'view-order', 'edit-account', 'edit-address',
     ];
 }
 
