@@ -1,0 +1,17 @@
+/*
+Theme Name: Cia das Mochilas — Astro Mirror
+Theme URI: https://github.com/jtiberio-sv/cia-astro-theme
+Author: Tyber.io
+Author URI: https://tyber.io
+Description: Child theme do Storefront que espelha o frontend Astro em paginas WooCommerce (cart/checkout/my-account). Identidade visual unica entre Astro (CF Pages) e WordPress (Hetzner).
+Version: 0.1.0
+Requires at least: 6.0
+Tested up to: 6.9
+Requires PHP: 8.2
+Template: storefront
+Text Domain: cia-astro
+Tags: woocommerce, child-theme, custom-colors, custom-menu, custom-logo, e-commerce
+*/
+
+/* Estilos sao carregados via wp_enqueue_style em inc/enqueue.php (cascata controlada).
+   Este arquivo existe apenas para metadata WP — manter vazio. */

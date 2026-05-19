@@ -1,0 +1,16 @@
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.swo
+.idea/
+.vscode/
+node_modules/
+.env
+.env.*
+!.env.example
+
+# WP artifacts
+wp-content/cache/
+wp-content/uploads/
+*.zip

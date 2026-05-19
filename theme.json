@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.wp.org/wp/6.9/theme.json",
+  "version": 3,
+  "settings": {
+    "color": {
+      "palette": [
+        { "slug": "brand",            "color": "#1E7BB8", "name": "Brand" },
+        { "slug": "brand-2",          "color": "#1864A5", "name": "Brand 2" },
+        { "slug": "brand-3",          "color": "#0F4A7A", "name": "Brand 3" },
+        { "slug": "brand-light",      "color": "#E8F4FB", "name": "Brand Light" },
+        { "slug": "ink",              "color": "#1A2B42", "name": "Ink" },
+        { "slug": "cta",              "color": "#FFC73C", "name": "CTA" },
+        { "slug": "cta-dark",         "color": "#F0B600", "name": "CTA Dark" },
+        { "slug": "sale",             "color": "#ED6B5A", "name": "Sale" },
+        { "slug": "pix",              "color": "#22BB6E", "name": "Pix" },
+        { "slug": "confetti-cyan",    "color": "#5EBFD6", "name": "Confetti Cyan" },
+        { "slug": "confetti-mint",    "color": "#6FCBA4", "name": "Confetti Mint" },
+        { "slug": "confetti-green",   "color": "#8AC95A", "name": "Confetti Green" },
+        { "slug": "confetti-yellow",  "color": "#F4C842", "name": "Confetti Yellow" },
+        { "slug": "confetti-coral",   "color": "#ED6B5A", "name": "Confetti Coral" },
+        { "slug": "confetti-pink",    "color": "#FB7299", "name": "Confetti Pink" },
+        { "slug": "confetti-purple",  "color": "#A78BD9", "name": "Confetti Purple" },
+        { "slug": "bg-cream",         "color": "#FFF8EC", "name": "BG Cream" }
+      ]
+    },
+    "typography": {
+      "fontFamilies": [
+        { "slug": "display", "name": "Display (Fredoka)", "fontFamily": "Fredoka, system-ui, sans-serif" },
+        { "slug": "body",    "name": "Body (Inter)",     "fontFamily": "Inter, system-ui, sans-serif" }
+      ]
+    }
+  }
+}
