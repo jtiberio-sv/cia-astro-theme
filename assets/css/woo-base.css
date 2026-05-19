@@ -1,0 +1,300 @@
+/* woo-base.css — overrides para WooCommerce/Storefront com prioridade alta.
+   Inputs, botoes WC, layout 2-col my-account/cart, mensagens flash.
+   Carregado depois de base.css e header.css pra ter precedencia. */
+
+/* ========== Wrapper conteudo principal ========== */
+.cdm-content {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+.cdm-content > .woocommerce,
+.cdm-content > .entry-content,
+.cdm-content > article,
+.cdm-content > .page-content {
+  max-width: 100%;
+}
+
+/* ========== Inputs WC ========== */
+.woocommerce form .form-row,
+.woocommerce-page form .form-row {
+  margin: 0 0 1rem;
+  padding: 0;
+}
+.woocommerce form .form-row label,
+.woocommerce-page form .form-row label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--color-ink);
+}
+.woocommerce form .form-row input.input-text,
+.woocommerce form .form-row textarea,
+.woocommerce form .form-row select,
+.woocommerce-page form .form-row input.input-text,
+.woocommerce-page form .form-row textarea,
+.woocommerce-page form .form-row select {
+  width: 100% !important;
+  padding: 0.625rem 0.875rem !important;
+  font-family: var(--font-body) !important;
+  font-size: 0.95rem !important;
+  color: var(--color-ink) !important;
+  background: white !important;
+  border: 2px solid var(--color-brand-light) !important;
+  border-radius: 0.5rem !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transition: border-color 0.15s, box-shadow 0.15s !important;
+  line-height: 1.4 !important;
+  height: auto !important;
+}
+.woocommerce form .form-row input.input-text:focus,
+.woocommerce form .form-row textarea:focus,
+.woocommerce form .form-row select:focus,
+.woocommerce-page form .form-row input.input-text:focus {
+  border-color: var(--color-confetti-cyan) !important;
+  box-shadow: 0 0 0 3px rgba(94, 191, 214, 0.18) !important;
+}
+
+/* Password reveal icon do WC */
+.woocommerce form .password-input,
+.woocommerce-page form .password-input {
+  display: block; position: relative;
+}
+.woocommerce form .show-password-input {
+  position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+  color: #9ca3af; cursor: pointer;
+}
+
+/* Checkbox */
+.woocommerce-form__label-for-checkbox,
+.woocommerce form .form-row .checkbox {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500 !important;
+}
+.woocommerce-form__input-checkbox {
+  width: 1rem !important; height: 1rem !important;
+  margin: 0 !important;
+  accent-color: var(--color-brand);
+}
+
+/* ========== Botoes WC ========== */
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce #respond input#submit,
+.woocommerce-page a.button,
+.woocommerce-page button.button,
+.woocommerce-page input.button,
+.woocommerce-page #respond input#submit {
+  display: inline-flex !important;
+  align-items: center; justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem !important;
+  font-family: var(--font-body) !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  border-radius: 9999px !important;
+  border: none !important;
+  background: white !important;
+  color: var(--color-brand) !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  transition: background 0.15s, color 0.15s !important;
+  box-shadow: 0 1px 2px rgba(15, 74, 122, 0.08) !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  min-height: auto !important;
+}
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce #respond input#submit:hover {
+  background: var(--color-brand-light) !important;
+  color: var(--color-brand-2) !important;
+}
+.woocommerce a.button.alt,
+.woocommerce button.button.alt,
+.woocommerce input.button.alt,
+.woocommerce #respond input#submit.alt,
+.woocommerce a.button.checkout,
+.woocommerce-page a.button.alt,
+.woocommerce-page button.button.alt {
+  background: var(--color-cta) !important;
+  color: var(--color-ink) !important;
+  box-shadow: 0 2px 8px rgba(255, 199, 60, 0.35) !important;
+}
+.woocommerce a.button.alt:hover,
+.woocommerce button.button.alt:hover {
+  background: var(--color-cta-hover) !important;
+  color: var(--color-ink) !important;
+}
+
+/* Submit dos forms my-account (Acessar / Cadastrar) */
+.woocommerce-form-login__submit,
+.woocommerce-form-register__submit,
+.woocommerce-Button {
+  background: var(--color-brand) !important;
+  color: white !important;
+}
+.woocommerce-form-login__submit:hover,
+.woocommerce-form-register__submit:hover,
+.woocommerce-Button:hover {
+  background: var(--color-brand-2) !important;
+  color: white !important;
+}
+
+/* ========== Layout 2-col customer_login + my-account ========== */
+.woocommerce #customer_login.u-columns,
+.woocommerce-account .u-columns {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin: 0 !important;
+}
+@media (min-width: 768px) {
+  .woocommerce #customer_login.u-columns,
+  .woocommerce-account .u-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.woocommerce #customer_login .u-column1,
+.woocommerce #customer_login .u-column2,
+.woocommerce-account .u-column1,
+.woocommerce-account .u-column2 {
+  width: 100% !important;
+  float: none !important;
+  padding: 1.5rem !important;
+  background: var(--color-bg-cream);
+  border-radius: 1rem;
+  border: 1px solid #f3f4f6;
+}
+.woocommerce h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+  color: var(--color-ink);
+}
+.woocommerce-form-login,
+.woocommerce-form-register {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* "Perdeu sua senha?" link */
+.woocommerce-LostPassword {
+  margin: 1rem 0 0;
+  font-size: 0.875rem;
+}
+.woocommerce-LostPassword a {
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ========== Layout my-account autenticado (nav + content) ========== */
+.woocommerce-account .woocommerce-MyAccount-navigation {
+  width: 100% !important;
+  margin-bottom: 1.5rem;
+  padding: 0 !important;
+  float: none !important;
+}
+@media (min-width: 768px) {
+  .woocommerce-account .woocommerce-MyAccount-navigation {
+    width: 25% !important;
+    float: left !important;
+    padding-right: 2rem !important;
+    margin-bottom: 0;
+  }
+}
+.woocommerce-account .woocommerce-MyAccount-content {
+  width: 100% !important;
+  float: none !important;
+}
+@media (min-width: 768px) {
+  .woocommerce-account .woocommerce-MyAccount-content {
+    width: 75% !important;
+    float: right !important;
+  }
+}
+.woocommerce-MyAccount-navigation ul {
+  list-style: none;
+  padding: 0; margin: 0;
+  background: var(--color-bg-cream);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+.woocommerce-MyAccount-navigation li {
+  border-bottom: 1px solid #f3f4f6;
+}
+.woocommerce-MyAccount-navigation li:last-child {
+  border-bottom: none;
+}
+.woocommerce-MyAccount-navigation li a {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--color-ink);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background 0.15s, color 0.15s;
+}
+.woocommerce-MyAccount-navigation li a:hover {
+  background: var(--color-brand-light);
+  color: var(--color-brand);
+}
+.woocommerce-MyAccount-navigation li.is-active a {
+  background: var(--color-brand);
+  color: white;
+}
+
+/* ========== Mensagens flash WC ========== */
+.woocommerce-message,
+.woocommerce-error,
+.woocommerce-info {
+  border-radius: 0.75rem !important;
+  padding: 0.875rem 1.25rem !important;
+  margin: 0 0 1.5rem !important;
+  font-size: 0.9rem !important;
+  border: none !important;
+  background: var(--color-bg-cream) !important;
+  border-left: 4px solid var(--color-brand) !important;
+  color: var(--color-ink) !important;
+  list-style: none;
+}
+.woocommerce-message::before,
+.woocommerce-error::before,
+.woocommerce-info::before {
+  display: none !important;
+}
+.woocommerce-message {
+  border-left-color: var(--color-pix) !important;
+  background: var(--color-bg-mint) !important;
+}
+.woocommerce-error {
+  border-left-color: var(--color-sale) !important;
+  background: var(--color-bg-pink) !important;
+}
+
+/* Headings WC */
+.woocommerce h1, .woocommerce h2, .woocommerce h3,
+.woocommerce-page h1, .woocommerce-page h2, .woocommerce-page h3,
+.entry-title, .page-title {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  font-weight: 700;
+}
+.entry-title, .page-title {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Clearfix pra layouts WC com float */
+.woocommerce-account .woocommerce::after,
+.woocommerce-account::after {
+  content: ""; display: block; clear: both;
+}

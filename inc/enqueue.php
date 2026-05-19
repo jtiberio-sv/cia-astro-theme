@@ -43,9 +43,11 @@ add_action('wp_enqueue_scripts', function () {
         ['cia-base',          '/base.css',          ['cia-tokens']],
         ['cia-header',        '/header.css',        ['cia-base']],
         ['cia-footer',        '/footer.css',        ['cia-base']],
-        ['cia-woo-cart',      '/woo-cart.css',      ['cia-base']],
-        ['cia-woo-checkout',  '/woo-checkout.css',  ['cia-base']],
-        ['cia-woo-account',   '/woo-account.css',   ['cia-base']],
+        // woo-base depois de base/header/footer pra sobrescrever WC inline com !important
+        ['cia-woo-base',      '/woo-base.css',      ['cia-base']],
+        ['cia-woo-cart',      '/woo-cart.css',      ['cia-woo-base']],
+        ['cia-woo-checkout',  '/woo-checkout.css',  ['cia-woo-base']],
+        ['cia-woo-account',   '/woo-account.css',   ['cia-woo-base']],
     ];
 
     foreach ($cascade as [$handle, $path, $deps]) {

@@ -281,3 +281,4 @@ if ($cia_custom_logo_id) {
 </div>
 
 <main id="content" class="cdm-main" role="main">
+  <div class="cdm-container cdm-content">

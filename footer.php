@@ -23,6 +23,7 @@ $cia_footer_topcats = get_terms([
     'order'      => 'DESC',
 ]);
 ?>
+  </div><!-- /.cdm-container -->
 </main>
 
 <footer class="cdm-footer" role="contentinfo">
