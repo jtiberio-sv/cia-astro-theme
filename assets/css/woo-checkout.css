@@ -109,17 +109,33 @@
   margin: 0 0 1rem !important;
   padding: 0 !important;
   float: none !important;
-  width: auto !important;
+  width: 100% !important;
+  min-width: 0;
 }
 .woocommerce-checkout .form-row.form-row-first,
 .woocommerce-checkout .form-row.form-row-last {
-  width: auto !important;
+  width: 100% !important;
   float: none !important;
   grid-column: span 1;
+  min-width: 0;
 }
 .woocommerce-checkout .form-row.form-row-wide,
 .woocommerce-checkout .form-row.notes {
   grid-column: 1 / -1;
+  width: 100% !important;
+}
+
+/* Wrapper que WC adiciona em volta de inputs (.woocommerce-input-wrapper)
+   tem display:inline por default, o que faz o input encolher pro tamanho
+   do placeholder em campos opcionais (Telefone, Apto). Forca block + 100%. */
+.woocommerce-checkout .form-row .woocommerce-input-wrapper {
+  display: block !important;
+  width: 100% !important;
+}
+.woocommerce-checkout .form-row .woocommerce-input-wrapper input,
+.woocommerce-checkout .form-row .woocommerce-input-wrapper select,
+.woocommerce-checkout .form-row .woocommerce-input-wrapper textarea {
+  width: 100% !important;
 }
 
 /* CPF, CEP, Número, Estado — campos curtos podem ser metade */
