@@ -336,6 +336,122 @@
   color: var(--color-ink) !important;
 }
 
+/* ============ Cross-sells (renderizado abaixo do cart via woo-hooks) ============ */
+.woocommerce-cart .cross-sells {
+  margin-top: 2.5rem !important;
+  padding-top: 2rem;
+  border-top: 1px solid #f3f4f6;
+  width: 100%;
+}
+/* Quando colocado em row full-width (fora do grid 2-col), garante que
+   ocupa toda a largura do container */
+.woocommerce-cart .woocommerce > .cross-sells {
+  grid-column: 1 / -1;
+}
+.woocommerce-cart .cross-sells > h2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem !important;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin: 0 0 1.25rem !important;
+  text-align: center;
+}
+.woocommerce-cart .cross-sells .products {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+@media (min-width: 640px)  { .woocommerce-cart .cross-sells .products { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .woocommerce-cart .cross-sells .products { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; } }
+@media (min-width: 1536px) { .woocommerce-cart .cross-sells .products { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+
+.woocommerce-cart .cross-sells .products .product {
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  padding: 0.75rem !important;
+  text-align: center;
+  display: flex !important;
+  flex-direction: column;
+  margin: 0 !important;
+  width: 100% !important;
+  float: none !important;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.woocommerce-cart .cross-sells .products .product:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+.woocommerce-cart .cross-sells .products .product a {
+  text-decoration: none !important;
+  color: var(--color-ink);
+  display: block;
+}
+.woocommerce-cart .cross-sells .products .product img,
+.woocommerce-cart .cross-sells .products .product .attachment-woocommerce_thumbnail {
+  width: 100% !important;
+  max-height: 140px !important;
+  height: 140px !important;
+  object-fit: contain;
+  background: var(--color-bg-cream);
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem !important;
+  padding: 0.5rem;
+}
+.woocommerce-cart .cross-sells .products .product .woocommerce-loop-product__title {
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  padding: 0 !important;
+  margin: 0 0 0.35rem !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.2em;
+}
+.woocommerce-cart .cross-sells .products .product .price {
+  color: var(--color-brand) !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  margin: 0 0 0.5rem !important;
+  display: block;
+}
+.woocommerce-cart .cross-sells .products .product .price del {
+  color: #9ca3af !important;
+  font-weight: 400;
+  font-size: 0.8rem;
+  margin-right: 0.35rem;
+}
+.woocommerce-cart .cross-sells .products .product .price ins {
+  background: transparent !important;
+  text-decoration: none !important;
+}
+.woocommerce-cart .cross-sells .products .product .button,
+.woocommerce-cart .cross-sells .products .product .add_to_cart_button {
+  background: var(--color-cta) !important;
+  color: var(--color-ink) !important;
+  padding: 0.5rem 0.875rem !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  border-radius: 9999px !important;
+  margin-top: auto !important;
+  width: 100%;
+  border: none !important;
+  box-shadow: 0 1px 4px rgba(255, 199, 60, 0.3) !important;
+}
+.woocommerce-cart .cross-sells .products .product .button:hover {
+  background: var(--color-cta-hover) !important;
+}
+
+/* Garante que cross-sells removidos da sidebar nao sumam o totals
+   nem dupliquem se algum plugin re-injetar */
+.woocommerce-cart .cart-collaterals > .cross-sells { display: none !important; }
+
 /* Cart vazio */
 .woocommerce-cart .cart-empty {
   text-align: center;
