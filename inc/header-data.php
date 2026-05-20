@@ -25,7 +25,6 @@ function cia_astro_get_top_categories($top = 6) {
         'escritorio'        => ['image' => '__CIA_IMG__/cat-executiva.webp',     'emoji' => '💼', 'confetti' => 'coral'],
         'cadernos'          => ['image' => '__CIA_IMG__/kid-portrait.webp',      'emoji' => '📓', 'confetti' => 'green'],
         'ficharios'         => ['image' => '__CIA_IMG__/flatlay-papelaria.webp', 'emoji' => '📋', 'confetti' => 'yellow'],
-        'dia-do-consumidor' => ['image' => '__CIA_IMG__/kid-portrait.webp',      'emoji' => '🎉', 'confetti' => 'purple'],
     ];
     // Substitui o placeholder __CIA_IMG__ pela URL absoluta do diretorio assets/img.
     $cat_decor = [];
@@ -50,6 +49,13 @@ function cia_astro_get_top_categories($top = 6) {
     if (is_wp_error($all) || !is_array($all)) {
         return [];
     }
+
+    // Categorias ocultas (sazonais, descontinuadas).
+    // Mantemos a categoria no WP — so nao mostra na nav.
+    $hidden_slugs = ['dia-do-consumidor'];
+    $all = array_values(array_filter($all, function ($t) use ($hidden_slugs) {
+        return !in_array($t->slug, $hidden_slugs, true);
+    }));
 
     usort($all, function ($a, $b) { return $b->count - $a->count; });
     $top_cats = array_slice($all, 0, $top);
