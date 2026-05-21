@@ -24,12 +24,6 @@ function cia_astro_frontend_url($path = '/') {
     $map = [
         'loja-dev.ciadasmochilas.com.br' => 'https://dev.ciadasmochilas.com.br',
         'loja.ciadasmochilas.com.br'     => 'https://ciadasmochilas.com.br',
-        // TRANSITORIO pre-cutover DNS: enquanto ciadasmochilas.com.br ainda
-        // responde via WP/Hetzner, os links de browse apontam pra vitrine
-        // homolog (dev). Pos-cutover (DNS root -> CF Pages), o host deixa
-        // de existir aqui e essa linha vira NOOP. Manter ate confirmar
-        // cutover concluido e remover esta linha.
-        'ciadasmochilas.com.br'          => 'https://dev.ciadasmochilas.com.br',
     ];
     $base = isset($map[$host]) ? $map[$host] : home_url();
     return rtrim($base, '/') . '/' . ltrim($path, '/');
