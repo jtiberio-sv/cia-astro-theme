@@ -38,15 +38,15 @@ $accent     = '#fff8e1';
     <tr>
       <td align="center" valign="top">
 
-        <table border="0" cellpadding="0" cellspacing="0" align="center" width="360" id="template_header_image" style="margin:0 auto 16px;width:360px;max-width:360px;">
+        <table border="0" cellpadding="0" cellspacing="0" align="center" width="252" id="template_header_image" style="margin:0 auto 16px;width:252px;max-width:252px;">
           <tr>
             <td align="center" style="text-align:center;">
               <a href="<?php echo esc_url(home_url('/')); ?>" style="display:block;text-decoration:none;">
                 <img src="<?php echo esc_url($logo_url); ?>"
                      alt="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>"
-                     width="360"
-                     height="71"
-                     style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;width:360px;max-width:360px;height:auto;margin:0 auto;" />
+                     width="252"
+                     height="50"
+                     style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;width:252px;max-width:252px;height:auto;margin:0 auto;" />
               </a>
             </td>
           </tr>

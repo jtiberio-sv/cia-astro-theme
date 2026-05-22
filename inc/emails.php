@@ -36,48 +36,104 @@ add_filter('pre_option_woocommerce_email_footer_text', function () {
 });
 
 /* ============================================================
- * 2) Subjects e headings PT-BR amigaveis
+ * 2) Subjects e headings PT-BR amigaveis (com acentuacao correta)
  * ============================================================ */
 
+/* ---- E-mails do cliente ---- */
 add_filter('woocommerce_email_subject_customer_processing_order', function ($subject, $order) {
+    if (!$order) return $subject;
     return sprintf('Recebemos seu pedido #%s na Cia das Mochilas!', $order->get_order_number());
 }, 10, 2);
 
 add_filter('woocommerce_email_subject_customer_completed_order', function ($subject, $order) {
+    if (!$order) return $subject;
     return sprintf('Seu pedido #%s foi enviado!', $order->get_order_number());
 }, 10, 2);
 
 add_filter('woocommerce_email_subject_customer_on_hold_order', function ($subject, $order) {
-    return sprintf('Aguardando confirmacao do pagamento — pedido #%s', $order->get_order_number());
+    if (!$order) return $subject;
+    return sprintf('Aguardando confirmação do pagamento — pedido #%s', $order->get_order_number());
 }, 10, 2);
 
 add_filter('woocommerce_email_subject_customer_refunded_order', function ($subject, $order) {
+    if (!$order) return $subject;
     return sprintf('Reembolso processado — pedido #%s', $order->get_order_number());
 }, 10, 2);
 
 add_filter('woocommerce_email_subject_customer_note', function ($subject, $order) {
-    return sprintf('Atualizacao do pedido #%s', $order->get_order_number());
+    if (!$order) return $subject;
+    return sprintf('Atualização do pedido #%s', $order->get_order_number());
+}, 10, 2);
+
+add_filter('woocommerce_email_subject_customer_cancelled_order', function ($subject, $order) {
+    if (!$order) return $subject;
+    return sprintf('Seu pedido #%s foi cancelado', $order->get_order_number());
+}, 10, 2);
+
+add_filter('woocommerce_email_subject_customer_failed_order', function ($subject, $order) {
+    if (!$order) return $subject;
+    return sprintf('Seu pedido #%s na Cia das Mochilas não foi concluído', $order->get_order_number());
+}, 10, 2);
+
+add_filter('woocommerce_email_subject_customer_invoice', function ($subject, $order) {
+    if (!$order) return $subject;
+    return sprintf('Fatura do pedido #%s — Cia das Mochilas', $order->get_order_number());
 }, 10, 2);
 
 add_filter('woocommerce_email_subject_customer_new_account', function ($subject) {
-    return 'Bem-vindo(a) a Cia das Mochilas!';
+    return 'Bem-vindo(a) à Cia das Mochilas!';
 }, 10);
 
 add_filter('woocommerce_email_subject_customer_reset_password', function ($subject) {
-    return 'Redefinicao de senha — Cia das Mochilas';
+    return 'Redefinição de senha — Cia das Mochilas';
 }, 10);
 
+/* ---- E-mails do admin/loja (interno) ---- */
+add_filter('woocommerce_email_subject_new_order', function ($subject, $order) {
+    if (!$order) return $subject;
+    return sprintf('[Cia das Mochilas] Novo pedido recebido: #%s', $order->get_order_number());
+}, 10, 2);
+
+add_filter('woocommerce_email_subject_cancelled_order', function ($subject, $order) {
+    if (!$order) return $subject;
+    return sprintf('[Cia das Mochilas] Pedido #%s cancelado', $order->get_order_number());
+}, 10, 2);
+
+add_filter('woocommerce_email_subject_failed_order', function ($subject, $order) {
+    if (!$order) return $subject;
+    return sprintf('[Cia das Mochilas] Falha no pedido #%s', $order->get_order_number());
+}, 10, 2);
+
+/* ---- Headings (titulo da barra azul) ---- */
 add_filter('woocommerce_email_heading_customer_processing_order', function () {
     return 'Obrigado pelo seu pedido!';
 });
 add_filter('woocommerce_email_heading_customer_completed_order', function () {
-    return 'Seu pedido esta a caminho!';
+    return 'Seu pedido está a caminho!';
 });
 add_filter('woocommerce_email_heading_customer_on_hold_order', function () {
-    return 'Aguardando confirmacao do pagamento';
+    return 'Aguardando confirmação do pagamento';
+});
+add_filter('woocommerce_email_heading_customer_cancelled_order', function () {
+    return 'Seu pedido foi cancelado';
+});
+add_filter('woocommerce_email_heading_customer_failed_order', function () {
+    return 'Não foi possível concluir seu pedido';
+});
+add_filter('woocommerce_email_heading_customer_refunded_order', function () {
+    return 'Reembolso processado';
+});
+add_filter('woocommerce_email_heading_customer_invoice', function () {
+    return 'Fatura do seu pedido';
+});
+add_filter('woocommerce_email_heading_customer_note', function () {
+    return 'Atualização sobre o seu pedido';
 });
 add_filter('woocommerce_email_heading_customer_new_account', function () {
     return 'Sua conta foi criada!';
+});
+add_filter('woocommerce_email_heading_customer_reset_password', function () {
+    return 'Redefinir sua senha';
 });
 
 /* ============================================================
