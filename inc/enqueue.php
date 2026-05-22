@@ -65,6 +65,7 @@ add_action('wp_enqueue_scripts', function () {
         ['cia-checkout-notices',  '/assets/js/checkout-notices.js',  ['jquery'], true],
         ['cdm-wishlist',          '/assets/js/wishlist.js',          [], true],
         ['cdm-account-dashboard', '/assets/js/account-dashboard.js', [], true],
+        ['cdm-freeship-nudge',    '/assets/js/freeship-nudge.js',    ['jquery'], true],
     ];
     foreach ($js_files as [$handle, $path, $deps, $in_footer]) {
         $abs = CIA_ASTRO_DIR . $path;

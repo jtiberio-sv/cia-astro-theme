@@ -377,6 +377,20 @@ function cdm_get_free_shipping_threshold() {
 add_action('woocommerce_before_cart', 'cdm_render_free_shipping_nudge', 5);
 add_action('woocommerce_before_checkout_form', 'cdm_render_free_shipping_nudge', 5);
 
+// AJAX endpoint pra re-renderizar nudge quando user atualiza cart/checkout
+add_action('wp_ajax_cdm_freeship_nudge', 'cdm_ajax_freeship_nudge');
+add_action('wp_ajax_nopriv_cdm_freeship_nudge', 'cdm_ajax_freeship_nudge');
+function cdm_ajax_freeship_nudge() {
+    // Reset cart calculation pra refletir valor atual
+    if (function_exists('WC') && WC()->cart) {
+        WC()->cart->calculate_totals();
+    }
+    ob_start();
+    cdm_render_free_shipping_nudge();
+    echo ob_get_clean();
+    wp_die();
+}
+
 function cdm_render_free_shipping_nudge() {
     if (!function_exists('WC') || !WC()->cart) return;
     $threshold = cdm_get_free_shipping_threshold();
