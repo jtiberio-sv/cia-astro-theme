@@ -31,9 +31,9 @@ if ($cia_custom_logo_id) {
 <meta name="theme-color" content="#1E7BB8" />
 <link rel="preload" as="image" href="<?php echo esc_url($cia_logo); ?>" fetchpriority="high" />
 <style>
-  /* Inline critical: esconde nav horizontal em mobile (mega-menus nao funcionam touch).
+  /* Inline critical: esconde nav horizontal em mobile + tablet (mega-menus nao funcionam touch).
      Inline porque header.css esta cached com max-age 1 ano e nao atualiza imediato. */
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     .cdm-nav { display: none !important; }
   }
 </style>

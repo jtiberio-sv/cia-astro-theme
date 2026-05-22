@@ -178,9 +178,9 @@
 /* ============ Nav categorias (mega-menu) ============ */
 .cdm-nav {
   background: white; position: relative;
-  display: none !important; /* esconde em mobile — categorias acessadas via hamburger drawer (mega-menus nao funcionam touch) */
+  display: none !important; /* esconde em mobile+tablet — categorias acessadas via hamburger drawer (mega-menus nao funcionam touch) */
 }
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .cdm-nav { display: block !important; }
 }
 .cdm-nav-list {
