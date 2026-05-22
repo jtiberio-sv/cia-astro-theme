@@ -260,30 +260,15 @@ body.woocommerce-order-received #secondary.widget-area {
   text-underline-offset: 2px;
 }
 
-/* ========== Layout my-account autenticado (nav + content) ========== */
-.woocommerce-account .woocommerce-MyAccount-navigation {
-  width: 100% !important;
-  margin-bottom: 1.5rem;
-  padding: 0 !important;
-  float: none !important;
-}
-@media (min-width: 768px) {
-  .woocommerce-account .woocommerce-MyAccount-navigation {
-    width: 25% !important;
-    float: left !important;
-    padding-right: 2rem !important;
-    margin-bottom: 0;
-  }
-}
+/* ========== Layout my-account autenticado (nav + content) ==========
+   Layout grid 240px+1fr fica em woo-account.css (single source of truth).
+   Aqui so reseta floats herdados do Storefront/Woo defaults. */
+.woocommerce-account .woocommerce-MyAccount-navigation,
 .woocommerce-account .woocommerce-MyAccount-content {
-  width: 100% !important;
+  width: auto !important;
   float: none !important;
-}
-@media (min-width: 768px) {
-  .woocommerce-account .woocommerce-MyAccount-content {
-    width: 75% !important;
-    float: right !important;
-  }
+  padding: 0 !important;
+  margin: 0 !important;
 }
 .woocommerce-MyAccount-navigation ul {
   list-style: none;
