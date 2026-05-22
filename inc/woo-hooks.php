@@ -115,10 +115,11 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
         $fields['shipping']['shipping_country']['label']   = '';
         $fields['shipping']['shipping_country']['class']   = ['cdm-hidden-field'];
     }
-    // Telefone opcional de verdade (label '(opcional)' + required false)
+    // Telefone opcional de verdade — WC adiciona "(opcional)" automaticamente
+    // quando required=false, entao NAO colocar manual no label (duplicaria).
     if (isset($fields['billing']['billing_phone'])) {
         $fields['billing']['billing_phone']['required'] = false;
-        $fields['billing']['billing_phone']['label']    = 'Telefone (opcional)';
+        $fields['billing']['billing_phone']['label']    = 'Telefone';
     }
     return $fields;
 }, 20);

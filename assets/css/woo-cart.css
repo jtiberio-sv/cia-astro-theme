@@ -327,14 +327,19 @@
 .woocommerce-cart .cart_totals .shipping td ul#shipping_method li {
   display: grid !important;
   grid-template-columns: 22px minmax(0, 1fr);
-  align-items: center;
+  align-items: start;
   gap: 0.5rem;
-  padding: 0.55rem 0.65rem !important;
+  padding: 0.6rem 0.75rem !important;
   font-size: 0.88rem;
   background: var(--color-bg-cream);
   border-radius: 0.5rem;
   cursor: pointer;
   transition: background 0.15s;
+}
+/* Radio alinhado com a primeira linha do label (nome do metodo) */
+.woocommerce-cart .cart_totals .shipping td ul#shipping_method li input[type="radio"] {
+  margin-top: 0.2rem !important;
+  align-self: start !important;
 }
 .woocommerce-cart .cart_totals .shipping td ul#shipping_method li:has(input:checked) {
   background: var(--color-brand-light);
