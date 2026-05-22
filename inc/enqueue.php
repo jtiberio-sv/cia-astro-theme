@@ -60,7 +60,8 @@ add_action('wp_enqueue_scripts', function () {
 
     // --- JS ---
     $js_files = [
-        ['cia-header', '/assets/js/header.js', ['jquery'], true],
+        ['cia-header',       '/assets/js/header.js',       ['jquery'], true],
+        ['cia-checkout-cep', '/assets/js/checkout-cep.js', ['jquery'], true],
     ];
     foreach ($js_files as [$handle, $path, $deps, $in_footer]) {
         $abs = CIA_ASTRO_DIR . $path;

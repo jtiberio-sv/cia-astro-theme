@@ -311,33 +311,80 @@
   font-size: 1.2rem !important;
 }
 
-/* Selecionar metodo de envio (Melhor Envio) — tudo na col direita alinhado a direita */
+/* Selecionar metodo de envio (Melhor Envio + Flat Rate fallback) */
 .woocommerce-cart .cart_totals .shipping td,
 .woocommerce-cart .cart_totals .shipping th {
   padding: 0.75rem 0 !important;
   vertical-align: top !important;
 }
 .woocommerce-cart .cart_totals .shipping td {
-  text-align: right !important;
+  text-align: left !important;
 }
 .woocommerce-cart .cart_totals .shipping td ul#shipping_method {
   list-style: none !important; padding: 0 !important; margin: 0 !important;
+  display: flex; flex-direction: column; gap: 0.35rem;
 }
 .woocommerce-cart .cart_totals .shipping td ul#shipping_method li {
-  display: flex; align-items: center; justify-content: flex-end;
+  display: grid !important;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
   gap: 0.5rem;
-  padding: 0.25rem 0;
-  font-size: 0.875rem;
-  text-align: right;
+  padding: 0.55rem 0.65rem !important;
+  font-size: 0.88rem;
+  background: var(--color-bg-cream);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.woocommerce-cart .cart_totals .shipping td ul#shipping_method li:has(input:checked) {
+  background: var(--color-brand-light);
 }
 .woocommerce-cart .cart_totals .shipping td ul#shipping_method li label {
   margin: 0 !important;
   font-weight: 500 !important;
-  font-size: 0.875rem !important;
+  font-size: 0.88rem !important;
+  cursor: pointer;
+  width: 100%;
 }
 .woocommerce-cart .cart_totals .shipping input[type="radio"] {
   accent-color: var(--color-brand);
   margin: 0 !important;
+  width: 16px; height: 16px;
+}
+
+/* Layout do label customizado (nome+prazo+preco) — vide woo-hooks.php */
+.cdm-ship-method {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+}
+.cdm-ship-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  min-width: 0;
+  flex: 1;
+}
+.cdm-ship-name {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--color-ink);
+  line-height: 1.3;
+}
+.cdm-ship-prazo {
+  font-size: 0.72rem;
+  color: #6b7280;
+  line-height: 1.2;
+}
+.cdm-ship-price {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-brand);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 /* "Entrega para Sao Paulo" + "Mudar endereco" link */
 .woocommerce-cart .cart_totals .shipping td .shipping-calculator-button,

@@ -94,6 +94,44 @@ add_filter('woocommerce_shipping_calculator_enable_state',   '__return_false');
 add_filter('woocommerce_shipping_calculator_enable_city',    '__return_false');
 add_filter('woocommerce_shipping_calculator_enable_postcode','__return_true');
 
+/**
+ * Reformula label de shipping_method no cart_totals + review_order:
+ *   ANTES: 'Loggi Express (Melhor Envio) (2 a 3 dias uteis): R$ 9,02'
+ *   DEPOIS: nome limpo + 'X a Y dias uteis' menor + preco a direita
+ */
+add_filter('woocommerce_cart_shipping_method_full_label', function ($label, $method) {
+    if (!$method) return $label;
+    $name = $method->get_label();
+
+    // Extrai prazo "(X a Y dias uteis)"
+    $prazo = null;
+    if (preg_match('/\((\d+\s*a\s*\d+\s*dias?\s*[^)]+)\)/iu', $name, $m)) {
+        $prazo = trim($m[1]);
+    }
+
+    // Limpa nome: remove "(Melhor Envio)" e o prazo
+    $clean = preg_replace('/\s*\(Melhor Envio\)/iu', '', $name);
+    $clean = preg_replace('/\s*\(\d+\s*a\s*\d+\s*dias?\s*[^)]+\)/iu', '', $clean);
+    $clean = trim($clean);
+
+    // Preco
+    $cost = (float) $method->cost;
+    $taxes = $method->get_shipping_tax();
+    $price_html = wc_price($cost + (float) $taxes);
+
+    $html  = '<span class="cdm-ship-method">';
+    $html .= '<span class="cdm-ship-info">';
+    $html .= '<span class="cdm-ship-name">' . esc_html($clean) . '</span>';
+    if ($prazo) {
+        $html .= '<small class="cdm-ship-prazo">' . esc_html($prazo) . '</small>';
+    }
+    $html .= '</span>';
+    $html .= '<span class="cdm-ship-price">' . $price_html . '</span>';
+    $html .= '</span>';
+
+    return $html;
+}, 10, 2);
+
 // Fase 3 — exemplos planejados (NAO ATIVOS ainda):
 //
 // add_action('woocommerce_before_cart', 'cia_astro_cart_trust_strip', 5);
