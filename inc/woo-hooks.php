@@ -11,6 +11,25 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Mensagem amigavel de agradecimento na pagina order-received (apos checkout).
+ * Substitui o 'Thank you. Your order has been received.' default do WC.
+ */
+add_filter('woocommerce_thankyou_order_received_text', function ($text, $order) {
+    if (!$order) return $text;
+    $first_name = $order->get_billing_first_name();
+    $greeting   = $first_name ? esc_html($first_name) : 'tudo certo';
+    $email      = esc_html($order->get_billing_email());
+    return sprintf(
+        '<span class="cdm-thankyou-hello"><span class="cdm-wave" aria-hidden="true">👋</span> Obrigada, %s!</span>' .
+        '<span class="cdm-thankyou-sub">Recebemos seu pedido e ja estamos preparando tudo com carinho. Acompanhe o status pelo e-mail %s ou pela area %sMinha conta%s.</span>',
+        $greeting,
+        '<strong>' . $email . '</strong>',
+        '<a href="' . esc_url(wc_get_account_endpoint_url('orders')) . '">',
+        '</a>'
+    );
+}, 10, 2);
+
+/**
  * Move o cross-sell do carrinho da sidebar para abaixo do form do cart.
  *
  * Default do WC: 'woocommerce_cart_collaterals' agrupa cross-sells +
@@ -177,6 +196,29 @@ add_filter('woocommerce_cart_shipping_method_full_label', function ($label, $met
 
     return $html;
 }, 10, 2);
+
+/**
+ * Adiciona CTAs amigaveis (acompanhar pedido / continuar comprando) logo
+ * apos o cabecalho de agradecimento na pagina order-received.
+ */
+add_action('woocommerce_thankyou', function ($order_id) {
+    $order = wc_get_order($order_id);
+    if (!$order) return;
+    $orders_url = wc_get_account_endpoint_url('orders');
+    $shop_url   = 'https://ciadasmochilas.com.br/loja/';
+    ?>
+    <div class="cdm-thankyou-actions">
+      <a class="primary" href="<?php echo esc_url($shop_url); ?>">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        Continuar comprando
+      </a>
+      <a href="<?php echo esc_url($orders_url); ?>">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+        Acompanhar pedidos
+      </a>
+    </div>
+    <?php
+}, 5);
 
 // Fase 3 — exemplos planejados (NAO ATIVOS ainda):
 //

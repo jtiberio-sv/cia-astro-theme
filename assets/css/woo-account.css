@@ -439,40 +439,254 @@
   line-height: 1.55;
 }
 
-/* ============ Order-received (pos-checkout) ============ */
-.woocommerce-thankyou .woocommerce-order {
-  max-width: 720px;
+/* ============ Order-received (pos-checkout) — pagina de agradecimento ============ */
+.woocommerce-thankyou .woocommerce-order,
+.woocommerce-order-received .woocommerce-order {
+  max-width: 760px;
   margin: 0 auto;
 }
-.woocommerce-thankyou .woocommerce-thankyou-order-received {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-pix);
+
+/* Hero de agradecimento */
+.woocommerce-thankyou .woocommerce-thankyou-order-received,
+.woocommerce-order-received .woocommerce-thankyou-order-received {
+  background: linear-gradient(135deg, var(--color-brand-light) 0%, white 100%);
+  border: 1px solid var(--color-brand-soft);
+  border-radius: 1.25rem;
+  padding: 2rem 1.75rem !important;
+  margin: 0 0 1.5rem !important;
   text-align: center;
-  padding: 1.5rem;
-  background: var(--color-bg-mint);
-  border-radius: 1rem;
-  margin: 0 0 1.5rem;
+  font-size: 1rem !important;
+  font-family: var(--font-body) !important;
+  color: var(--color-ink) !important;
+  font-weight: 400 !important;
+  line-height: 1.55 !important;
+  display: block;
 }
-.woocommerce-thankyou .woocommerce-thankyou-order-details {
-  margin-top: 0 !important;
+.cdm-thankyou-hello {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
 }
-.woocommerce-thankyou .woocommerce-order-details,
-.woocommerce-thankyou .woocommerce-customer-details {
+.cdm-thankyou-hello .cdm-wave {
+  display: inline-block;
+  margin-right: 0.35rem;
+  animation: cdm-wave 1.5s ease infinite;
+  transform-origin: 70% 70%;
+}
+.cdm-thankyou-sub {
+  display: block;
+  font-size: 0.95rem;
+  color: #4b5563;
+  line-height: 1.55;
+  max-width: 540px;
+  margin: 0 auto;
+}
+.cdm-thankyou-sub a {
+  color: var(--color-brand);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Overview (numero do pedido, data, total, metodo pagto) — grid de 4 */
+.woocommerce-thankyou .woocommerce-order-overview,
+.woocommerce-order-received .woocommerce-order-overview {
+  list-style: none !important;
+  padding: 1.25rem !important;
+  margin: 0 0 1.5rem !important;
   background: white;
   border: 1px solid #f3f4f6;
   border-radius: 1rem;
-  padding: 1.5rem;
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+@media (min-width: 640px) {
+  .woocommerce-thankyou .woocommerce-order-overview,
+  .woocommerce-order-received .woocommerce-order-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .woocommerce-thankyou .woocommerce-order-overview,
+  .woocommerce-order-received .woocommerce-order-overview {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.woocommerce-thankyou .woocommerce-order-overview li,
+.woocommerce-order-received .woocommerce-order-overview li {
+  font-size: 0.78rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0 !important;
+  border: none !important;
+  border-right: 1px solid #f3f4f6 !important;
+  padding-right: 0.75rem !important;
+}
+@media (max-width: 1023px) {
+  .woocommerce-thankyou .woocommerce-order-overview li,
+  .woocommerce-order-received .woocommerce-order-overview li {
+    border-right: none !important;
+    padding-right: 0 !important;
+  }
+}
+.woocommerce-thankyou .woocommerce-order-overview li:last-child,
+.woocommerce-order-received .woocommerce-order-overview li:last-child {
+  border-right: none !important;
+}
+.woocommerce-thankyou .woocommerce-order-overview li strong,
+.woocommerce-order-received .woocommerce-order-overview li strong {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin-top: 0.3rem;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Proximos passos (CTAs) */
+.cdm-thankyou-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin: 0 0 1.5rem;
+}
+@media (min-width: 640px) {
+  .cdm-thankyou-actions { grid-template-columns: repeat(2, 1fr); }
+}
+.cdm-thankyou-actions a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  background: white;
+  border: 1.5px solid var(--color-brand-light);
+  border-radius: 9999px;
+  color: var(--color-brand) !important;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none !important;
+  transition: background 0.15s, border-color 0.15s;
+}
+.cdm-thankyou-actions a:hover {
+  background: var(--color-brand-light);
+  border-color: var(--color-brand);
+}
+.cdm-thankyou-actions a.primary {
+  background: var(--color-cta);
+  border-color: var(--color-cta);
+  color: var(--color-ink) !important;
+  box-shadow: 0 4px 12px rgba(255, 199, 60, 0.4);
+}
+.cdm-thankyou-actions a.primary:hover {
+  background: var(--color-cta-hover);
+  border-color: var(--color-cta-hover);
+}
+
+/* Cards de Detalhes e Customer Details */
+.woocommerce-thankyou .woocommerce-order-details,
+.woocommerce-thankyou .woocommerce-customer-details,
+.woocommerce-order-received .woocommerce-order-details,
+.woocommerce-order-received .woocommerce-customer-details {
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  padding: 1.5rem !important;
   margin: 0 0 1.25rem !important;
 }
 .woocommerce-thankyou .woocommerce-order-details h2,
-.woocommerce-thankyou .woocommerce-column__title {
+.woocommerce-thankyou .woocommerce-column__title,
+.woocommerce-order-received .woocommerce-order-details h2,
+.woocommerce-order-received .woocommerce-column__title {
   font-family: var(--font-display);
-  font-size: 1.1rem !important;
+  font-size: 1.05rem !important;
   font-weight: 700 !important;
   color: var(--color-ink);
-  margin: 0 0 1rem !important;
+  margin: 0 0 0.85rem !important;
+  padding-bottom: 0.5rem !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+
+/* Tabela do pedido */
+.woocommerce-thankyou .woocommerce-order-details .shop_table,
+.woocommerce-order-received .woocommerce-order-details .shop_table {
+  width: 100% !important;
+  border: none !important;
+  margin: 0 !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+.woocommerce-thankyou .shop_table thead th,
+.woocommerce-order-received .shop_table thead th {
+  background: transparent !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280 !important;
+  padding: 0 0 0.5rem !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+  text-align: left;
+}
+.woocommerce-thankyou .shop_table tbody td,
+.woocommerce-order-received .shop_table tbody td {
+  padding: 0.65rem 0 !important;
+  border-bottom: 1px solid #f9fafb !important;
+  font-size: 0.9rem;
+}
+.woocommerce-thankyou .shop_table tfoot th,
+.woocommerce-thankyou .shop_table tfoot td,
+.woocommerce-order-received .shop_table tfoot th,
+.woocommerce-order-received .shop_table tfoot td {
+  padding: 0.65rem 0 !important;
+  border: none !important;
+  border-bottom: 1px solid #f9fafb !important;
+  font-size: 0.9rem;
+  text-align: right;
+}
+.woocommerce-thankyou .shop_table tfoot .order-total td,
+.woocommerce-thankyou .shop_table tfoot .order-total th,
+.woocommerce-order-received .shop_table tfoot .order-total td,
+.woocommerce-order-received .shop_table tfoot .order-total th {
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  border-bottom: none !important;
+  padding-top: 1rem !important;
+}
+.woocommerce-thankyou .shop_table tfoot .order-total td,
+.woocommerce-order-received .shop_table tfoot .order-total td {
+  color: var(--color-brand) !important;
+}
+
+/* Customer details: 2-col em desktop */
+.woocommerce-thankyou .woocommerce-customer-details .woocommerce-columns--2,
+.woocommerce-order-received .woocommerce-customer-details .woocommerce-columns--2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 640px) {
+  .woocommerce-thankyou .woocommerce-customer-details .woocommerce-columns--2,
+  .woocommerce-order-received .woocommerce-customer-details .woocommerce-columns--2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.woocommerce-thankyou .woocommerce-customer-details address,
+.woocommerce-order-received .woocommerce-customer-details address {
+  font-style: normal;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #4b5563;
+  background: var(--color-bg-cream);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border: none !important;
 }
 
 /* ============ Mensagem post-form / aviso geral ============ */
