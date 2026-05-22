@@ -41,12 +41,9 @@
       $wrap.append($(this).detach());
     });
     $review.prepend($wrap);
-
-    // Auto-scroll pra notice (sticky no sidebar)
-    var top = $wrap.offset().top - 180;
-    if (top > 0) {
-      $('html, body').animate({ scrollTop: top }, 280);
-    }
+    // Sem auto-scroll: o sidebar #order_review e sticky, entao a notice
+    // que injetamos la fica sempre visivel no viewport. O WC core ja
+    // dispara scroll proprio quando ha erros — duplicar conflita.
   }
 
   // Dispara apos WC injetar notice no DOM (com pequeno delay pra garantir)
