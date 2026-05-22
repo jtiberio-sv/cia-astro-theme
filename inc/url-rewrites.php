@@ -52,13 +52,34 @@ function cia_astro_backend_only_slugs() {
         'carrinho', 'cart',
         'finalizar-compra', 'checkout',
         'minha-conta', 'my-account',
-        'my-wishlist', 'wishlist',
-        'track-my-order',
-        'lost-password', 'esqueci-a-senha',
-        'order-received', 'pedido-recebido',
-        'view-order', 'edit-account', 'edit-address',
+        'rastrear-pedido', 'track-my-order',
+        'esqueci-a-senha', 'lost-password',
+        'pedido-recebido', 'order-received',
+        'ver-pedido', 'view-order',
+        'editar-conta', 'edit-account',
+        'enderecos', 'edit-address',
     ];
 }
+
+/**
+ * Redirects 301 das URLs antigas em ingles para as novas em pt-BR.
+ * Garante que bookmarks e SEO antigos nao quebrem apos a renomeacao.
+ */
+add_action('template_redirect', function () {
+    if (is_admin()) return;
+    $req = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+    $req = '/' . trim((string) $req, '/') . '/';
+    $map = [
+        '/track-my-order/' => '/rastrear-pedido/',
+        '/checkout/'       => '/finalizar-compra/',
+        '/my-wishlist/'    => '/minha-conta/favoritos/',
+        '/wishlist/'       => '/minha-conta/favoritos/',
+    ];
+    if (isset($map[$req])) {
+        wp_safe_redirect(home_url($map[$req]), 301);
+        exit;
+    }
+}, 1);
 
 // ============ 1. Produtos: permalink do CPT product ============
 add_filter('post_type_link', function ($url, $post) {

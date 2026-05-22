@@ -61,7 +61,7 @@ $cia_footer_topcats = get_terms([
         <li><a href="<?php echo esc_url(cia_astro_frontend_url('/como-comprar/')); ?>">Como comprar</a></li>
         <li><a href="<?php echo esc_url(cia_astro_frontend_url('/prazo-e-entrega/')); ?>">Prazo e entrega</a></li>
         <li><a href="<?php echo esc_url(cia_astro_frontend_url('/trocas-e-devolucoes/')); ?>">Trocas e devoluções</a></li>
-        <li><a href="<?php echo esc_url(cia_astro_backend_url('/track-my-order/')); ?>">Rastrear pedido</a></li>
+        <li><a href="<?php echo esc_url(cia_astro_backend_url('/rastrear-pedido/')); ?>">Rastrear pedido</a></li>
         <li><a href="<?php echo esc_url(cia_astro_frontend_url('/politica-de-privacidade/')); ?>">Política de Privacidade</a></li>
         <li><a href="<?php echo esc_url(cia_astro_frontend_url('/termos-de-uso/')); ?>">Termos de Uso</a></li>
         <li><a href="https://www.reclameaqui.com.br/empresa/cia-das-mochilas/" target="_blank" rel="noopener">Reclame Aqui</a></li>
