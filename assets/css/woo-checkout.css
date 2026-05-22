@@ -31,22 +31,26 @@
 /* ============ Layout 2-col (form + review sticky) ============ */
 .woocommerce-checkout form.checkout {
   display: grid !important;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.5rem;
+  max-width: 100%;
+  min-width: 0;
 }
 @media (min-width: 1024px) {
   .woocommerce-checkout form.checkout {
-    grid-template-columns: minmax(0, 1fr) 400px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
     gap: 2rem;
     align-items: start;
   }
   .woocommerce-checkout form.checkout #customer_details {
     grid-column: 1;
     grid-row: 1 / span 10;
+    min-width: 0;
   }
   .woocommerce-checkout form.checkout #order_review_heading,
   .woocommerce-checkout form.checkout #order_review {
     grid-column: 2;
+    min-width: 0;
   }
   .woocommerce-checkout form.checkout #order_review_heading {
     margin: 0 !important;
@@ -57,6 +61,24 @@
     position: sticky;
     top: 200px;
   }
+}
+/* Containers principais sem overflow */
+.woocommerce-checkout,
+.woocommerce-checkout form.checkout,
+.woocommerce-checkout #customer_details,
+.woocommerce-checkout #order_review {
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+.woocommerce-checkout #order_review .shop_table {
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+.woocommerce-checkout #order_review .shop_table td,
+.woocommerce-checkout #order_review .shop_table th {
+  word-break: break-word;
 }
 
 /* ============ Form de Detalhes do cliente ============ */
