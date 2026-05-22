@@ -1570,3 +1570,252 @@ body.page-id-278 .entry-title {
 .cdm-wishlist-toggle.is-active .heart {
   fill: var(--color-sale);
 }
+
+/* ============================================================================
+   VIEW ORDER PAGE — /minha-conta/view-order/{id}/
+   Estiliza: banner de status no topo + tabela do pedido +
+   pagamento Vindi (Pix) + cards de endereco + botao editar.
+============================================================================ */
+
+/* Status banner — primeira linha "O pedido #X foi realizado em Y..." */
+.woocommerce-view-order .woocommerce-MyAccount-content > p:first-child,
+.woocommerce-view-order .woocommerce-MyAccount-content > .woocommerce > p:first-child {
+  background: linear-gradient(135deg, var(--color-brand-light) 0%, white 100%);
+  border: 1px solid var(--color-brand-soft);
+  border-radius: 1rem;
+  padding: 1.1rem 1.35rem !important;
+  margin: 0 0 1.5rem !important;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  line-height: 1.55;
+  position: relative;
+  padding-left: 3rem !important;
+}
+.woocommerce-view-order .woocommerce-MyAccount-content > p:first-child::before,
+.woocommerce-view-order .woocommerce-MyAccount-content > .woocommerce > p:first-child::before {
+  content: "";
+  position: absolute;
+  left: 1.1rem;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  transform: translateY(-50%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3Cpath d='M9 16h6'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+/* Highlights nos valores (data, status, numero) */
+.woocommerce-view-order .woocommerce-MyAccount-content > p:first-child mark,
+.woocommerce-view-order .woocommerce-MyAccount-content > .woocommerce > p:first-child mark {
+  background: var(--color-cta) !important;
+  color: var(--color-ink) !important;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.35rem;
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+/* Cards de detalhes do pedido + customer-details — mesmo estilo do thankyou */
+.woocommerce-view-order .woocommerce-order-details,
+.woocommerce-view-order .woocommerce-customer-details,
+.woocommerce-view-order .vindi-pagamentos-order-details {
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  padding: 1.5rem !important;
+  margin: 0 0 1.25rem !important;
+}
+.woocommerce-view-order .woocommerce-order-details__title,
+.woocommerce-view-order .woocommerce-column__title,
+.woocommerce-view-order .vindi-pagamentos-order-details h2 {
+  font-family: var(--font-display);
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: var(--color-ink);
+  margin: 0 0 1rem !important;
+  padding-bottom: 0.6rem !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+
+/* Tabela do pedido */
+.woocommerce-view-order .woocommerce-table--order-details,
+.woocommerce-view-order .shop_table.order_details {
+  width: 100% !important;
+  border: none !important;
+  margin: 0 !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+.woocommerce-view-order .shop_table thead th,
+.woocommerce-view-order .woocommerce-table--order-details thead th {
+  background: transparent !important;
+  font-size: 0.72rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b7280 !important;
+  padding: 0 0 0.6rem !important;
+  border: none !important;
+  border-bottom: 1.5px solid #f3f4f6 !important;
+  font-weight: 700 !important;
+  text-align: left;
+}
+.woocommerce-view-order .shop_table tbody td,
+.woocommerce-view-order .woocommerce-table--order-details tbody td {
+  padding: 0.85rem 0 !important;
+  border: none !important;
+  border-bottom: 1px solid #f9fafb !important;
+  font-size: 0.92rem;
+  vertical-align: middle;
+}
+.woocommerce-view-order .shop_table tbody td a,
+.woocommerce-view-order .woocommerce-table--order-details tbody td a {
+  color: var(--color-brand) !important;
+  font-weight: 600;
+  text-decoration: none;
+}
+.woocommerce-view-order .shop_table tbody td a:hover { text-decoration: underline; }
+.woocommerce-view-order .shop_table tfoot th,
+.woocommerce-view-order .shop_table tfoot td,
+.woocommerce-view-order .woocommerce-table--order-details tfoot th,
+.woocommerce-view-order .woocommerce-table--order-details tfoot td {
+  padding: 0.65rem 0 !important;
+  border: none !important;
+  border-bottom: 1px solid #f9fafb !important;
+  font-size: 0.92rem;
+  text-align: right;
+}
+.woocommerce-view-order .shop_table tfoot th,
+.woocommerce-view-order .woocommerce-table--order-details tfoot th {
+  font-weight: 500 !important;
+  color: #6b7280 !important;
+  text-align: left;
+}
+.woocommerce-view-order .shop_table tfoot .order-total td,
+.woocommerce-view-order .shop_table tfoot .order-total th,
+.woocommerce-view-order .woocommerce-table--order-details tfoot .order-total td,
+.woocommerce-view-order .woocommerce-table--order-details tfoot .order-total th {
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  border-bottom: none !important;
+  padding-top: 0.9rem !important;
+  color: var(--color-brand) !important;
+}
+
+/* Vindi Pix status banner (Aguardando confirmacao...) */
+.woocommerce-view-order .vindi-payment-confirmation,
+.woocommerce-view-order .wvp-payment-status-info {
+  background: linear-gradient(135deg, #fef3c7 0%, white 100%);
+  border: 1px solid #fde68a;
+  border-radius: 0.85rem;
+  padding: 1rem 1.25rem !important;
+  margin: 0 0 1.25rem !important;
+}
+.woocommerce-view-order .vindi-confirmation-content {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.woocommerce-view-order .vindi-confirmation-icon {
+  flex-shrink: 0;
+  color: #b45309;
+}
+.woocommerce-view-order .vindi-confirmation-text {
+  font-size: 0.92rem;
+  color: #92400e;
+  font-weight: 600;
+}
+.woocommerce-view-order .vindi-loading-container .spinner,
+.woocommerce-view-order .vindi-loading-container svg {
+  color: #b45309;
+}
+
+/* Customer details: 2-col em desktop */
+.woocommerce-view-order .woocommerce-customer-details .woocommerce-columns--2,
+.woocommerce-view-order .col2-set.addresses {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin: 0 !important;
+}
+@media (min-width: 640px) {
+  .woocommerce-view-order .woocommerce-customer-details .woocommerce-columns--2,
+  .woocommerce-view-order .col2-set.addresses {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.woocommerce-view-order .woocommerce-column--billing-address,
+.woocommerce-view-order .woocommerce-column--shipping-address,
+.woocommerce-view-order .col-1,
+.woocommerce-view-order .col-2 {
+  width: 100% !important;
+  float: none !important;
+  background: var(--color-bg-cream);
+  border-radius: 0.85rem;
+  padding: 1.25rem !important;
+  margin: 0 !important;
+}
+.woocommerce-view-order .woocommerce-column__title {
+  font-family: var(--font-display);
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  color: var(--color-brand) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 0 0.65rem !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.woocommerce-view-order .woocommerce-column--billing-address .woocommerce-column__title::before {
+  content: "💳";
+  font-size: 1.05rem;
+}
+.woocommerce-view-order .woocommerce-column--shipping-address .woocommerce-column__title::before {
+  content: "📦";
+  font-size: 1.05rem;
+}
+.woocommerce-view-order .woocommerce-column address {
+  font-style: normal;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #4b5563;
+}
+.woocommerce-view-order .woocommerce-customer-details--phone,
+.woocommerce-view-order .woocommerce-customer-details--email {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0.4rem 0 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.woocommerce-view-order .woocommerce-customer-details--phone::before { content: "📞"; }
+.woocommerce-view-order .woocommerce-customer-details--email::before  { content: "✉"; }
+
+/* Botao Editar/Voltar embaixo da pagina */
+.woocommerce-view-order .woocommerce-MyAccount-content > a.button,
+.woocommerce-view-order .woocommerce-MyAccount-content > p > a.button,
+.woocommerce-view-order .woocommerce-MyAccount-content > a:not(.cdm-shortcut):not([class*="cdm-"]) {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  background: white !important;
+  color: var(--color-brand) !important;
+  padding: 0.65rem 1.35rem !important;
+  border-radius: 9999px !important;
+  border: 1.5px solid var(--color-brand-light) !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  margin-top: 1rem;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.woocommerce-view-order .woocommerce-MyAccount-content > a.button:hover,
+.woocommerce-view-order .woocommerce-MyAccount-content > a:not(.cdm-shortcut):not([class*="cdm-"]):hover {
+  background: var(--color-brand) !important;
+  color: white !important;
+  border-color: var(--color-brand) !important;
+}
+
