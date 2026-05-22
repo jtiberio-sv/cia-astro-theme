@@ -440,6 +440,21 @@
 }
 
 /* ============ Order-received (pos-checkout) — pagina de agradecimento ============ */
+/* Esconde h1 default do WP ('Pedido recebido') — o hero card abaixo
+   ja tem a saudacao amigavel personalizada. */
+.woocommerce-order-received .cdm-content > .entry-title,
+.woocommerce-order-received .cdm-content > article > .entry-header,
+.woocommerce-order-received .cdm-content > article > .entry-title,
+body.woocommerce-order-received .entry-title,
+body.woocommerce-checkout .entry-title,
+body.page-id-705 .entry-title {
+  display: none !important;
+}
+/* Reduz padding-top do main na order-received pra hero ja iniciar
+   bem proximo ao header */
+.woocommerce-order-received .cdm-content {
+  padding-top: 1rem !important;
+}
 .woocommerce-thankyou .woocommerce-order,
 .woocommerce-order-received .woocommerce-order {
   max-width: 760px;
