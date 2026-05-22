@@ -98,6 +98,9 @@ add_filter('woocommerce_shipping_calculator_enable_postcode','__return_true');
  * Loja vende apenas para o Brasil. Esconde o campo Pais do checkout
  * (billing + shipping) e forca BR como default. Mantém o valor no banco
  * (WC ainda precisa do country pra calcular frete/imposto).
+ *
+ * Tambem torna o Telefone billing OPCIONAL real (label ja dizia "opcional"
+ * mas WC validava como required, bloqueando submit silenciosamente).
  */
 add_filter('woocommerce_checkout_fields', function ($fields) {
     if (isset($fields['billing']['billing_country'])) {
@@ -111,6 +114,11 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
         $fields['shipping']['shipping_country']['default'] = 'BR';
         $fields['shipping']['shipping_country']['label']   = '';
         $fields['shipping']['shipping_country']['class']   = ['cdm-hidden-field'];
+    }
+    // Telefone opcional de verdade (label '(opcional)' + required false)
+    if (isset($fields['billing']['billing_phone'])) {
+        $fields['billing']['billing_phone']['required'] = false;
+        $fields['billing']['billing_phone']['label']    = 'Telefone (opcional)';
     }
     return $fields;
 }, 20);
