@@ -178,10 +178,10 @@
 /* ============ Nav categorias (mega-menu) ============ */
 .cdm-nav {
   background: white; position: relative;
-  display: none; /* esconde em mobile — categorias acessadas via hamburger drawer (mega-menus nao funcionam touch) */
+  display: none !important; /* esconde em mobile — categorias acessadas via hamburger drawer (mega-menus nao funcionam touch) */
 }
 @media (min-width: 768px) {
-  .cdm-nav { display: block; }
+  .cdm-nav { display: block !important; }
 }
 .cdm-nav-list {
   max-width: var(--container-max); margin: 0 auto;
