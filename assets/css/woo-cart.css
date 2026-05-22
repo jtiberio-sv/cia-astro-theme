@@ -227,6 +227,32 @@
   }
 }
 
+/* Notices WC dentro do .actions (ex: 'Valor minimo do cupom...') —
+   notice fica empilhado abaixo dos botoes, ocupando full-width.
+   Cores do tipo (info / error / success) preservadas via woo-base. */
+.woocommerce-cart .woocommerce-notices-wrapper {
+  width: 100%;
+  flex-basis: 100%;
+  order: 99;
+}
+.woocommerce-cart .shop_table .actions .woocommerce-message,
+.woocommerce-cart .shop_table .actions .woocommerce-error,
+.woocommerce-cart .shop_table .actions .woocommerce-info {
+  width: 100%;
+  flex-basis: 100%;
+  order: 99;
+  margin: 0 !important;
+  font-size: 0.875rem !important;
+  padding: 0.7rem 1rem !important;
+  border-radius: 0.6rem !important;
+}
+/* Quando WC injeta notice no fluxo padrao acima do cart (refresh de cupom) */
+.woocommerce-cart .woocommerce > .woocommerce-error,
+.woocommerce-cart .woocommerce > .woocommerce-info,
+.woocommerce-cart .woocommerce > .woocommerce-message {
+  margin: 0 0 1rem !important;
+}
+
 /* ============ Card de totais ============ */
 .woocommerce-cart .cart_totals {
   background: white !important;

@@ -56,3 +56,28 @@ add_filter('gettext', function ($translation, $text, $domain) {
     ];
     return isset($map[$text]) ? $map[$text] : $translation;
 }, 99, 3);
+
+// Strings WC com placeholders %s — sprintf/printf-style — precisam gettext_with_context
+// ou ngettext. Aqui usamos gettext geral com replace pra cobrir cupons em ingles.
+add_filter('gettext', function ($translation, $text, $domain) {
+    if ($domain !== 'woocommerce' && $domain !== 'default') {
+        return $translation;
+    }
+    static $cupom_map = [
+        'The minimum spend for coupon "%s" is %s.'        => 'O valor minimo do pedido para usar o cupom "%s" e de %s.',
+        'The maximum spend for coupon "%s" is %s.'        => 'O valor maximo do pedido para usar o cupom "%s" e de %s.',
+        'Coupon "%s" does not exist!'                     => 'O cupom "%s" nao existe.',
+        'Coupon usage limit has been reached.'            => 'O limite de uso deste cupom foi atingido.',
+        'Coupon code applied successfully.'               => 'Cupom aplicado com sucesso.',
+        'Coupon code removed successfully.'               => 'Cupom removido com sucesso.',
+        'Please enter a coupon code.'                     => 'Por favor, informe um codigo de cupom.',
+        'Coupon "%s" already applied!'                    => 'O cupom "%s" ja foi aplicado.',
+        'Sorry, coupon "%s" has already been used and cannot be used again.' => 'O cupom "%s" ja foi utilizado e nao pode ser usado novamente.',
+        'Sorry, this coupon is not applicable to your cart contents.' => 'Este cupom nao pode ser aplicado aos itens do seu carrinho.',
+        'Sorry, this coupon has expired.'                 => 'Este cupom expirou.',
+        'Sorry, it seems the coupon "%s" is not yours - it has now been removed from your order.' => 'O cupom "%s" pertence a outro cliente e foi removido do pedido.',
+        'Sorry, this coupon is not valid for sale items.' => 'Este cupom nao e valido para itens em promocao.',
+        'Cart updated.'                                   => 'Carrinho atualizado.',
+    ];
+    return $cupom_map[$text] ?? $translation;
+}, 100, 3);
