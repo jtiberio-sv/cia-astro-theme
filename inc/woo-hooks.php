@@ -234,13 +234,16 @@ function cdm_render_free_shipping_nudge() {
     $pct = min(100, ($base / $threshold) * 100);
     $missing = max(0, $threshold - $base);
 
+    // SVG inline (substitui emoji que renderiza como tofu na font do site)
+    $svg_truck = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>';
+    $svg_check = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
     if ($missing <= 0) {
-        // Ja conquistou
         ?>
         <div class="cdm-freeship-nudge cdm-freeship-won">
-          <span class="ico" aria-hidden="true">🎉</span>
+          <span class="ico" aria-hidden="true"><?php echo $svg_check; ?></span>
           <div class="msg">
-            <strong>Parabens! Voce ganhou frete gratis!</strong>
+            <strong>Voce ganhou frete gratis!</strong>
             <div class="bar"><span style="width:100%;"></span></div>
           </div>
         </div>
@@ -248,7 +251,7 @@ function cdm_render_free_shipping_nudge() {
     } else {
         ?>
         <div class="cdm-freeship-nudge">
-          <span class="ico" aria-hidden="true">🚚</span>
+          <span class="ico" aria-hidden="true"><?php echo $svg_truck; ?></span>
           <div class="msg">
             <span>Faltam <strong><?php echo wp_kses_post(wc_price($missing)); ?></strong> para voce ganhar <strong>frete gratis</strong>!</span>
             <div class="bar"><span style="width:<?php echo round($pct, 1); ?>%;"></span></div>

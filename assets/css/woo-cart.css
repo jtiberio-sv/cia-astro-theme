@@ -134,8 +134,12 @@
     top: 200px; /* abaixo do header sticky */
   }
 }
-.woocommerce-cart .woocommerce-notices-wrapper {
-  grid-column: 1 / -1;
+.woocommerce-cart .woocommerce-notices-wrapper,
+.woocommerce-cart .cdm-freeship-nudge,
+.woocommerce-cart .cross-sells,
+.woocommerce-cart .woocommerce-cart-form__contents + .cart-collaterals,
+.woocommerce-cart > .cdm-freeship-nudge {
+  grid-column: 1 / -1 !important;
 }
 .woocommerce-cart form.woocommerce-cart-form {
   margin: 0 !important;

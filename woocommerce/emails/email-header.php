@@ -18,6 +18,8 @@ $logo_url   = file_exists($logo_theme)
     ? CIA_ASTRO_URI . '/assets/img/logo-email.png'
     : 'https://loja.ciadasmochilas.com.br/wp-content/uploads/2025/08/logomarca_principal_transparent_clean.png';
 $logo_url = set_url_scheme($logo_url, 'https');
+// Cache-bust para forcar Gmail/Outlook a re-baixarem apos mudancas
+$logo_url = add_query_arg('v', filemtime($logo_theme) ?: time(), $logo_url);
 $tagline    = 'Material escolar com qualidade desde 2010';
 $brand      = '#0f4a7a';
 $brand_2    = '#1d6fb3';
