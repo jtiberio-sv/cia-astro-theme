@@ -19,3 +19,4 @@ require_once CIA_ASTRO_DIR . '/inc/urls.php';
 require_once CIA_ASTRO_DIR . '/inc/url-rewrites.php';
 require_once CIA_ASTRO_DIR . '/inc/woo-config.php';
 require_once CIA_ASTRO_DIR . '/inc/woo-hooks.php';
+require_once CIA_ASTRO_DIR . '/inc/newsletter.php';
