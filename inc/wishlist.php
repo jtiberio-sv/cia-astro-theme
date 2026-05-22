@@ -171,6 +171,8 @@ add_filter('query_vars', function ($vars) {
 }, 0);
 
 add_filter('woocommerce_account_menu_items', function ($items) {
+    // Remove "Downloads" — loja nao vende produtos digitais
+    unset($items['downloads']);
     // Insere "Favoritos" logo apos Pedidos
     $new = [];
     foreach ($items as $k => $v) {
