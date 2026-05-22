@@ -1573,46 +1573,162 @@ body.page-id-278 .entry-title {
 
 /* ============================================================================
    VIEW ORDER PAGE — /minha-conta/view-order/{id}/
-   Estiliza: banner de status no topo + tabela do pedido +
-   pagamento Vindi (Pix) + cards de endereco + botao editar.
+   Markup do template view-order.php override em woocommerce/myaccount/.
+   Layout: banner compacto + grid 2-col (order-details + vindi-pix lado a lado).
 ============================================================================ */
 
-/* Status banner — primeira linha "O pedido #X foi realizado em Y..." */
-.woocommerce-view-order .woocommerce-MyAccount-content > p:first-child,
-.woocommerce-view-order .woocommerce-MyAccount-content > .woocommerce > p:first-child {
+/* Banner compacto no topo (substitui o texto longo default) */
+.cdm-vo-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
   background: linear-gradient(135deg, var(--color-brand-light) 0%, white 100%);
   border: 1px solid var(--color-brand-soft);
   border-radius: 1rem;
-  padding: 1.1rem 1.35rem !important;
-  margin: 0 0 1.5rem !important;
-  font-size: 0.95rem;
-  color: var(--color-ink);
-  line-height: 1.55;
+  padding: 1.1rem 1.35rem;
+  margin: 0 0 1.25rem;
   position: relative;
-  padding-left: 3rem !important;
+  overflow: hidden;
 }
-.woocommerce-view-order .woocommerce-MyAccount-content > p:first-child::before,
-.woocommerce-view-order .woocommerce-MyAccount-content > .woocommerce > p:first-child::before {
+@media (min-width: 640px) {
+  .cdm-vo-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.cdm-vo-header::before {
   content: "";
   position: absolute;
-  left: 1.1rem;
-  top: 50%;
-  width: 22px;
-  height: 22px;
-  transform: translateY(-50%);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3Cpath d='M9 16h6'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
+  top: 0; left: 0; bottom: 0;
+  width: 4px;
+  background: var(--color-brand);
 }
-/* Highlights nos valores (data, status, numero) */
-.woocommerce-view-order .woocommerce-MyAccount-content > p:first-child mark,
-.woocommerce-view-order .woocommerce-MyAccount-content > .woocommerce > p:first-child mark {
-  background: var(--color-cta) !important;
-  color: var(--color-ink) !important;
-  padding: 0.1rem 0.45rem;
-  border-radius: 0.35rem;
+.cdm-vo-header.cdm-vo-status-processing::before { background: #f59e0b; }
+.cdm-vo-header.cdm-vo-status-on-hold::before    { background: #6366f1; }
+.cdm-vo-header.cdm-vo-status-completed::before  { background: #10b981; }
+.cdm-vo-header.cdm-vo-status-pending::before    { background: #94a3b8; }
+.cdm-vo-header.cdm-vo-status-cancelled::before  { background: #dc2626; }
+.cdm-vo-header.cdm-vo-status-failed::before     { background: #dc2626; }
+
+.cdm-vo-header-main {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.cdm-vo-eyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b7280;
   font-weight: 700;
+}
+.cdm-vo-num {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  line-height: 1;
+}
+.cdm-vo-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+.cdm-vo-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #4b5563;
+  font-weight: 500;
+}
+.cdm-vo-status-chip {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 0.85rem;
+  border-radius: 9999px;
+  background: var(--color-brand);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cdm-vo-status-processing .cdm-vo-status-chip { background: #fef3c7; color: #92400e; }
+.cdm-vo-status-on-hold .cdm-vo-status-chip    { background: #e0e7ff; color: #3730a3; }
+.cdm-vo-status-completed .cdm-vo-status-chip  { background: #d1fae5; color: #065f46; }
+.cdm-vo-status-pending .cdm-vo-status-chip    { background: #f1f5f9; color: #475569; }
+.cdm-vo-status-cancelled .cdm-vo-status-chip,
+.cdm-vo-status-failed .cdm-vo-status-chip     { background: #fee2e2; color: #991b1b; }
+
+/* Notes (atualizacoes do pedido) */
+.cdm-vo-notes {
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  margin: 0 0 1.25rem;
+}
+.cdm-vo-notes-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-brand);
+  font-weight: 700;
+  margin: 0 0 0.85rem;
+}
+.cdm-vo-notes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.cdm-vo-note {
+  display: flex;
+  gap: 0.85rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--color-brand-light);
+}
+.cdm-vo-note-date {
+  font-size: 0.78rem;
+  color: #6b7280;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cdm-vo-note-text {
   font-size: 0.92rem;
+  color: var(--color-ink);
+  line-height: 1.5;
+}
+.cdm-vo-note-text p { margin: 0; }
+
+/* Grid principal (envolve order-details + vindi + customer-details) */
+.cdm-vo-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 1024px) {
+  .cdm-vo-grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+  /* Vindi Pix card vai pra coluna direita ao lado do order-details */
+  .cdm-vo-grid > .vindi-pagamentos-order-details {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .cdm-vo-grid > .woocommerce-order-details {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  /* Customer details ocupa linha cheia abaixo */
+  .cdm-vo-grid > .woocommerce-customer-details {
+    grid-column: 1 / -1;
+  }
 }
 
 /* Cards de detalhes do pedido + customer-details — mesmo estilo do thankyou */
@@ -1701,32 +1817,124 @@ body.page-id-278 .entry-title {
   color: var(--color-brand) !important;
 }
 
-/* Vindi Pix status banner (Aguardando confirmacao...) */
+/* Vindi Pix card — layout compacto, QR e copia-cola lado a lado em desktop */
+.woocommerce-view-order .vindi-pagamentos-order-details {
+  display: flex;
+  flex-direction: column;
+}
 .woocommerce-view-order .vindi-payment-confirmation,
 .woocommerce-view-order .wvp-payment-status-info {
   background: linear-gradient(135deg, #fef3c7 0%, white 100%);
   border: 1px solid #fde68a;
-  border-radius: 0.85rem;
-  padding: 1rem 1.25rem !important;
-  margin: 0 0 1.25rem !important;
+  border-radius: 0.65rem;
+  padding: 0.75rem 1rem !important;
+  margin: 0 0 1rem !important;
 }
 .woocommerce-view-order .vindi-confirmation-content {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.65rem;
 }
 .woocommerce-view-order .vindi-confirmation-icon {
   flex-shrink: 0;
   color: #b45309;
+  width: 20px;
+  height: 20px;
 }
 .woocommerce-view-order .vindi-confirmation-text {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   color: #92400e;
   font-weight: 600;
 }
 .woocommerce-view-order .vindi-loading-container .spinner,
 .woocommerce-view-order .vindi-loading-container svg {
   color: #b45309;
+  width: 18px;
+  height: 18px;
+}
+
+/* QR code mais compacto + descricao acima curta */
+.woocommerce-view-order .vindi-pagamentos-order-details .wvp-description {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin: 0 0 0.85rem;
+  text-align: center;
+  line-height: 1.4;
+}
+.woocommerce-view-order .vindi-pagamentos-order-details .wvp-qrcode-image {
+  text-align: center;
+  margin: 0 0 0.85rem;
+}
+.woocommerce-view-order .vindi-pagamentos-order-details .wvp-qrcode-image strong {
+  display: block;
+  font-size: 0.7rem !important;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+.woocommerce-view-order .vindi-pagamentos-order-details .wvp-qrcode-image > div {
+  display: inline-block;
+  background: white;
+  padding: 0.7rem;
+  border-radius: 0.65rem;
+  border: 2px dashed #5eead4;
+  box-shadow: 0 4px 12px rgba(50, 188, 173, 0.1);
+}
+.woocommerce-view-order .vindi-pagamentos-order-details .wvp-qrcode-image object,
+.woocommerce-view-order .vindi-pagamentos-order-details .wvp-qrcode-image img {
+  width: 160px !important;
+  height: 160px !important;
+  display: block;
+}
+.woocommerce-view-order .vindi-pagamentos-order-details .wvp-divisor {
+  border-top: 1px dashed #e5e7eb;
+  margin: 0.65rem 0;
+}
+.woocommerce-view-order .vindi-pagamentos-order-details .wvp-payment-line {
+  background: var(--color-bg-cream);
+  border-radius: 0.65rem;
+  padding: 0.75rem;
+  margin: 0 0 0.65rem;
+}
+.woocommerce-view-order .vindi-pagamentos-order-details .wvp-payment-line strong {
+  display: block;
+  font-size: 0.72rem !important;
+  color: var(--color-ink);
+  margin-bottom: 0.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.woocommerce-view-order .vindi-pagamentos-order-details .wvp-payment-line > div {
+  display: flex;
+  gap: 0.4rem;
+}
+.woocommerce-view-order .vindi-pagamentos-order-details .copy-input {
+  flex: 1;
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.4rem !important;
+  padding: 0.5rem 0.65rem !important;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace !important;
+  font-size: 0.72rem !important;
+  color: var(--color-ink) !important;
+  min-width: 0;
+}
+.woocommerce-view-order .vindi-pagamentos-order-details .copy-button {
+  background: #32BCAD !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0.4rem !important;
+  padding: 0 0.85rem !important;
+  cursor: pointer;
+  font-weight: 700 !important;
+  font-size: 0.78rem !important;
+  flex-shrink: 0;
+}
+.woocommerce-view-order .vindi-pagamentos-order-details .copy-button:hover {
+  background: #0d9488 !important;
 }
 
 /* Customer details: 2-col em desktop */

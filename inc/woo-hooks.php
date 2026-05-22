@@ -66,6 +66,7 @@ add_action('woocommerce_account_dashboard', 'cia_astro_account_dashboard');
 add_filter('woocommerce_locate_template', function ($template, $template_name, $template_path) {
     $our_overrides = [
         'myaccount/dashboard.php',
+        'myaccount/view-order.php',
         'emails/email-header.php',
         'emails/email-footer.php',
     ];
