@@ -12,7 +12,7 @@ $brand = '#0f4a7a';
 $site  = 'https://ciadasmochilas.com.br';
 $logo_white_theme = CIA_ASTRO_DIR . '/assets/img/logo-email-white.png';
 $logo_white_url   = file_exists($logo_white_theme)
-    ? CIA_ASTRO_URI . '/assets/img/logo-email-white.png'
+    ? set_url_scheme(CIA_ASTRO_URI . '/assets/img/logo-email-white.png', 'https')
     : '';
 ?>
                           </div>
