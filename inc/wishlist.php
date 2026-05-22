@@ -62,6 +62,37 @@ function cdm_wl_toggle($user_id, $pid) {
  * 2) REST API
  * ============================================================ */
 
+/* CORS pra vitrine (ciadasmochilas.com.br) chamar /wp-json/cdm/v1/wishlist*
+   com credentials:include. Sem isso, fetch cross-origin bloqueia cookies. */
+add_action('rest_api_init', function () {
+    add_filter('rest_pre_serve_request', function ($value) {
+        $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+        $allowed = ['https://ciadasmochilas.com.br', 'https://www.ciadasmochilas.com.br'];
+        if (in_array($origin, $allowed, true)) {
+            header('Access-Control-Allow-Origin: ' . $origin);
+            header('Access-Control-Allow-Credentials: true');
+            header('Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS');
+            header('Access-Control-Allow-Headers: Content-Type, X-WP-Nonce');
+            header('Vary: Origin');
+        }
+        return $value;
+    });
+    // Preflight OPTIONS responde 200 com headers acima
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+        $allowed = ['https://ciadasmochilas.com.br', 'https://www.ciadasmochilas.com.br'];
+        if (in_array($origin, $allowed, true)) {
+            header('Access-Control-Allow-Origin: ' . $origin);
+            header('Access-Control-Allow-Credentials: true');
+            header('Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS');
+            header('Access-Control-Allow-Headers: Content-Type, X-WP-Nonce');
+            header('Vary: Origin');
+            status_header(200);
+            exit;
+        }
+    }
+}, 5);
+
 add_action('rest_api_init', function () {
     register_rest_route('cdm/v1', '/wishlist', [
         'methods'             => 'GET',
