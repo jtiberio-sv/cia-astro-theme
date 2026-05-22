@@ -183,6 +183,82 @@ add_action('woocommerce_created_customer', function ($customer_id) {
 }, 10, 1);
 
 /**
+ * Nudge "Faltam R$ X para frete gratis" — barra de progresso topo do cart.
+ * Le threshold real do free_shipping ativo (zona Brasil = R$ 199 em 2026-05).
+ */
+function cdm_get_free_shipping_threshold() {
+    static $cache = null;
+    if ($cache !== null) return $cache;
+
+    $threshold = 0;
+    $zones = WC_Shipping_Zones::get_zones();
+    foreach ($zones as $zone) {
+        foreach ($zone['shipping_methods'] as $m) {
+            if ($m->id === 'free_shipping' && $m->enabled === 'yes' && in_array($m->requires, ['min_amount', 'either', 'both'], true)) {
+                $amt = (float) $m->min_amount;
+                if ($amt > 0) {
+                    $threshold = $threshold ? min($threshold, $amt) : $amt;
+                }
+            }
+        }
+    }
+    // Tambem checa "Rest of the world" (zone 0)
+    $rest = (new WC_Shipping_Zone(0))->get_shipping_methods();
+    foreach ($rest as $m) {
+        if ($m->id === 'free_shipping' && $m->enabled === 'yes' && in_array($m->requires, ['min_amount', 'either', 'both'], true)) {
+            $amt = (float) $m->min_amount;
+            if ($amt > 0) {
+                $threshold = $threshold ? min($threshold, $amt) : $amt;
+            }
+        }
+    }
+    $cache = $threshold;
+    return $threshold;
+}
+
+add_action('woocommerce_before_cart', 'cdm_render_free_shipping_nudge', 5);
+add_action('woocommerce_before_checkout_form', 'cdm_render_free_shipping_nudge', 5);
+
+function cdm_render_free_shipping_nudge() {
+    if (!function_exists('WC') || !WC()->cart) return;
+    $threshold = cdm_get_free_shipping_threshold();
+    if (!$threshold) return;
+
+    $subtotal = (float) WC()->cart->get_displayed_subtotal();
+    // Se WC inclui taxes no displayed_subtotal e o free_shipping considera so subtotal antes, ajustar:
+    $sub_no_tax = (float) WC()->cart->get_subtotal();
+    $base = max($subtotal, $sub_no_tax);
+
+    if ($base <= 0) return;
+
+    $pct = min(100, ($base / $threshold) * 100);
+    $missing = max(0, $threshold - $base);
+
+    if ($missing <= 0) {
+        // Ja conquistou
+        ?>
+        <div class="cdm-freeship-nudge cdm-freeship-won">
+          <span class="ico" aria-hidden="true">🎉</span>
+          <div class="msg">
+            <strong>Parabens! Voce ganhou frete gratis!</strong>
+            <div class="bar"><span style="width:100%;"></span></div>
+          </div>
+        </div>
+        <?php
+    } else {
+        ?>
+        <div class="cdm-freeship-nudge">
+          <span class="ico" aria-hidden="true">🚚</span>
+          <div class="msg">
+            <span>Faltam <strong><?php echo wp_kses_post(wc_price($missing)); ?></strong> para voce ganhar <strong>frete gratis</strong>!</span>
+            <div class="bar"><span style="width:<?php echo round($pct, 1); ?>%;"></span></div>
+          </div>
+        </div>
+        <?php
+    }
+}
+
+/**
  * Reformula label de shipping_method no cart_totals + review_order:
  *   ANTES: 'Loggi Express (Melhor Envio) (2 a 3 dias uteis): R$ 9,02'
  *   DEPOIS: nome limpo + 'X a Y dias uteis' menor + preco a direita

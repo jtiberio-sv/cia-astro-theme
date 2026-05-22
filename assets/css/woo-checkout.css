@@ -879,3 +879,57 @@
     position: static !important;
   }
 }
+
+/* ============ Smart Address (pos-ViaCEP) ============ */
+.cdm-address-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: linear-gradient(135deg, var(--color-brand-light) 0%, white 100%);
+  border: 1px solid var(--color-brand-soft);
+  border-radius: 0.85rem;
+  padding: 0.85rem 1rem;
+  margin: 0 0 1rem;
+}
+.cdm-address-summary .cdm-as-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.cdm-address-summary .cdm-as-text {
+  flex: 1;
+  min-width: 0;
+}
+.cdm-address-summary .cdm-as-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-brand);
+  margin-bottom: 0.15rem;
+}
+.cdm-address-summary .cdm-as-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  line-height: 1.35;
+  word-break: break-word;
+}
+.cdm-address-summary .cdm-as-edit {
+  background: white;
+  border: 1.5px solid var(--color-brand);
+  color: var(--color-brand);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.cdm-address-summary .cdm-as-edit:hover {
+  background: var(--color-brand);
+  color: white;
+}
+.form-row.cdm-collapsed {
+  display: none !important;
+}

@@ -1,6 +1,10 @@
-/* checkout-cep.js — autocomplete via ViaCEP no campo CEP do checkout.
- * Preenche Rua / Bairro / Cidade / UF quando CEP for valido.
- * Cobre billing_postcode e shipping_postcode (se habilitado). */
+/* checkout-cep.js — autocomplete via ViaCEP + mascaras + Smart Address.
+ *
+ * 1) Mascara CEP (99999-999) + Telefone ((11) 99999-9999)
+ * 2) ViaCEP autocomplete: preenche Rua/Bairro/Cidade/UF quando CEP valido
+ * 3) Smart Address: apos preencher, colapsa rua/bairro/cidade/UF em
+ *    "resumo" + botao "editar"; cliente so ve Numero + Complemento.
+ */
 (function () {
   var VIACEP = 'https://viacep.com.br/ws/{cep}/json/';
 
@@ -10,7 +14,6 @@
     var el = document.querySelector(selector);
     if (!el || !value) return;
     if (el.value && el.value.length > 1 && el.value.toLowerCase() !== value.toLowerCase()) {
-      // Nao sobrescreve se ja preenchido manualmente
       return;
     }
     el.value = value;
@@ -28,7 +31,6 @@
     if (!hasOption) return;
     el.value = value;
     el.dispatchEvent(new Event('change', { bubbles: true }));
-    // Select2 (jQuery)
     if (window.jQuery && window.jQuery.fn.select2) {
       try { window.jQuery(el).trigger('change.select2'); } catch (e) {}
     }
@@ -40,7 +42,7 @@
     setVal('#' + prefix + 'neighborhood', data.bairro || '');
     setVal('#' + prefix + 'city', data.localidade || '');
     setSelectVal('#' + prefix + 'state', data.uf || '');
-    // Foca no proximo campo logico (Numero)
+    collapseAddress(prefix);
     var next = document.querySelector('#' + prefix + 'number');
     if (next) setTimeout(function () { next.focus(); }, 50);
   }
@@ -83,16 +85,91 @@
       });
   }
 
+  /* ============ Smart Address: colapsa campos autopreenchidos ============
+   * Pega rua + bairro + cidade + UF preenchidos via ViaCEP, esconde os
+   * inputs e mostra um "resumo" amigavel + botao "Editar" pra reabrir.
+   */
+  function collapseAddress(prefix) {
+    var rua    = document.querySelector('#' + prefix + 'address_1');
+    var bairro = document.querySelector('#' + prefix + 'neighborhood');
+    var cidade = document.querySelector('#' + prefix + 'city');
+    var uf     = document.querySelector('#' + prefix + 'state');
+    if (!rua || !rua.value) return;
+
+    var summary = (rua.value || '') +
+                  (bairro && bairro.value ? ' · ' + bairro.value : '') +
+                  (cidade && cidade.value ? ' · ' + cidade.value : '') +
+                  (uf && uf.value ? '/' + uf.value : '');
+
+    var fields = [rua, bairro, cidade, uf].map(function (el) {
+      if (!el) return null;
+      var row = el.closest('.form-row, p.form-row, .woocommerce-form-row');
+      return row;
+    }).filter(Boolean);
+
+    fields.forEach(function (row) { row.classList.add('cdm-collapsed'); });
+
+    // Cria ou atualiza summary card
+    var anchorRow = fields[0];
+    if (!anchorRow) return;
+    var card = anchorRow.parentNode.querySelector('.cdm-address-summary[data-prefix="' + prefix + '"]');
+    if (!card) {
+      card = document.createElement('div');
+      card.className = 'cdm-address-summary';
+      card.setAttribute('data-prefix', prefix);
+      anchorRow.parentNode.insertBefore(card, anchorRow);
+    }
+    card.innerHTML =
+      '<div class="cdm-as-icon">📍</div>' +
+      '<div class="cdm-as-text">' +
+        '<div class="cdm-as-label">Endereço encontrado</div>' +
+        '<div class="cdm-as-value"></div>' +
+      '</div>' +
+      '<button type="button" class="cdm-as-edit" aria-label="Editar endereço">Editar</button>';
+    card.querySelector('.cdm-as-value').textContent = summary;
+    card.querySelector('.cdm-as-edit').addEventListener('click', function () {
+      fields.forEach(function (row) { row.classList.remove('cdm-collapsed'); });
+      card.remove();
+    });
+  }
+
+  /* ============ Mascara Telefone BR ============ */
+  function maskPhone(input) {
+    if (!input || input.dataset.cdmPhoneBound === '1') return;
+    input.dataset.cdmPhoneBound = '1';
+    input.setAttribute('inputmode', 'tel');
+    input.setAttribute('placeholder', '(11) 99999-9999');
+    input.setAttribute('maxlength', '15');
+    input.addEventListener('input', function () {
+      var d = digits(input.value).slice(0, 11);
+      var out = '';
+      if (d.length === 0) { input.value = ''; return; }
+      if (d.length <= 2) {
+        out = '(' + d;
+      } else if (d.length <= 6) {
+        out = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+      } else if (d.length <= 10) {
+        // Fixo: (11) 9999-9999
+        out = '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
+      } else {
+        // Celular: (11) 99999-9999
+        out = '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+      }
+      input.value = out;
+    });
+  }
+
   function bind(input, prefix) {
     if (!input || input.dataset.cdmCepBound === '1') return;
     input.dataset.cdmCepBound = '1';
+    input.setAttribute('inputmode', 'numeric');
+    input.setAttribute('placeholder', '00000-000');
+    input.setAttribute('maxlength', '9');
 
-    // Mascara visual leve (formato 99999-999)
     input.addEventListener('input', function () {
       var d = digits(input.value).slice(0, 8);
       input.value = d.length > 5 ? d.slice(0, 5) + '-' + d.slice(5) : d;
     });
-    // Dispara busca on blur OU quando completa 8 digitos durante typing
     input.addEventListener('blur', function () { handleCepChange(input, prefix); });
     input.addEventListener('input', function () {
       if (digits(input.value).length === 8) {
@@ -104,9 +181,18 @@
   function init() {
     bind(document.getElementById('billing_postcode'),  'billing_');
     bind(document.getElementById('shipping_postcode'), 'shipping_');
+    maskPhone(document.getElementById('billing_phone'));
+    maskPhone(document.getElementById('shipping_phone'));
+
+    // Se rua ja vier preenchida (cliente recorrente / endereco salvo), colapsa
+    ['billing_', 'shipping_'].forEach(function (p) {
+      var rua = document.querySelector('#' + p + 'address_1');
+      if (rua && rua.value && rua.value.length > 3) {
+        collapseAddress(p);
+      }
+    });
   }
 
-  // Roda no load + re-bind quando WC atualiza checkout (Ajax)
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init, { once: true });
   } else {

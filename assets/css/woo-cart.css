@@ -1,6 +1,56 @@
 /* woo-cart.css — pagina /carrinho/.
    Tabela, imagem capada, botoes apply/update, totals card, coupon inline. */
 
+/* ============ Frete gratis nudge (acima do cart/checkout) ============ */
+.cdm-freeship-nudge {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: linear-gradient(135deg, #fffceb 0%, #fff8e1 100%);
+  border: 1px solid #fde68a;
+  border-radius: 0.85rem;
+  padding: 0.85rem 1rem;
+  margin: 0 0 1.25rem;
+  font-size: 0.92rem;
+  color: var(--color-ink);
+}
+.cdm-freeship-nudge .ico {
+  font-size: 1.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.cdm-freeship-nudge .msg {
+  flex: 1;
+  min-width: 0;
+}
+.cdm-freeship-nudge .msg > span,
+.cdm-freeship-nudge .msg > strong {
+  display: block;
+  line-height: 1.35;
+  margin-bottom: 0.45rem;
+}
+.cdm-freeship-nudge .bar {
+  background: rgba(0,0,0,0.08);
+  border-radius: 9999px;
+  height: 6px;
+  overflow: hidden;
+  width: 100%;
+}
+.cdm-freeship-nudge .bar > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+.cdm-freeship-nudge.cdm-freeship-won {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border-color: #86efac;
+}
+.cdm-freeship-nudge.cdm-freeship-won .bar > span {
+  background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
+}
+
 /* ============ Layout 2-col (table + totals sidebar) em desktop ============ */
 .woocommerce-cart .woocommerce {
   display: grid;
