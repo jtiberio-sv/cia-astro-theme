@@ -360,9 +360,170 @@
   .cdm-confetti-burst.is-active span { animation: none; opacity: 0; }
 }
 .cdm-account-welcome p {
-  margin: 0;
+  margin: 0 0 1rem;
   font-size: 0.95rem;
   color: #4b5563;
+}
+
+/* Mini stats dentro do welcome card */
+.cdm-account-stats {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255,255,255,0.7);
+  border-radius: 0.75rem;
+  backdrop-filter: blur(4px);
+  flex-wrap: wrap;
+}
+.cdm-greet-night .cdm-account-stats {
+  background: rgba(255,255,255,0.08);
+}
+.cdm-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.1;
+}
+.cdm-stat-num {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-brand);
+}
+.cdm-greet-night .cdm-stat-num { color: #fde68a; }
+.cdm-stat-lbl {
+  font-size: 0.78rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  margin-top: 0.15rem;
+}
+.cdm-greet-night .cdm-stat-lbl { color: #cbd5e1; }
+.cdm-stat-cta {
+  margin-left: auto;
+}
+.cdm-stat-cta a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.1rem;
+  background: var(--color-brand);
+  color: white !important;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: background 0.15s, transform 0.15s;
+  white-space: nowrap;
+}
+.cdm-stat-cta a:hover {
+  background: var(--color-brand-2);
+  transform: translateY(-1px);
+}
+.cdm-greet-night .cdm-stat-cta a {
+  background: #fbbf24;
+  color: #1e293b !important;
+}
+
+/* Card de ultimo pedido */
+.cdm-last-order {
+  display: block;
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  margin: 0 0 1.5rem;
+  text-decoration: none !important;
+  color: var(--color-ink) !important;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.cdm-last-order::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 4px;
+  background: var(--color-brand);
+}
+.cdm-last-order.cdm-status-processing::before { background: #f59e0b; }
+.cdm-last-order.cdm-status-on-hold::before    { background: #6366f1; }
+.cdm-last-order.cdm-status-completed::before  { background: #10b981; }
+.cdm-last-order.cdm-status-pending::before    { background: #94a3b8; }
+.cdm-last-order:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  border-color: var(--color-brand-light);
+}
+.cdm-last-order-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.cdm-last-order-eyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+  font-weight: 700;
+}
+.cdm-last-order-status {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.7rem;
+  border-radius: 9999px;
+  background: var(--color-brand-light);
+  color: var(--color-brand);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cdm-last-order.cdm-status-processing .cdm-last-order-status { background: #fef3c7; color: #92400e; }
+.cdm-last-order.cdm-status-on-hold .cdm-last-order-status    { background: #e0e7ff; color: #3730a3; }
+.cdm-last-order.cdm-status-completed .cdm-last-order-status  { background: #d1fae5; color: #065f46; }
+.cdm-last-order-body {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: var(--font-display);
+  flex-wrap: wrap;
+}
+.cdm-last-order-body strong {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.cdm-last-order-date {
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-family: var(--font-body);
+}
+.cdm-last-order-total {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-brand);
+  margin-left: auto;
+  font-family: var(--font-body);
+}
+.cdm-last-order-cta {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--color-brand);
+  font-weight: 600;
+}
+
+/* Titulo da secao de atalhos */
+.cdm-shortcuts-title {
+  font-family: var(--font-display);
+  font-size: 0.78rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b7280 !important;
+  font-weight: 700 !important;
+  margin: 0 0 0.75rem !important;
 }
 
 .cdm-account-shortcuts {
@@ -381,28 +542,60 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.5rem;
-  padding: 1.1rem 1.1rem 1rem;
+  gap: 0.6rem;
+  padding: 1.15rem;
   background: white;
   border: 1.5px solid #f3f4f6;
-  border-radius: 0.85rem;
+  border-radius: 0.95rem;
   text-decoration: none !important;
   color: var(--color-ink) !important;
   transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.cdm-account-shortcuts a::after {
+  content: "→";
+  position: absolute;
+  top: 1.15rem;
+  right: 1.15rem;
+  color: #d1d5db;
+  font-size: 1.1rem;
+  transition: transform 0.15s, color 0.15s;
 }
 .cdm-account-shortcuts a:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  border-color: var(--color-brand);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.cdm-account-shortcuts a:hover::after {
+  transform: translateX(3px);
+  color: var(--color-brand);
 }
 .cdm-account-shortcuts a .ico {
-  width: 36px; height: 36px;
-  border-radius: 0.6rem;
+  width: 42px; height: 42px;
+  border-radius: 0.75rem;
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 1.2rem;
   background: var(--color-brand-light);
   color: var(--color-brand);
+  transition: transform 0.2s;
 }
+.cdm-account-shortcuts a:hover .ico { transform: scale(1.08) rotate(-3deg); }
+/* Cores por atalho — matching nav lateral */
+.cdm-shortcut-orders     { border-color: rgba(15,74,122,0.15); }
+.cdm-shortcut-orders .ico    { background: #dbeafe; color: #0f4a7a; }
+.cdm-shortcut-orders:hover   { border-color: #0f4a7a; }
+
+.cdm-shortcut-favorites  { border-color: rgba(236,72,153,0.15); }
+.cdm-shortcut-favorites .ico { background: #fce7f3; color: #ec4899; }
+.cdm-shortcut-favorites:hover{ border-color: #ec4899; }
+
+.cdm-shortcut-addresses  { border-color: rgba(249,115,22,0.15); }
+.cdm-shortcut-addresses .ico { background: #ffedd5; color: #f97316; }
+.cdm-shortcut-addresses:hover{ border-color: #f97316; }
+
+.cdm-shortcut-account    { border-color: rgba(139,92,246,0.15); }
+.cdm-shortcut-account .ico   { background: #ede9fe; color: #8b5cf6; }
+.cdm-shortcut-account:hover  { border-color: #8b5cf6; }
 .cdm-account-shortcuts a .label {
   font-family: var(--font-display);
   font-weight: 700;

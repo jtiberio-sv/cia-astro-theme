@@ -66,9 +66,12 @@ function cia_astro_account_dashboard() {
     $first_name   = $current_user->first_name ?: $current_user->display_name;
 
     $orders_url    = wc_get_account_endpoint_url('orders');
+    $favorites_url = wc_get_account_endpoint_url('favoritos');
     $addresses_url = wc_get_account_endpoint_url('edit-address');
     $account_url   = wc_get_account_endpoint_url('edit-account');
-    $logout_url    = wc_logout_url(wc_get_page_permalink('myaccount'));
+    $shop_url      = function_exists('cia_astro_frontend_url')
+        ? cia_astro_frontend_url('/loja/')
+        : home_url('/loja/');
 
     // Saudacao dinamica por hora do dia (BRT = current_time)
     $hour = (int) current_time('H');
@@ -76,6 +79,20 @@ function cia_astro_account_dashboard() {
     elseif ($hour >= 12 && $hour < 18)  { $greet = 'Boa tarde';     $emoji = '🌤️'; $cls = 'afternoon'; }
     elseif ($hour >= 18 && $hour < 23)  { $greet = 'Boa noite';     $emoji = '🌙'; $cls = 'evening'; }
     else                                 { $greet = 'Boa madrugada'; $emoji = '✨'; $cls = 'night'; }
+
+    // Stats rapidos (orders count + favoritos count)
+    $orders_count = wc_get_customer_order_count($current_user->ID);
+    $fav_count    = function_exists('cdm_wl_get_ids') ? count(cdm_wl_get_ids($current_user->ID)) : 0;
+
+    // Ultimo pedido (se houver, pra hero card)
+    $last_orders = wc_get_orders([
+        'customer_id' => $current_user->ID,
+        'limit'       => 1,
+        'orderby'     => 'date',
+        'order'       => 'DESC',
+        'status'      => ['processing','on-hold','completed','pending'],
+    ]);
+    $last_order = !empty($last_orders) ? $last_orders[0] : null;
 
     // Cookie key inclui data BRT — confete dispara so 1x por dia
     $cookie_key = 'cdm_dash_seen_' . current_time('Y-m-d');
@@ -86,31 +103,80 @@ function cia_astro_account_dashboard() {
         <span class="cdm-greet-emoji" aria-hidden="true"><?php echo $emoji; ?></span>
         <?php echo esc_html($greet); ?>, <?php echo esc_html($first_name); ?>!
       </h2>
-      <p>Que bom te ver por aqui. Acompanhe seus pedidos, gerencie seus favoritos ou atualize seus dados.</p>
+      <p>Que bom te ver por aqui. Aqui voc&ecirc; acompanha pedidos, gerencia favoritos e atualiza seus dados.</p>
+
+      <!-- Mini stats: pedidos + favoritos -->
+      <div class="cdm-account-stats" aria-label="Resumo da conta">
+        <div class="cdm-stat">
+          <span class="cdm-stat-num"><?php echo (int) $orders_count; ?></span>
+          <span class="cdm-stat-lbl"><?php echo $orders_count === 1 ? 'Pedido' : 'Pedidos'; ?></span>
+        </div>
+        <div class="cdm-stat">
+          <span class="cdm-stat-num"><?php echo (int) $fav_count; ?></span>
+          <span class="cdm-stat-lbl"><?php echo $fav_count === 1 ? 'Favorito' : 'Favoritos'; ?></span>
+        </div>
+        <div class="cdm-stat cdm-stat-cta">
+          <a href="<?php echo esc_url($shop_url); ?>">Continuar comprando &rarr;</a>
+        </div>
+      </div>
+
       <!-- Confete container (so renderizado no 1o acesso do dia via JS) -->
       <div class="cdm-confetti-burst" aria-hidden="true"></div>
     </div>
 
+    <?php if ($last_order) : ?>
+      <?php
+        $status      = $last_order->get_status();
+        $status_lbl  = wc_get_order_status_name($status);
+        $status_cls  = 'cdm-status-' . sanitize_html_class($status);
+        $order_url   = $last_order->get_view_order_url();
+        $order_num   = $last_order->get_order_number();
+        $order_total = $last_order->get_formatted_order_total();
+        $order_date  = $last_order->get_date_created() ? $last_order->get_date_created()->date_i18n('d/m/Y') : '';
+      ?>
+      <a class="cdm-last-order <?php echo esc_attr($status_cls); ?>" href="<?php echo esc_url($order_url); ?>">
+        <div class="cdm-last-order-head">
+          <span class="cdm-last-order-eyebrow">Último pedido</span>
+          <span class="cdm-last-order-status"><?php echo esc_html($status_lbl); ?></span>
+        </div>
+        <div class="cdm-last-order-body">
+          <strong>#<?php echo esc_html($order_num); ?></strong>
+          <span class="cdm-last-order-date"><?php echo esc_html($order_date); ?></span>
+          <span class="cdm-last-order-total"><?php echo wp_kses_post($order_total); ?></span>
+        </div>
+        <span class="cdm-last-order-cta">Ver detalhes &rarr;</span>
+      </a>
+    <?php endif; ?>
+
+    <h3 class="cdm-shortcuts-title">Atalhos r&aacute;pidos</h3>
     <div class="cdm-account-shortcuts">
-      <a href="<?php echo esc_url($orders_url); ?>">
-        <span class="ico" aria-hidden="true">📦</span>
+      <a href="<?php echo esc_url($orders_url); ?>" class="cdm-shortcut cdm-shortcut-orders">
+        <span class="ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </span>
         <span class="label">Meus pedidos</span>
-        <span class="hint">Acompanhe status, rastreio e detalhes</span>
+        <span class="hint">Status, rastreio e detalhes</span>
       </a>
-      <a href="<?php echo esc_url($addresses_url); ?>">
-        <span class="ico" aria-hidden="true">📍</span>
-        <span class="label">Endereços</span>
-        <span class="hint">Cobrança e entrega</span>
+      <a href="<?php echo esc_url($favorites_url); ?>" class="cdm-shortcut cdm-shortcut-favorites">
+        <span class="ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </span>
+        <span class="label">Favoritos</span>
+        <span class="hint">Sua lista de desejos</span>
       </a>
-      <a href="<?php echo esc_url($account_url); ?>">
-        <span class="ico" aria-hidden="true">⚙️</span>
-        <span class="label">Conta</span>
+      <a href="<?php echo esc_url($addresses_url); ?>" class="cdm-shortcut cdm-shortcut-addresses">
+        <span class="ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </span>
+        <span class="label">Endere&ccedil;os</span>
+        <span class="hint">Cobran&ccedil;a e entrega</span>
+      </a>
+      <a href="<?php echo esc_url($account_url); ?>" class="cdm-shortcut cdm-shortcut-account">
+        <span class="ico" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
+        </span>
+        <span class="label">Detalhes da conta</span>
         <span class="hint">Nome, e-mail e senha</span>
-      </a>
-      <a href="<?php echo esc_url($logout_url); ?>">
-        <span class="ico" aria-hidden="true">🚪</span>
-        <span class="label">Sair</span>
-        <span class="hint">Encerrar sessão</span>
       </a>
     </div>
     <?php
