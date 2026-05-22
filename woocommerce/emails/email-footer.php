@@ -10,6 +10,10 @@ if (!defined('ABSPATH')) exit;
 
 $brand = '#0f4a7a';
 $site  = 'https://ciadasmochilas.com.br';
+$logo_white_theme = CIA_ASTRO_DIR . '/assets/img/logo-email-white.png';
+$logo_white_url   = file_exists($logo_white_theme)
+    ? CIA_ASTRO_URI . '/assets/img/logo-email-white.png'
+    : '';
 ?>
                           </div>
                         </td>
@@ -50,6 +54,12 @@ $site  = 'https://ciadasmochilas.com.br';
               <table border="0" cellpadding="10" cellspacing="0" width="100%" id="template_footer" style="background:<?php echo $brand; ?>;border-radius:0 0 16px 16px;">
                 <tr>
                   <td valign="top" style="padding:24px 28px;text-align:center;">
+                    <?php if ($logo_white_url) : ?>
+                    <img src="<?php echo esc_url($logo_white_url); ?>"
+                         alt="Cia das Mochilas"
+                         width="160"
+                         style="display:inline-block;margin:0 0 16px;max-width:160px;height:auto;border:0;outline:none;-ms-interpolation-mode:bicubic;" />
+                    <?php endif; ?>
                     <p style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#ffffff;margin:0 0 8px;">Fale com a gente</p>
                     <p style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.85);margin:0 0 16px;line-height:1.6;">
                       <a href="mailto:contato@ciadasmochilas.com.br" style="color:#ffffff;text-decoration:none;font-weight:600;">contato@ciadasmochilas.com.br</a><br>

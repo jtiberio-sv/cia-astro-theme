@@ -8,7 +8,11 @@ if (!defined('ABSPATH')) { exit; }
 
 require_once CIA_ASTRO_DIR . '/inc/header-data.php';
 $cia_topcats = cia_astro_get_top_categories(6);
-$cia_logo    = CIA_ASTRO_URI . '/assets/img/logo.webp';
+// Prioridade: logo-hd.png (alta-res gerado via IA) > logo.webp (legado) > custom_logo
+$cia_logo_hd_path = CIA_ASTRO_DIR . '/assets/img/logo-hd.png';
+$cia_logo = file_exists($cia_logo_hd_path)
+    ? CIA_ASTRO_URI . '/assets/img/logo-hd.png'
+    : CIA_ASTRO_URI . '/assets/img/logo.webp';
 // Logo aponta pra vitrine (Astro), nao pro backend WP
 $cia_home    = cia_astro_frontend_url('/');
 // Fallback de logo: pega o custom_logo configurado no Customizer se existir
@@ -25,7 +29,7 @@ if ($cia_custom_logo_id) {
 <meta charset="<?php bloginfo('charset'); ?>" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#1E7BB8" />
-<link rel="preload" as="image" href="<?php echo esc_url($cia_logo); ?>" type="image/webp" fetchpriority="high" />
+<link rel="preload" as="image" href="<?php echo esc_url($cia_logo); ?>" fetchpriority="high" />
 <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
