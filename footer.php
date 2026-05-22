@@ -4,7 +4,11 @@
  */
 if (!defined('ABSPATH')) { exit; }
 
-$cia_logo = CIA_ASTRO_URI . '/assets/img/logo.webp';
+// Logo HD (1113x220 Real-ESRGAN) — vira branco via CSS filter no footer
+$cia_logo_hd_path = CIA_ASTRO_DIR . '/assets/img/logo-hd.png';
+$cia_logo = file_exists($cia_logo_hd_path)
+    ? CIA_ASTRO_URI . '/assets/img/logo-hd.png'
+    : CIA_ASTRO_URI . '/assets/img/logo.webp';
 $cia_custom_logo_id = get_theme_mod('custom_logo');
 if ($cia_custom_logo_id) {
     $cia_logo_src = wp_get_attachment_image_src($cia_custom_logo_id, 'full');
@@ -29,7 +33,7 @@ $cia_footer_topcats = get_terms([
 <footer class="cdm-footer" role="contentinfo">
   <div class="cdm-footer-main">
     <div class="cdm-footer-brand">
-      <img src="<?php echo esc_url($cia_logo); ?>" alt="Cia das Mochilas" width="200" height="40" />
+      <img src="<?php echo esc_url($cia_logo); ?>" alt="Cia das Mochilas" width="284" height="56" />
       <p>Há mais de 15 anos levando mochilas, papelaria e material escolar das melhores marcas para o Brasil inteiro. Compromisso com qualidade, atendimento humano e entrega rápida.</p>
       <div class="cdm-footer-social">
         <a href="https://instagram.com/ciadasmochilas" target="_blank" rel="noopener" aria-label="Instagram">

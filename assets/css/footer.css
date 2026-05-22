@@ -15,7 +15,7 @@
   .cdm-footer-main { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 .cdm-footer-brand img {
-  height: 2.5rem; width: auto;
+  height: 3.5rem; width: auto;
   filter: brightness(0) invert(1);
 }
 .cdm-footer-brand p {
