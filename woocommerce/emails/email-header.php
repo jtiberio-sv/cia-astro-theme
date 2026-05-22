@@ -10,10 +10,13 @@ if (!defined('ABSPATH')) exit;
 
 // Logo HD do tema (PNG 2x retina servido como 280px display) — fallback
 // para o legado da loja caso o arquivo do tema ainda nao esteja deployado.
-// Logo original da loja (sera substituido por versao HD/vetorizada quando
-// disponivel). Forca HTTPS — emails enviados via cron/cli podem gerar URL
-// http quando $_SERVER['HTTPS'] nao esta setado, quebrando preview.
-$logo_url = 'https://loja.ciadasmochilas.com.br/wp-content/uploads/2025/08/logomarca_principal_transparent_clean.png';
+// Logo HD: PNG original upscaled 4x via Real-ESRGAN (identico, sem
+// pixelizar). Fallback para o PNG da loja se o arquivo nao foi
+// deployado ainda. Forca HTTPS pra evitar mixed-content em emails.
+$logo_theme = CIA_ASTRO_DIR . '/assets/img/logo-email.png';
+$logo_url   = file_exists($logo_theme)
+    ? CIA_ASTRO_URI . '/assets/img/logo-email.png'
+    : 'https://loja.ciadasmochilas.com.br/wp-content/uploads/2025/08/logomarca_principal_transparent_clean.png';
 $logo_url = set_url_scheme($logo_url, 'https');
 $tagline    = 'Material escolar com qualidade desde 2010';
 $brand      = '#0f4a7a';
