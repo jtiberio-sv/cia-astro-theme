@@ -314,26 +314,158 @@
   border-color: var(--color-pix) !important;
 }
 
-/* Checkbox 'Criar conta' / 'Entregar em endereco diferente' */
-.woocommerce-checkout #createaccount,
-.woocommerce-checkout #ship-to-different-address-checkbox {
-  margin-right: 0.5rem;
-}
+/* ========== SPACING AUDIT — padronizacao geral do checkout ========== */
+
+/* Distancia entre cards customer_details e additional_fields/observacoes */
+.woocommerce-checkout form.checkout #customer_details + h3,
 .woocommerce-checkout #ship-to-different-address {
+  margin-top: 1.25rem !important;
+  margin-bottom: 0 !important;
+}
+
+/* Card 'Entregar em endereco diferente?' destacado */
+.woocommerce-checkout #ship-to-different-address {
+  background: var(--color-bg-cream);
+  border: 1px solid #f3f4f6;
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem !important;
+  display: flex !important;
+  align-items: center;
+  width: 100%;
+}
+.woocommerce-checkout #ship-to-different-address h3 {
   margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  flex: 1;
 }
 .woocommerce-checkout #ship-to-different-address label {
   display: inline-flex !important;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem !important;
   font-weight: 600 !important;
+  cursor: pointer;
+  margin: 0 !important;
+  font-size: 0.95rem !important;
+}
+.woocommerce-checkout #ship-to-different-address-checkbox {
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 !important;
+  accent-color: var(--color-brand);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Card 'Criar conta?' similar */
+.woocommerce-checkout .woocommerce-account-fields p.create-account label {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.woocommerce-checkout #createaccount {
+  width: 18px !important;
+  height: 18px !important;
+  accent-color: var(--color-brand);
+  margin: 0 !important;
   cursor: pointer;
 }
 
-/* Observacoes (textarea) */
+/* Shipping fields card (quando 'endereco diferente' marcado) */
+.woocommerce-checkout #customer_details .woocommerce-shipping-fields {
+  margin-top: 1.25rem !important;
+  padding-top: 1.25rem !important;
+  border-top: 1px solid #f3f4f6;
+}
+
+/* Additional fields (Observacoes do pedido) */
+.woocommerce-checkout #customer_details + .woocommerce-additional-fields,
+.woocommerce-checkout #ship-to-different-address + .woocommerce-additional-fields,
+.woocommerce-checkout #order_comments_field {
+  margin-top: 1.25rem !important;
+}
+.woocommerce-checkout .woocommerce-additional-fields {
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem !important;
+}
+.woocommerce-checkout .woocommerce-additional-fields h3 {
+  font-family: var(--font-display) !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: var(--color-ink) !important;
+  margin: 0 0 0.75rem !important;
+  padding-bottom: 0.5rem !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+.woocommerce-checkout #order_comments_field {
+  margin: 0 !important;
+}
+.woocommerce-checkout #order_comments_field label {
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.4rem !important;
+  color: var(--color-ink) !important;
+}
 .woocommerce-checkout #order_comments_field textarea {
-  min-height: 100px;
-  resize: vertical;
+  min-height: 90px !important;
+  resize: vertical !important;
+  padding: 0.7rem 0.875rem !important;
+  font-size: 0.92rem !important;
+  line-height: 1.5;
+}
+
+/* Form rows: spacing vertical consistente entre cada campo */
+.woocommerce-checkout .form-row {
+  margin: 0 0 0.875rem !important;
+}
+.woocommerce-checkout .form-row label {
+  display: block !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  color: var(--color-ink) !important;
+  margin-bottom: 0.35rem !important;
+  line-height: 1.3 !important;
+}
+/* Tira margin-bottom do ultimo form-row de cada wrapper */
+.woocommerce-checkout .woocommerce-billing-fields__field-wrapper > .form-row:last-child,
+.woocommerce-checkout .woocommerce-shipping-fields__field-wrapper > .form-row:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Cards principais com padding consistente */
+.woocommerce-checkout #customer_details,
+.woocommerce-checkout .woocommerce-billing-fields,
+.woocommerce-checkout .woocommerce-shipping-fields {
+  padding: 0 !important;
+}
+.woocommerce-checkout #customer_details {
+  padding: 1.5rem !important;
+}
+@media (max-width: 640px) {
+  .woocommerce-checkout #customer_details {
+    padding: 1.1rem !important;
+  }
+  .woocommerce-checkout .woocommerce-additional-fields {
+    padding: 1.1rem !important;
+  }
+}
+
+/* Headings das fields sections consistentes */
+.woocommerce-checkout .woocommerce-billing-fields > h3,
+.woocommerce-checkout .woocommerce-shipping-fields > h3 {
+  font-family: var(--font-display) !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: var(--color-ink) !important;
+  margin: 0 0 1rem !important;
+  padding-bottom: 0.5rem !important;
+  border-bottom: 1px solid #f3f4f6 !important;
 }
 
 /* ============ Card de Review (Seu pedido) ============ */
