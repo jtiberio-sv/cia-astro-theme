@@ -1817,10 +1817,27 @@ body.page-id-278 .entry-title {
   color: var(--color-brand) !important;
 }
 
-/* Vindi Pix card — layout compacto, QR e copia-cola lado a lado em desktop */
+/* Vindi Pix card — forca layout VERTICAL empilhado (Vindi default tenta 2-col confuso) */
 .woocommerce-view-order .vindi-pagamentos-order-details {
   display: flex;
   flex-direction: column;
+}
+/* O .order_details interno do Vindi vem com display/float quebrado.
+   Force tudo em 1 coluna full-width pra usar bem o espaco. */
+.woocommerce-view-order .vindi-pagamentos-order-details .order_details,
+.woocommerce-view-order .vindi-pagamentos-order-details .order_details > * {
+  display: block !important;
+  width: 100% !important;
+  float: none !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  text-align: left;
+}
+.woocommerce-view-order .vindi-pagamentos-order-details .order_details {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0;
 }
 .woocommerce-view-order .vindi-payment-confirmation,
 .woocommerce-view-order .wvp-payment-status-info {
@@ -1884,13 +1901,17 @@ body.page-id-278 .entry-title {
 }
 .woocommerce-view-order .vindi-pagamentos-order-details .wvp-qrcode-image object,
 .woocommerce-view-order .vindi-pagamentos-order-details .wvp-qrcode-image img {
-  width: 160px !important;
-  height: 160px !important;
+  width: 200px !important;
+  height: 200px !important;
   display: block;
+  margin: 0 auto;
 }
 .woocommerce-view-order .vindi-pagamentos-order-details .wvp-divisor {
+  border: none;
   border-top: 1px dashed #e5e7eb;
-  margin: 0.65rem 0;
+  margin: 1rem 0;
+  width: 100%;
+  height: 0;
 }
 .woocommerce-view-order .vindi-pagamentos-order-details .wvp-payment-line {
   background: var(--color-bg-cream);
