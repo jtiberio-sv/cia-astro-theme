@@ -359,13 +359,30 @@
   flex-shrink: 0;
 }
 
-/* Card 'Criar conta?' similar */
+/* Card 'Criar conta?' — mesmo estilo do 'Entregar em endereco diferente' */
+.woocommerce-checkout .woocommerce-account-fields {
+  margin-top: 1rem !important;
+}
+.woocommerce-checkout .woocommerce-account-fields p.create-account {
+  background: var(--color-bg-cream);
+  border: 1px solid #f3f4f6;
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem !important;
+  margin: 0 0 0.5rem !important;
+  width: 100%;
+}
 .woocommerce-checkout .woocommerce-account-fields p.create-account label {
   display: inline-flex !important;
   align-items: center;
-  gap: 0.6rem;
-  font-weight: 600;
+  gap: 0.6rem !important;
+  font-weight: 600 !important;
   cursor: pointer;
+  margin: 0 !important;
+  font-size: 0.95rem !important;
+}
+.woocommerce-checkout .woocommerce-account-fields p.create-account label span {
+  font-weight: 600;
+  color: var(--color-ink);
 }
 .woocommerce-checkout #createaccount {
   width: 18px !important;
@@ -373,6 +390,12 @@
   accent-color: var(--color-brand);
   margin: 0 !important;
   cursor: pointer;
+  flex-shrink: 0;
+}
+/* Quando marcado, mostra fields adicionais (senha, etc) dentro do card */
+.woocommerce-checkout .woocommerce-account-fields .create-account .form-row {
+  margin-top: 0.75rem !important;
+  width: 100%;
 }
 
 /* Shipping fields card (quando 'endereco diferente' marcado) */
