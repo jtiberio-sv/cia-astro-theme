@@ -611,6 +611,156 @@
   font-weight: 600;
 }
 
+/* ============ Banner 2FA (recomendacao + tutorial) ============ */
+.cdm-2fa-banner {
+  background: linear-gradient(135deg, #fef3c7 0%, #fff7ed 50%, white 100%);
+  border: 1px solid #fde68a;
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  margin: 0 0 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.cdm-2fa-banner::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 4px;
+  background: #f59e0b;
+}
+.cdm-2fa-banner-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+.cdm-2fa-shield {
+  flex-shrink: 0;
+  color: #b45309;
+  background: white;
+  width: 44px; height: 44px;
+  border-radius: 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(180,83,9,0.12);
+}
+.cdm-2fa-banner-head h3 {
+  font-family: var(--font-display);
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  margin: 0 0 0.25rem !important;
+  color: #92400e;
+  padding: 0 !important;
+  border: none !important;
+}
+.cdm-2fa-banner-head p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #78350f;
+  line-height: 1.5;
+}
+.cdm-2fa-howto {
+  margin: 0.85rem 0;
+  border-top: 1px dashed #fde68a;
+  padding-top: 0.75rem;
+}
+.cdm-2fa-howto summary {
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #b45309;
+  padding: 0.35rem 0;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cdm-2fa-howto summary::-webkit-details-marker { display: none; }
+.cdm-2fa-howto summary::before {
+  content: "▸";
+  display: inline-block;
+  transition: transform 0.2s;
+  font-size: 0.85em;
+}
+.cdm-2fa-howto[open] summary::before {
+  transform: rotate(90deg);
+}
+.cdm-2fa-howto-body {
+  margin-top: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255,255,255,0.7);
+  border-radius: 0.65rem;
+  font-size: 0.88rem;
+  color: var(--color-ink);
+  line-height: 1.6;
+}
+.cdm-2fa-howto-body ol {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.cdm-2fa-howto-body ol > li {
+  padding-left: 0.25rem;
+}
+.cdm-2fa-howto-body ol > li strong {
+  color: var(--color-ink);
+}
+.cdm-2fa-apps {
+  list-style: none;
+  padding: 0.4rem 0 0 0.5rem;
+  margin: 0.35rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.cdm-2fa-apps li {
+  font-size: 0.84rem;
+}
+.cdm-2fa-apps a {
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 500;
+}
+.cdm-2fa-tip {
+  margin: 0.85rem 0 0 !important;
+  padding: 0.65rem 0.85rem;
+  background: rgba(245,158,11,0.08);
+  border-left: 3px solid #f59e0b;
+  border-radius: 0.4rem;
+  font-size: 0.84rem;
+  color: #78350f;
+}
+.cdm-2fa-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #f59e0b !important;
+  color: white !important;
+  padding: 0.65rem 1.25rem !important;
+  border-radius: 9999px !important;
+  font-weight: 700 !important;
+  font-size: 0.88rem !important;
+  text-decoration: none !important;
+  margin-top: 0.5rem;
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(245,158,11,0.3);
+}
+.cdm-2fa-cta:hover {
+  background: #d97706 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245,158,11,0.4);
+}
+@media (max-width: 640px) {
+  .cdm-2fa-banner-head { flex-direction: column; gap: 0.5rem; }
+  .cdm-2fa-shield { width: 36px; height: 36px; }
+  .cdm-2fa-cta { width: 100%; justify-content: center; }
+}
+
 /* Titulo da secao de atalhos */
 .cdm-shortcuts-title {
   font-family: var(--font-display);

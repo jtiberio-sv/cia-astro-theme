@@ -166,6 +166,65 @@ function cia_astro_account_dashboard() {
       </a>
     <?php endif; ?>
 
+    <?php
+    // Banner 2FA — so mostra se user NAO tem 2FA ativo no Wordfence
+    global $wpdb;
+    $has_2fa = (bool) $wpdb->get_var($wpdb->prepare(
+      "SELECT 1 FROM {$wpdb->prefix}wfls_2fa_secrets WHERE user_id = %d LIMIT 1",
+      $current_user->ID
+    ));
+    if (!$has_2fa) :
+      $wfls_url = admin_url('admin.php?page=WFLS');
+    ?>
+      <div class="cdm-2fa-banner" role="region" aria-labelledby="cdm-2fa-title">
+        <div class="cdm-2fa-banner-head">
+          <span class="cdm-2fa-shield" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          </span>
+          <div>
+            <h3 id="cdm-2fa-title">Proteja sua conta com verifica&ccedil;&atilde;o em duas etapas (2FA)</h3>
+            <p>Adicione uma camada extra de seguran&ccedil;a. Mesmo se algu&eacute;m descobrir sua senha, n&atilde;o consegue entrar sem o c&oacute;digo do seu celular.</p>
+          </div>
+        </div>
+
+        <details class="cdm-2fa-howto">
+          <summary>Como configurar (passo a passo, leva 2 minutos)</summary>
+          <div class="cdm-2fa-howto-body">
+            <ol>
+              <li>
+                <strong>Baixe um app autenticador no celular</strong> (grátis):
+                <ul class="cdm-2fa-apps">
+                  <li><a href="https://apps.apple.com/br/app/google-authenticator/id388497605" target="_blank" rel="noopener">Google Authenticator (iPhone)</a></li>
+                  <li><a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" target="_blank" rel="noopener">Google Authenticator (Android)</a></li>
+                  <li><a href="https://authy.com/download/" target="_blank" rel="noopener">Authy</a> (alternativa, sincroniza entre devices)</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Clique no bot&atilde;o &quot;Ativar 2FA agora&quot;</strong> abaixo e fa&ccedil;a login no painel administrativo.
+              </li>
+              <li>
+                <strong>Aponte a c&acirc;mera do celular pro QR Code</strong> que aparece na tela. O app vai adicionar &quot;Cia das Mochilas&quot; automaticamente.
+              </li>
+              <li>
+                <strong>Digite o c&oacute;digo de 6 d&iacute;gitos</strong> que aparece no app pra confirmar.
+              </li>
+              <li>
+                <strong>Pronto!</strong> Da pr&oacute;xima vez que entrar, vai pedir o c&oacute;digo do app al&eacute;m da senha.
+              </li>
+            </ol>
+            <p class="cdm-2fa-tip">
+              <strong>Dica de seguran&ccedil;a:</strong> Guarde os <em>c&oacute;digos de recupera&ccedil;&atilde;o</em> que o sistema mostra no final &mdash; eles servem caso voc&ecirc; perca o celular.
+            </p>
+          </div>
+        </details>
+
+        <a href="<?php echo esc_url($wfls_url); ?>" class="cdm-2fa-cta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Ativar 2FA agora
+        </a>
+      </div>
+    <?php endif; ?>
+
     <h3 class="cdm-shortcuts-title">Atalhos r&aacute;pidos</h3>
     <div class="cdm-account-shortcuts">
       <a href="<?php echo esc_url($orders_url); ?>" class="cdm-shortcut cdm-shortcut-orders">
