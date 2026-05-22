@@ -311,30 +311,58 @@
   font-size: 1.2rem !important;
 }
 
-/* Selecionar metodo de envio (Melhor Envio) */
+/* Selecionar metodo de envio (Melhor Envio) — tudo na col direita alinhado a direita */
 .woocommerce-cart .cart_totals .shipping td,
 .woocommerce-cart .cart_totals .shipping th {
   padding: 0.75rem 0 !important;
+  vertical-align: top !important;
 }
-.woocommerce-cart .cart_totals .shipping ul#shipping_method {
-  list-style: none; padding: 0; margin: 0;
+.woocommerce-cart .cart_totals .shipping td {
+  text-align: right !important;
 }
-.woocommerce-cart .cart_totals .shipping ul#shipping_method li {
-  display: flex; align-items: center; gap: 0.5rem;
-  padding: 0.35rem 0;
+.woocommerce-cart .cart_totals .shipping td ul#shipping_method {
+  list-style: none !important; padding: 0 !important; margin: 0 !important;
+}
+.woocommerce-cart .cart_totals .shipping td ul#shipping_method li {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
   font-size: 0.875rem;
+  text-align: right;
+}
+.woocommerce-cart .cart_totals .shipping td ul#shipping_method li label {
+  margin: 0 !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
 }
 .woocommerce-cart .cart_totals .shipping input[type="radio"] {
   accent-color: var(--color-brand);
+  margin: 0 !important;
+}
+/* "Entrega para Sao Paulo" + "Mudar endereco" link */
+.woocommerce-cart .cart_totals .shipping td .shipping-calculator-button,
+.woocommerce-cart .cart_totals .shipping td p {
+  text-align: right !important;
+  margin: 0.35rem 0 0 !important;
+  font-size: 0.85rem;
+  color: #4b5563;
 }
 .woocommerce-cart .cart_totals .woocommerce-shipping-calculator {
-  margin-top: 0.5rem;
+  margin-top: 0.35rem !important;
+  text-align: right;
 }
-.woocommerce-cart .cart_totals .woocommerce-shipping-calculator a {
+.woocommerce-cart .cart_totals .woocommerce-shipping-calculator a,
+.woocommerce-cart .cart_totals .shipping-calculator-button {
   font-size: 0.85rem;
   color: var(--color-brand);
   text-decoration: underline;
   text-underline-offset: 2px;
+  display: inline-block;
+}
+/* "Frete padrao: R$X" quando so 1 metodo disponivel (sem ul, sai como texto direto no td) */
+.woocommerce-cart .cart_totals .shipping td > .amount,
+.woocommerce-cart .cart_totals .shipping td > strong {
+  font-weight: 600;
 }
 
 /* CTA Finalizar compra */
