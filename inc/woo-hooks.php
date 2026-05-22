@@ -95,6 +95,33 @@ add_filter('woocommerce_shipping_calculator_enable_city',    '__return_false');
 add_filter('woocommerce_shipping_calculator_enable_postcode','__return_true');
 
 /**
+ * Loja vende apenas para o Brasil. Esconde o campo Pais do checkout
+ * (billing + shipping) e forca BR como default. Mantém o valor no banco
+ * (WC ainda precisa do country pra calcular frete/imposto).
+ */
+add_filter('woocommerce_checkout_fields', function ($fields) {
+    if (isset($fields['billing']['billing_country'])) {
+        $fields['billing']['billing_country']['type']     = 'hidden';
+        $fields['billing']['billing_country']['default']  = 'BR';
+        $fields['billing']['billing_country']['label']    = '';
+        $fields['billing']['billing_country']['class']    = ['cdm-hidden-field'];
+    }
+    if (isset($fields['shipping']['shipping_country'])) {
+        $fields['shipping']['shipping_country']['type']    = 'hidden';
+        $fields['shipping']['shipping_country']['default'] = 'BR';
+        $fields['shipping']['shipping_country']['label']   = '';
+        $fields['shipping']['shipping_country']['class']   = ['cdm-hidden-field'];
+    }
+    return $fields;
+}, 20);
+
+// Garante BR como default mesmo se WC reverter
+add_filter('default_checkout_billing_country',  function () { return 'BR'; });
+add_filter('default_checkout_shipping_country', function () { return 'BR'; });
+add_filter('woocommerce_customer_default_location', function () { return 'BR'; });
+add_filter('woocommerce_countries_allowed_countries', function () { return ['BR' => 'Brasil']; });
+
+/**
  * Reformula label de shipping_method no cart_totals + review_order:
  *   ANTES: 'Loggi Express (Melhor Envio) (2 a 3 dias uteis): R$ 9,02'
  *   DEPOIS: nome limpo + 'X a Y dias uteis' menor + preco a direita

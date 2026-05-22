@@ -202,30 +202,47 @@
   box-shadow: 0 0 0 3px rgba(94, 191, 214, 0.18) !important;
 }
 
+/* Esconde campo de Pais (loja so BR) */
+.woocommerce-checkout .cdm-hidden-field,
+.woocommerce-checkout #billing_country_field,
+.woocommerce-checkout #shipping_country_field {
+  display: none !important;
+}
+
 /* Select2 (Estado/Pais usam Select2 enhanced) — match com nosso visual */
 .woocommerce-checkout .select2-container .select2-selection--single {
-  height: auto !important;
+  height: 44px !important;
   min-height: 44px !important;
   border: 2px solid var(--color-brand-light) !important;
   border-radius: 0.5rem !important;
   background: white !important;
+  display: flex !important;
+  align-items: center;
+  padding: 0 !important;
 }
 .woocommerce-checkout .select2-container .select2-selection--single .select2-selection__rendered {
-  line-height: 1.4 !important;
-  padding: 0.7rem 2.5rem 0.7rem 0.875rem !important;
+  line-height: 40px !important;
+  padding: 0 2.25rem 0 0.875rem !important;
   color: var(--color-ink) !important;
   font-size: 0.95rem !important;
+  text-align: left !important;
+  width: 100% !important;
+  margin: 0 !important;
 }
 .woocommerce-checkout .select2-container .select2-selection--single .select2-selection__arrow {
   height: 100% !important;
-  width: 2.5rem !important;
+  width: 2rem !important;
   top: 0 !important;
   right: 0 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
 }
 .woocommerce-checkout .select2-container .select2-selection--single .select2-selection__arrow b {
+  position: static !important;
+  margin: 0 !important;
   border-color: var(--color-brand) transparent transparent transparent !important;
   border-width: 6px 5px 0 5px !important;
-  margin-left: -5px !important;
 }
 .woocommerce-checkout .select2-container--open .select2-selection--single .select2-selection__arrow b {
   border-color: transparent transparent var(--color-brand) transparent !important;
