@@ -359,6 +359,8 @@
   justify-content: space-between;
   gap: 0.5rem;
   width: 100%;
+  min-width: 0;
+  flex-wrap: wrap;
 }
 .cdm-ship-info {
   display: flex;
@@ -366,18 +368,20 @@
   align-items: flex-start;
   gap: 0.1rem;
   min-width: 0;
-  flex: 1;
+  flex: 1 1 auto;
 }
 .cdm-ship-name {
   font-weight: 600;
   font-size: 0.88rem;
   color: var(--color-ink);
-  line-height: 1.3;
+  line-height: 1.25;
+  word-break: break-word;
 }
 .cdm-ship-prazo {
   font-size: 0.72rem;
   color: #6b7280;
   line-height: 1.2;
+  white-space: nowrap;
 }
 .cdm-ship-price {
   font-weight: 700;
@@ -385,6 +389,27 @@
   color: var(--color-brand);
   white-space: nowrap;
   flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* Sidebar narrow / mobile: nome em cima, preco linha de baixo right */
+@media (max-width: 1100px) {
+  .woocommerce-cart .cart_totals .shipping td ul#shipping_method li {
+    padding: 0.5rem 0.6rem !important;
+  }
+  .cdm-ship-method {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+  }
+  .cdm-ship-info { flex: 0 0 auto; }
+  .cdm-ship-price {
+    margin-left: 0;
+    align-self: flex-end;
+    font-size: 0.9rem;
+  }
+  .cdm-ship-name { font-size: 0.85rem; }
+  .cdm-ship-prazo { font-size: 0.7rem; }
 }
 /* "Entrega para Sao Paulo" + "Mudar endereco" link */
 .woocommerce-cart .cart_totals .shipping td .shipping-calculator-button,
