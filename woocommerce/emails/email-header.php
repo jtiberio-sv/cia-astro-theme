@@ -40,8 +40,8 @@ $accent     = '#fff8e1';
           <a href="<?php echo esc_url(home_url('/')); ?>" style="display:inline-block;text-decoration:none;">
             <img src="<?php echo esc_url($logo_url); ?>"
                  alt="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>"
-                 width="360"
-                 style="display:inline-block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;max-width:360px;height:auto;" />
+                 width="480"
+                 style="display:inline-block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;max-width:480px;height:auto;" />
           </a>
         </div>
 
