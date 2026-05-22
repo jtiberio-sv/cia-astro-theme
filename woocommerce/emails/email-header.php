@@ -38,14 +38,19 @@ $accent     = '#fff8e1';
     <tr>
       <td align="center" valign="top">
 
-        <div id="template_header_image" style="text-align:center;margin:0 0 16px;">
-          <a href="<?php echo esc_url(home_url('/')); ?>" style="display:inline-block;text-decoration:none;">
-            <img src="<?php echo esc_url($logo_url); ?>"
-                 alt="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>"
-                 width="480"
-                 style="display:inline-block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;max-width:480px;height:auto;" />
-          </a>
-        </div>
+        <table border="0" cellpadding="0" cellspacing="0" align="center" width="560" id="template_header_image" style="margin:0 auto 16px;width:560px;max-width:560px;">
+          <tr>
+            <td align="center" style="text-align:center;">
+              <a href="<?php echo esc_url(home_url('/')); ?>" style="display:block;text-decoration:none;">
+                <img src="<?php echo esc_url($logo_url); ?>"
+                     alt="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>"
+                     width="560"
+                     height="111"
+                     style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;width:560px;max-width:560px;height:auto;margin:0 auto;" />
+              </a>
+            </td>
+          </tr>
+        </table>
 
         <table border="0" cellpadding="0" cellspacing="0" width="600" id="template_container" style="background-color:#ffffff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 6px 24px rgba(15,23,42,0.06);max-width:600px;width:100%;overflow:hidden;">
           <tr>
