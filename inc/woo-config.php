@@ -60,9 +60,6 @@ add_filter('gettext', function ($translation, $text, $domain) {
 // Strings WC com placeholders %s — sprintf/printf-style — precisam gettext_with_context
 // ou ngettext. Aqui usamos gettext geral com replace pra cobrir cupons em ingles.
 add_filter('gettext', function ($translation, $text, $domain) {
-    if ($domain !== 'woocommerce' && $domain !== 'default') {
-        return $translation;
-    }
     static $cupom_map = [
         'Shipment'                                        => 'Entrega',
         'Shipping'                                        => 'Entrega',
@@ -88,3 +85,26 @@ add_filter('gettext', function ($translation, $text, $domain) {
     ];
     return $cupom_map[$text] ?? $translation;
 }, 100, 3);
+
+// gettext_with_context: cobre strings que tem context (ex: 'Shipping' com context)
+add_filter('gettext_with_context', function ($translation, $text, $context, $domain) {
+    static $ctx_map = [
+        'Shipment'  => 'Entrega',
+        'Shipping'  => 'Entrega',
+    ];
+    return $ctx_map[$text] ?? $translation;
+}, 100, 4);
+
+// ngettext: plurais (Shipment/Shipments, Shipping/Shippings)
+add_filter('ngettext', function ($translation, $single, $plural, $number, $domain) {
+    static $n_map = [
+        'Shipment' => ['Entrega', 'Entregas'],
+        'Shipping' => ['Entrega', 'Entregas'],
+    ];
+    foreach ($n_map as $key => $vals) {
+        if ($single === $key || $plural === $key . 's') {
+            return $number === 1 ? $vals[0] : $vals[1];
+        }
+    }
+    return $translation;
+}, 100, 5);
