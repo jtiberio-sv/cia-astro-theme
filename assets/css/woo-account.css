@@ -159,8 +159,17 @@
   top: 1rem;
 }
 @media (max-width: 767px) {
+  /* Containment geral mobile — evita overflow horizontal */
+  .woocommerce-account .woocommerce,
+  .woocommerce-account .woocommerce-MyAccount-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
   /* Mobile: pills horizontais compactas, sem sticky */
-  .woocommerce-account .woocommerce-MyAccount-navigation { position: static; margin: 0 -0.5rem 1rem; }
+  .woocommerce-account .woocommerce-MyAccount-navigation { position: static; margin: 0 -0.5rem 1rem; max-width: 100vw; }
   .woocommerce-account .woocommerce-MyAccount-navigation ul {
     display: flex !important;
     overflow-x: auto;
@@ -197,9 +206,12 @@
   .woocommerce-account .woocommerce-MyAccount-navigation li.is-active a::before {
     filter: brightness(0) invert(1);
   }
-  /* Welcome card mais compacto em mobile */
+  /* Welcome card mais compacto em mobile + nao estoura largura */
   .cdm-account-welcome {
     padding: 1.25rem 1.1rem 1.1rem !important;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
   }
   .cdm-account-welcome h2 {
     font-size: 1.25rem !important;
@@ -214,6 +226,9 @@
   .cdm-account-stats {
     gap: 1rem;
     padding: 0.7rem 0.85rem;
+    flex-wrap: wrap;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .cdm-stat-num { font-size: 1.3rem; }
   .cdm-stat-lbl { font-size: 0.7rem; }
