@@ -52,7 +52,7 @@ $accent     = '#fff8e1';
           </tr>
         </table>
 
-        <table border="0" cellpadding="0" cellspacing="0" width="600" id="template_container" style="background-color:#ffffff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 6px 24px rgba(15,23,42,0.06);max-width:600px;width:100%;overflow:hidden;">
+        <table border="0" cellpadding="0" cellspacing="0" align="center" width="600" id="template_container" style="background-color:#ffffff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 6px 24px rgba(15,23,42,0.06);max-width:600px;width:100%;margin:0 auto;overflow:hidden;">
           <tr>
             <td align="center" valign="top">
 

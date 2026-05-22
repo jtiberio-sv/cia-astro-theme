@@ -82,7 +82,7 @@ $logo_white_url   = file_exists($logo_white_theme)
         </table>
 
         <!-- Disclaimer fora do card -->
-        <table border="0" cellpadding="10" cellspacing="0" width="600" style="max-width:600px;width:100%;">
+        <table border="0" cellpadding="10" cellspacing="0" align="center" width="600" style="max-width:600px;width:100%;margin:0 auto;">
           <tr>
             <td valign="top" style="padding:16px 24px;text-align:center;">
               <p style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:11px;color:#9ca3af;line-height:1.6;margin:0;">
