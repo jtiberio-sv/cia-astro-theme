@@ -81,8 +81,8 @@
 
 /* Logo */
 .cdm-logo { flex-shrink: 0; display: inline-block; }
-.cdm-logo img { height: 2.25rem; width: auto; }
-@media (min-width: 768px) { .cdm-logo img { height: 2.5rem; } }
+.cdm-logo img { height: 2.75rem; width: auto; }
+@media (min-width: 768px) { .cdm-logo img { height: 3.5rem; } }
 
 /* Busca desktop */
 .cdm-search-form {
