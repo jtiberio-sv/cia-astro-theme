@@ -90,7 +90,7 @@ if ($cia_custom_logo_id) {
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
           <span>Minha conta</span>
         </a>
-        <a href="<?php echo esc_url(cia_astro_backend_url('/my-wishlist/')); ?>" class="cdm-action-link wishlist" aria-label="Favoritos">
+        <a href="<?php echo esc_url(cia_astro_backend_url('/minha-conta/favoritos/')); ?>" class="cdm-action-link wishlist" aria-label="Favoritos">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
           <span>Favoritos</span>
         </a>
@@ -259,7 +259,7 @@ if ($cia_custom_logo_id) {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#4b5563;"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
         <span>Minha conta</span>
       </a>
-      <a href="<?php echo esc_url(cia_astro_backend_url('/my-wishlist/')); ?>">
+      <a href="<?php echo esc_url(cia_astro_backend_url('/minha-conta/favoritos/')); ?>">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-confetti-pink);"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
         <span>Favoritos</span>
       </a>
