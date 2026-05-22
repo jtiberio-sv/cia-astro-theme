@@ -342,13 +342,22 @@
 .woocommerce-checkout .form-row.woocommerce-invalid label {
   color: var(--color-sale) !important;
 }
-.woocommerce-checkout .form-row.woocommerce-invalid::after {
-  content: 'Campo obrigatório';
-  display: block;
-  margin-top: 0.35rem;
-  font-size: 0.78rem;
-  color: var(--color-sale);
-  font-weight: 600;
+/* Mensagem inline embaixo do campo invalido (WC ou ECFB renderiza
+   o texto com info do field — ex: 'Campo Telefone e obrigatorio.') */
+.woocommerce-checkout .form-row.woocommerce-invalid .woocommerce-error-message,
+.woocommerce-checkout .form-row.woocommerce-invalid .field-message,
+.woocommerce-checkout .form-row.woocommerce-invalid > small,
+.woocommerce-checkout .form-row.woocommerce-invalid > .error,
+.woocommerce-checkout .woocommerce-invalid-rl_required-field,
+.woocommerce-checkout .woocommerce-invalid-required-field,
+.woocommerce-checkout .form-row.woocommerce-invalid::after,
+.woocommerce-checkout .form-row .field-help-text {
+  display: block !important;
+  margin-top: 0.5rem !important;
+  font-size: 0.72rem !important;
+  color: var(--color-sale) !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
 }
 .woocommerce-checkout .form-row.woocommerce-validated input.input-text,
 .woocommerce-checkout .form-row.woocommerce-validated input,
