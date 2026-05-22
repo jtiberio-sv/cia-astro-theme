@@ -72,7 +72,7 @@ add_action('rest_api_init', function () {
             header('Access-Control-Allow-Origin: ' . $origin);
             header('Access-Control-Allow-Credentials: true');
             header('Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS');
-            header('Access-Control-Allow-Headers: Content-Type, X-WP-Nonce');
+            header('Access-Control-Allow-Headers: Content-Type, X-WP-Nonce, Authorization');
             header('Vary: Origin');
         }
         return $value;
@@ -85,7 +85,7 @@ add_action('rest_api_init', function () {
             header('Access-Control-Allow-Origin: ' . $origin);
             header('Access-Control-Allow-Credentials: true');
             header('Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS');
-            header('Access-Control-Allow-Headers: Content-Type, X-WP-Nonce');
+            header('Access-Control-Allow-Headers: Content-Type, X-WP-Nonce, Authorization');
             header('Vary: Origin');
             status_header(200);
             exit;
