@@ -1743,7 +1743,7 @@ body.page-id-278 .entry-title {
 }
 .woocommerce-view-order .woocommerce-order-details__title,
 .woocommerce-view-order .woocommerce-column__title,
-.woocommerce-view-order .vindi-pagamentos-order-details h2 {
+.woocommerce-view-order .vindi-pagamentos-order-details > h2:first-of-type {
   font-family: var(--font-display);
   font-size: 1.05rem !important;
   font-weight: 700 !important;
@@ -1751,6 +1751,17 @@ body.page-id-278 .entry-title {
   margin: 0 0 1rem !important;
   padding-bottom: 0.6rem !important;
   border-bottom: 1px solid #f3f4f6 !important;
+}
+/* h2 subsequente (ex: "Vindi - Pix") sem border-bottom pra nao duplicar */
+.woocommerce-view-order .vindi-pagamentos-order-details h2 ~ h2,
+.woocommerce-view-order .vindi-pagamentos-order-details .order_details h2 {
+  font-family: var(--font-display);
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  color: var(--color-brand) !important;
+  margin: 0.5rem 0 0.75rem !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
 /* Tabela do pedido */
@@ -1822,8 +1833,8 @@ body.page-id-278 .entry-title {
   display: flex;
   flex-direction: column;
 }
-/* O .order_details interno do Vindi vem com display/float quebrado.
-   Force tudo em 1 coluna full-width pra usar bem o espaco. */
+/* O .order_details interno do Vindi vem com display/float quebrado + border duplicada.
+   Remove border interna (ja tem no card pai) e forca 1 coluna full-width. */
 .woocommerce-view-order .vindi-pagamentos-order-details .order_details,
 .woocommerce-view-order .vindi-pagamentos-order-details .order_details > * {
   display: block !important;
@@ -1833,11 +1844,25 @@ body.page-id-278 .entry-title {
   margin-left: 0 !important;
   margin-right: 0 !important;
   text-align: left;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
 }
 .woocommerce-view-order .vindi-pagamentos-order-details .order_details {
   display: flex !important;
   flex-direction: column !important;
   gap: 0;
+}
+/* Garantir que o card "Vindi - Pix" interno nao tenha border duplo */
+.woocommerce-view-order .vindi-pagamentos-order-details .order_details > div {
+  border: none !important;
+  background: transparent !important;
+}
+/* Re-aplicar background no Pix payment-line (a regra acima apaga) */
+.woocommerce-view-order .vindi-pagamentos-order-details .wvp-payment-line {
+  background: var(--color-bg-cream) !important;
+  padding: 0.75rem !important;
 }
 .woocommerce-view-order .vindi-payment-confirmation,
 .woocommerce-view-order .wvp-payment-status-info {
@@ -1958,13 +1983,17 @@ body.page-id-278 .entry-title {
   background: #0d9488 !important;
 }
 
-/* Customer details: 2-col em desktop */
+/* Customer details: 2-col em desktop — neutraliza border do wrapper Storefront */
 .woocommerce-view-order .woocommerce-customer-details .woocommerce-columns--2,
 .woocommerce-view-order .col2-set.addresses {
   display: grid !important;
   grid-template-columns: 1fr;
   gap: 1.25rem;
   margin: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
 }
 @media (min-width: 640px) {
   .woocommerce-view-order .woocommerce-customer-details .woocommerce-columns--2,
