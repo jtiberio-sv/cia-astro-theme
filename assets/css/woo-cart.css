@@ -28,6 +28,7 @@
 /* ============ Tabela do carrinho ============ */
 .woocommerce-cart .shop_table {
   width: 100% !important;
+  table-layout: fixed !important;
   border-collapse: separate !important;
   border-spacing: 0 !important;
   background: white;
@@ -36,12 +37,26 @@
   overflow: hidden;
   margin: 0 !important;
 }
+/* Larguras explicitas das colunas (table-layout: fixed precisa) */
+.woocommerce-cart .shop_table thead th.product-remove,
+.woocommerce-cart .shop_table tbody td.product-remove   { width: 44px !important; }
+.woocommerce-cart .shop_table thead th.product-thumbnail,
+.woocommerce-cart .shop_table tbody td.product-thumbnail{ width: 96px !important; }
+.woocommerce-cart .shop_table thead th.product-name,
+.woocommerce-cart .shop_table tbody td.product-name     { width: auto !important; }
+.woocommerce-cart .shop_table thead th.product-price,
+.woocommerce-cart .shop_table tbody td.product-price    { width: 100px !important; }
+.woocommerce-cart .shop_table thead th.product-quantity,
+.woocommerce-cart .shop_table tbody td.product-quantity { width: 96px !important; }
+.woocommerce-cart .shop_table thead th.product-subtotal,
+.woocommerce-cart .shop_table tbody td.product-subtotal { width: 110px !important; }
+
 .woocommerce-cart .shop_table thead th {
   background: var(--color-bg-cream);
-  padding: 0.875rem 1rem !important;
+  padding: 0.875rem 0.75rem !important;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-ink);
@@ -53,6 +68,11 @@
 .woocommerce-cart .shop_table thead th.product-quantity,
 .woocommerce-cart .shop_table thead th.product-subtotal {
   text-align: center;
+}
+.woocommerce-cart .shop_table thead th.product-remove,
+.woocommerce-cart .shop_table thead th.product-thumbnail {
+  /* Sem header text — colunas auxiliares */
+  font-size: 0;
 }
 .woocommerce-cart .shop_table tbody tr.cart_item td {
   padding: 1rem !important;
