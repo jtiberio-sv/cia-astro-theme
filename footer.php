@@ -33,7 +33,7 @@ $cia_footer_topcats = get_terms([
 <footer class="cdm-footer" role="contentinfo">
   <div class="cdm-footer-main">
     <div class="cdm-footer-brand">
-      <img src="<?php echo esc_url($cia_logo); ?>" alt="Cia das Mochilas" width="284" height="56" />
+      <img src="<?php echo esc_url($cia_logo); ?>" alt="Cia das Mochilas" width="200" height="40" />
       <p>Há mais de 15 anos levando mochilas, papelaria e material escolar das melhores marcas para o Brasil inteiro. Compromisso com qualidade, atendimento humano e entrega rápida.</p>
       <div class="cdm-footer-social">
         <a href="https://instagram.com/ciadasmochilas" target="_blank" rel="noopener" aria-label="Instagram">

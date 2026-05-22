@@ -74,7 +74,7 @@ if ($cia_custom_logo_id) {
       </button>
 
       <a href="<?php echo esc_url($cia_home); ?>" class="cdm-logo" aria-label="Cia das Mochilas — voltar para a home">
-        <img src="<?php echo esc_url($cia_logo); ?>" alt="Cia das Mochilas" width="284" height="56" fetchpriority="high" />
+        <img src="<?php echo esc_url($cia_logo); ?>" alt="Cia das Mochilas" width="200" height="40" fetchpriority="high" />
       </a>
 
       <form role="search" class="cdm-search-form" action="<?php echo esc_url(cia_astro_frontend_url('/busca/')); ?>" method="get">
