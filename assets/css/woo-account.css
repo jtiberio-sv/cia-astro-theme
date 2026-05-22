@@ -146,10 +146,10 @@
   }
 }
 .woocommerce-account .woocommerce-MyAccount-content {
-  background: white;
-  border: 1px solid #f3f4f6;
-  border-radius: 1rem;
-  padding: 1.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
   min-width: 0;
 }
 
