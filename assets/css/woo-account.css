@@ -124,14 +124,17 @@
   color: white !important;
 }
 
-/* ============ My account autenticado (dashboard + nav lateral) ============ */
+/* ============ My account autenticado (dashboard + nav lateral) ============
+   Grid 240px/1fr SO quando ha sidebar (.woocommerce-MyAccount-navigation
+   = user logado). Deslogado o grid colapsa pra 1fr e o customer_login
+   tem layout proprio (mais abaixo). */
 .woocommerce-account .woocommerce {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
 }
-@media (min-width: 768px) {
-  .woocommerce-account .woocommerce {
+@media (min-width: 1024px) {
+  .woocommerce-account .woocommerce:has(.woocommerce-MyAccount-navigation) {
     grid-template-columns: 240px minmax(0, 1fr);
     gap: 2rem;
     align-items: start;
@@ -724,9 +727,11 @@ body.page-id-705 .entry-title {
 
 /* ============ Login + Cadastro (deslogado) ============ */
 /* Esconde h1 'Minha Conta' duplicado — vamos exibir saudacao propria abaixo */
-body.woocommerce-account:not(.logged-in) .cdm-content > article > .entry-header,
-body.woocommerce-account:not(.logged-in) .cdm-content > article > .entry-header h1,
-body.woocommerce-account:not(.logged-in) .entry-title {
+body.woocommerce-account .entry-header,
+body.woocommerce-account .entry-title,
+body.woocommerce-account article > header,
+body.page-id-278 .entry-header,
+body.page-id-278 .entry-title {
   display: none !important;
 }
 /* Container customer_login: 2 colunas no desktop, stacked no mobile */
@@ -751,11 +756,12 @@ body.woocommerce-account:not(.logged-in) .entry-title {
 .woocommerce-account #customer_login .col-2 {
   width: 100% !important;
   float: none !important;
-  background: white;
-  border: 1px solid #f3f4f6;
-  border-radius: 1rem;
-  padding: 1.75rem 1.5rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  background: white !important;
+  border: 1px solid #f3f4f6 !important;
+  border-radius: 1rem !important;
+  padding: 1.75rem 1.5rem !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+  margin: 0 !important;
 }
 .woocommerce-account #customer_login h2 {
   font-family: var(--font-display);
