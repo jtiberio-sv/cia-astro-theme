@@ -160,6 +160,29 @@ add_filter('woocommerce_customer_default_location', function () { return 'BR'; }
 add_filter('woocommerce_countries_allowed_countries', function () { return ['BR' => 'Brasil']; });
 
 /**
+ * Checkbox "Criar conta" marcado por default no checkout + auto-login.
+ * Decisao 2026-05-22: maior captura de leads sem barrar guest checkout.
+ */
+add_filter('woocommerce_create_account_default_checked', '__return_true');
+
+// Customiza copy do checkbox pra ser mais convidativo
+add_filter('woocommerce_checkout_fields', function ($fields) {
+    add_filter('gettext', function ($translation, $text, $domain) {
+        if ($domain === 'woocommerce' && $text === 'Create an account?') {
+            return 'Criar minha conta (acompanhar pedidos e receber alertas dos favoritos)';
+        }
+        return $translation;
+    }, 20, 3);
+    return $fields;
+}, 30);
+
+// Auto-login apos criar conta no checkout — cliente sai logado da pagina de obrigado
+add_action('woocommerce_created_customer', function ($customer_id) {
+    if (is_user_logged_in() || !$customer_id) return;
+    wc_set_customer_auth_cookie($customer_id);
+}, 10, 1);
+
+/**
  * Reformula label de shipping_method no cart_totals + review_order:
  *   ANTES: 'Loggi Express (Melhor Envio) (2 a 3 dias uteis): R$ 9,02'
  *   DEPOIS: nome limpo + 'X a Y dias uteis' menor + preco a direita
