@@ -53,13 +53,12 @@ add_action('init', function () {
  * o nosso. Markup compativel com .cdm-account-welcome + .cdm-account-shortcuts
  * estilizados em assets/css/woo-account.css.
  */
-add_action('init', function () {
-    if (!function_exists('woocommerce_account_dashboard')) {
-        return;
-    }
-    remove_action('woocommerce_account_dashboard', 'woocommerce_account_dashboard');
-    add_action('woocommerce_account_dashboard', 'cia_astro_account_dashboard');
-}, 30);
+/* Hook nosso handler no action do template dashboard.php (override em
+   woocommerce/myaccount/dashboard.php que removeu o texto default WC).
+   Sem function_exists check — function 'woocommerce_account_dashboard'
+   nao existe no WC core (texto vem direto do template), e o guard estava
+   abortando o registro silenciosamente. */
+add_action('woocommerce_account_dashboard', 'cia_astro_account_dashboard');
 
 function cia_astro_account_dashboard() {
     $current_user = wp_get_current_user();
