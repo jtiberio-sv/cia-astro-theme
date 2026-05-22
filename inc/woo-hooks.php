@@ -60,6 +60,24 @@ add_action('init', function () {
    abortando o registro silenciosamente. */
 add_action('woocommerce_account_dashboard', 'cia_astro_account_dashboard');
 
+/* Plugin Vindi Pagamentos tem hook woocommerce_locate_template priority 10
+   que sobrescreve templates do tema (inclusive nosso dashboard.php override),
+   fazendo voltar o texto default WC. Forcamos nosso path com priority maior. */
+add_filter('woocommerce_locate_template', function ($template, $template_name, $template_path) {
+    $our_overrides = [
+        'myaccount/dashboard.php',
+        'emails/email-header.php',
+        'emails/email-footer.php',
+    ];
+    if (in_array($template_name, $our_overrides, true)) {
+        $our = CIA_ASTRO_DIR . '/woocommerce/' . $template_name;
+        if (file_exists($our)) {
+            return $our;
+        }
+    }
+    return $template;
+}, 99, 3);
+
 function cia_astro_account_dashboard() {
     $current_user = wp_get_current_user();
     $first_name   = $current_user->first_name ?: $current_user->display_name;
