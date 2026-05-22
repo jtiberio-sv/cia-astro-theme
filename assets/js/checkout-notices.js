@@ -1,7 +1,13 @@
-/* checkout-notices.js — move notices de erro do checkout pra DENTRO do card
- * #order_review (logo acima do botao Finalizar pedido), em vez de ficarem
- * empilhados no topo do form (que com layout 2-col sticky cria espaco
- * estranho). */
+/* checkout-notices.js — garante que notices de erro do checkout sejam:
+ *   1) Visiveis (escapam de CSS que pode estar escondendo)
+ *   2) Reposicionadas pra dentro do card #order_review (logo acima do
+ *      botao Finalizar pedido) — onde o cliente esta olhando
+ *   3) Auto-scroll suave pra ficar imediatamente visivel
+ *
+ * O WC core injeta as notices via $form.prepend() apos receber o JSON
+ * response do Ajax checkout. Esse JS escuta o event 'checkout_error' que
+ * o WC dispara APOS injetar o HTML, entao podemos pegar e mover.
+ */
 (function () {
   if (typeof jQuery === 'undefined') return;
   var $ = jQuery;
@@ -10,32 +16,72 @@
     var $review = $('#order_review');
     if (!$review.length) return;
 
-    // Notices que WC injeta dinamicamente
-    var $errors = $('form.checkout > .woocommerce-NoticeGroup, form.checkout > .woocommerce-error, .woocommerce-NoticeGroup-checkout');
+    // Coleta todas as notices possiveis (WC injeta em varios wrappers
+    // dependendo do tipo de erro: validation, payment, ajax fail).
+    var selectors = [
+      'form.checkout > .woocommerce-NoticeGroup',
+      'form.checkout > .woocommerce-NoticeGroup-checkout',
+      'form.checkout > .woocommerce-error',
+      'form.checkout > .woocommerce-info',
+      'form.checkout > .woocommerce-message',
+      '.woocommerce-checkout > .woocommerce-NoticeGroup',
+      '.woocommerce-checkout > .woocommerce-error',
+    ];
+    var $errors = $(selectors.join(', ')).filter(function () {
+      // Nao mover de novo se ja esta dentro do nosso wrapper
+      return $(this).closest('.cdm-notice-wrap').length === 0;
+    });
     if (!$errors.length) return;
 
-    // Limpa duplicatas que possam ter ficado dentro do #order_review
+    // Remove wrapper anterior se existia (substitui)
     $review.find('.cdm-notice-wrap').remove();
 
-    var $wrap = $('<div class="cdm-notice-wrap"></div>').append($errors.clone());
+    var $wrap = $('<div class="cdm-notice-wrap"></div>');
+    $errors.each(function () {
+      $wrap.append($(this).detach());
+    });
     $review.prepend($wrap);
-    $errors.remove();
 
-    // Scroll suave pro card de pedido (que e onde esta agora a notice)
-    if (typeof $wrap[0].scrollIntoView === 'function') {
-      $wrap[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Auto-scroll pra notice (sticky no sidebar)
+    var top = $wrap.offset().top - 180;
+    if (top > 0) {
+      $('html, body').animate({ scrollTop: top }, 280);
     }
   }
 
-  // WC dispara esses eventos quando ha erros de validacao no checkout
-  $(document.body).on('checkout_error', moveNotices);
+  // Dispara apos WC injetar notice no DOM (com pequeno delay pra garantir)
+  $(document.body).on('checkout_error', function () {
+    setTimeout(moveNotices, 50);
+  });
   $(document.body).on('updated_checkout', function () {
-    // Re-mover se WC re-renderizou e colocou notice na posicao default
     setTimeout(moveNotices, 100);
   });
-
-  // Tambem corre 1x no load caso ja tenha notice (refresh apos erro)
+  // Tambem corre no load (refresh apos erro persistido)
   $(function () {
     setTimeout(moveNotices, 200);
+  });
+
+  // Garante reposicionamento mesmo se WC chamar update_checkout tarde
+  var mo = new MutationObserver(function (mutations) {
+    for (var i = 0; i < mutations.length; i++) {
+      var m = mutations[i];
+      for (var j = 0; j < m.addedNodes.length; j++) {
+        var n = m.addedNodes[j];
+        if (n.nodeType === 1 && (
+          n.classList && (n.classList.contains('woocommerce-NoticeGroup') ||
+                          n.classList.contains('woocommerce-error') ||
+                          n.classList.contains('woocommerce-NoticeGroup-checkout'))
+        )) {
+          setTimeout(moveNotices, 20);
+          return;
+        }
+      }
+    }
+  });
+  $(function () {
+    var form = document.querySelector('form.checkout');
+    if (form) mo.observe(form, { childList: true });
+    var co = document.querySelector('.woocommerce-checkout');
+    if (co) mo.observe(co, { childList: true });
   });
 })();

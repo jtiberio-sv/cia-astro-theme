@@ -326,14 +326,34 @@
   margin-left: 0.15rem;
 }
 
-/* Validacao */
+/* Validacao — borda vermelha em campo invalido (telefone obrigatorio em
+   branco, email invalido, CEP fora do formato, etc). WC adiciona classe
+   .woocommerce-invalid no .form-row apos validacao Ajax. */
 .woocommerce-checkout .form-row.woocommerce-invalid input.input-text,
-.woocommerce-checkout .form-row.woocommerce-invalid select {
+.woocommerce-checkout .form-row.woocommerce-invalid input,
+.woocommerce-checkout .form-row.woocommerce-invalid select,
+.woocommerce-checkout .form-row.woocommerce-invalid textarea,
+.woocommerce-checkout .form-row.woocommerce-invalid .select2-selection,
+.woocommerce-checkout .form-row.woocommerce-invalid .woocommerce-input-wrapper input,
+.woocommerce-checkout .form-row.woocommerce-invalid .woocommerce-input-wrapper select {
   border-color: var(--color-sale) !important;
   box-shadow: 0 0 0 3px rgba(237, 107, 90, 0.15) !important;
 }
+.woocommerce-checkout .form-row.woocommerce-invalid label {
+  color: var(--color-sale) !important;
+}
+.woocommerce-checkout .form-row.woocommerce-invalid::after {
+  content: 'Campo obrigatório';
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--color-sale);
+  font-weight: 600;
+}
 .woocommerce-checkout .form-row.woocommerce-validated input.input-text,
-.woocommerce-checkout .form-row.woocommerce-validated select {
+.woocommerce-checkout .form-row.woocommerce-validated input,
+.woocommerce-checkout .form-row.woocommerce-validated select,
+.woocommerce-checkout .form-row.woocommerce-validated .select2-selection {
   border-color: var(--color-pix) !important;
 }
 

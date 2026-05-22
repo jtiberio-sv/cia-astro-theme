@@ -115,11 +115,21 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
         $fields['shipping']['shipping_country']['label']   = '';
         $fields['shipping']['shipping_country']['class']   = ['cdm-hidden-field'];
     }
-    // Telefone opcional de verdade — WC adiciona "(opcional)" automaticamente
-    // quando required=false, entao NAO colocar manual no label (duplicaria).
+    // Telefone OBRIGATORIO (decisao cliente 2026-05-22 — necessario pra
+    // contato sobre entrega). Validacao Ajax bloqueia submit.
     if (isset($fields['billing']['billing_phone'])) {
-        $fields['billing']['billing_phone']['required'] = false;
+        $fields['billing']['billing_phone']['required'] = true;
         $fields['billing']['billing_phone']['label']    = 'Telefone';
+    }
+    // Bairro OBRIGATORIO (ECFB plugin marca como opcional default).
+    // ViaCEP autocomplete preenche automaticamente quando CEP valido.
+    if (isset($fields['billing']['billing_neighborhood'])) {
+        $fields['billing']['billing_neighborhood']['required'] = true;
+        $fields['billing']['billing_neighborhood']['label']    = 'Bairro';
+    }
+    if (isset($fields['shipping']['shipping_neighborhood'])) {
+        $fields['shipping']['shipping_neighborhood']['required'] = true;
+        $fields['shipping']['shipping_neighborhood']['label']    = 'Bairro';
     }
     return $fields;
 }, 20);
