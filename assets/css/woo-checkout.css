@@ -72,11 +72,12 @@
   float: none !important;
   padding: 0 !important;
   margin: 0 !important;
+  border: none !important;
 }
+/* col-2 (shipping wrapper) — gap pequeno do col-1, sem border (o card
+   ship-to-different-address ja tem seu proprio bg-cream visivel) */
 .woocommerce-checkout #customer_details .col-2 {
-  margin-top: 1.5rem !important;
-  padding-top: 1.5rem !important;
-  border-top: 1px solid #f3f4f6 !important;
+  margin-top: 1rem !important;
 }
 .woocommerce-checkout .woocommerce-billing-fields h3,
 .woocommerce-checkout .woocommerce-shipping-fields h3,
@@ -317,10 +318,12 @@
 /* ========== SPACING AUDIT — padronizacao geral do checkout ========== */
 
 /* Distancia entre cards customer_details e additional_fields/observacoes */
-.woocommerce-checkout form.checkout #customer_details + h3,
-.woocommerce-checkout #ship-to-different-address {
+.woocommerce-checkout form.checkout #customer_details + h3 {
   margin-top: 1.25rem !important;
   margin-bottom: 0 !important;
+}
+.woocommerce-checkout #ship-to-different-address {
+  margin: 0 !important;
 }
 
 /* Card 'Entregar em endereco diferente?' destacado */
