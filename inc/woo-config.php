@@ -64,6 +64,13 @@ add_filter('gettext', function ($translation, $text, $domain) {
         return $translation;
     }
     static $cupom_map = [
+        'Shipment'                                        => 'Entrega',
+        'Shipping'                                        => 'Entrega',
+        'Calculate shipping'                              => 'Calcular entrega',
+        'Update'                                          => 'Atualizar',
+        'No shipping options were found for %s.'          => 'Nenhuma opcao de entrega encontrada para %s.',
+        'Enter your address to view shipping options.'    => 'Digite seu CEP para ver as opcoes de entrega.',
+        'Enter a different address'                       => 'Mudar endereco',
         'The minimum spend for coupon "%s" is %s.'        => 'O valor minimo do pedido para usar o cupom "%s" e de %s.',
         'The maximum spend for coupon "%s" is %s.'        => 'O valor maximo do pedido para usar o cupom "%s" e de %s.',
         'Coupon "%s" does not exist!'                     => 'O cupom "%s" nao existe.',

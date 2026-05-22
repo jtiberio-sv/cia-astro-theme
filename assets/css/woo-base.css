@@ -155,9 +155,10 @@
   gap: 1rem;
   margin: 0 !important;
 }
-/* 2-col so quando ha espaco real (>=880px). Em viewports menores fica 1-col
-   pra evitar cards apertados com labels quebrando em multiplas linhas. */
-@media (min-width: 880px) {
+/* 2-col so quando ha espaco real (>=1024px). Em viewports menores fica 1-col
+   pra evitar cards apertados com labels quebrando em multiplas linhas.
+   Threshold ajustado apos relato JP 2026-05-21: em ~780px ainda quebrava. */
+@media (min-width: 1024px) {
   .woocommerce #customer_login.u-columns,
   .woocommerce-account .u-columns {
     grid-template-columns: 1fr 1fr;
@@ -175,7 +176,7 @@
   border-radius: 1rem;
   border: 1px solid #f3f4f6;
 }
-@media (min-width: 880px) {
+@media (min-width: 1024px) {
   .woocommerce #customer_login .u-column1,
   .woocommerce #customer_login .u-column2,
   .woocommerce-account .u-column1,
@@ -188,8 +189,13 @@
   margin: 0 0 0.85rem;
   color: var(--color-ink);
 }
-@media (min-width: 880px) {
+@media (min-width: 1024px) {
   .woocommerce h2 { font-size: 1.25rem; margin: 0 0 1rem; }
+}
+/* Botao Cadastre-se nao quebrar */
+.woocommerce-form-register__submit,
+.woocommerce-Button[name="register"] {
+  white-space: nowrap;
 }
 /* Labels customer_login mais compactos pra nao quebrarem em 3 linhas */
 .woocommerce #customer_login .form-row label {

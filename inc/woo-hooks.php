@@ -82,6 +82,18 @@ function cia_astro_account_dashboard() {
     <?php
 }
 
+/**
+ * Calculador de frete simplificado: cliente preenche APENAS o CEP.
+ * Pais, Estado e Cidade ficam ocultos (Brasil + SP default ou inferido do CEP
+ * pelo Melhor Envio/Correios via shipping zones do WC).
+ *
+ * Hide via filter dos shipping fields (mais robusto que CSS).
+ */
+add_filter('woocommerce_shipping_calculator_enable_country', '__return_false');
+add_filter('woocommerce_shipping_calculator_enable_state',   '__return_false');
+add_filter('woocommerce_shipping_calculator_enable_city',    '__return_false');
+add_filter('woocommerce_shipping_calculator_enable_postcode','__return_true');
+
 // Fase 3 — exemplos planejados (NAO ATIVOS ainda):
 //
 // add_action('woocommerce_before_cart', 'cia_astro_cart_trust_strip', 5);
