@@ -20,7 +20,7 @@ add_filter('woocommerce_thankyou_order_received_text', function ($text, $order) 
     $greeting   = $first_name ? esc_html($first_name) : 'tudo certo';
     $email      = esc_html($order->get_billing_email());
     return sprintf(
-        '<span class="cdm-thankyou-hello"><span class="cdm-wave" aria-hidden="true">👋</span> Obrigada, %s!</span>' .
+        '<span class="cdm-thankyou-hello"><span class="cdm-wave" aria-hidden="true">👋</span> Obrigado, %s!</span>' .
         '<span class="cdm-thankyou-sub">Recebemos seu pedido e ja estamos preparando tudo com carinho. Acompanhe o status pelo e-mail %s ou pela area %sMinha conta%s.</span>',
         $greeting,
         '<strong>' . $email . '</strong>',

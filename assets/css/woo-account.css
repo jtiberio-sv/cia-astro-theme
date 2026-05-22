@@ -563,6 +563,18 @@ body.page-id-705 .entry-title {
   margin-top: 0.3rem;
   text-transform: none;
   letter-spacing: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Data costuma ser o item mais longo (ex: "22 de maio de 2026") — em desktop
+   reduzimos um tique pra caber sem quebrar; mobile e' single col, sem
+   problema. */
+@media (min-width: 1024px) {
+  .woocommerce-thankyou .woocommerce-order-overview li.date strong,
+  .woocommerce-order-received .woocommerce-order-overview li.date strong {
+    font-size: 0.95rem;
+  }
 }
 
 /* Proximos passos (CTAs) */
@@ -708,4 +720,285 @@ body.page-id-705 .entry-title {
 .woocommerce-account .woocommerce > .woocommerce-notices-wrapper,
 .woocommerce-page .woocommerce > .woocommerce-notices-wrapper {
   grid-column: 1 / -1;
+}
+
+/* ============ Login + Cadastro (deslogado) ============ */
+/* Esconde h1 'Minha Conta' duplicado — vamos exibir saudacao propria abaixo */
+body.woocommerce-account:not(.logged-in) .cdm-content > article > .entry-header,
+body.woocommerce-account:not(.logged-in) .cdm-content > article > .entry-header h1,
+body.woocommerce-account:not(.logged-in) .entry-title {
+  display: none !important;
+}
+/* Container customer_login: 2 colunas no desktop, stacked no mobile */
+.woocommerce-account #customer_login.u-columns,
+.woocommerce-account #customer_login {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  max-width: 980px;
+  margin: 1rem auto 2rem !important;
+}
+@media (min-width: 768px) {
+  .woocommerce-account #customer_login.u-columns,
+  .woocommerce-account #customer_login {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}
+.woocommerce-account #customer_login .u-column1,
+.woocommerce-account #customer_login .u-column2,
+.woocommerce-account #customer_login .col-1,
+.woocommerce-account #customer_login .col-2 {
+  width: 100% !important;
+  float: none !important;
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.woocommerce-account #customer_login h2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem !important;
+  font-weight: 700 !important;
+  color: var(--color-ink);
+  margin: 0 0 1rem !important;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+.woocommerce-account #customer_login form.woocommerce-form {
+  margin: 0 !important;
+}
+.woocommerce-account #customer_login .form-row {
+  margin: 0 0 0.85rem !important;
+  padding: 0 !important;
+  float: none !important;
+  width: 100% !important;
+}
+.woocommerce-account #customer_login label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: 0.3rem;
+  display: block;
+}
+.woocommerce-account #customer_login input[type="text"],
+.woocommerce-account #customer_login input[type="email"],
+.woocommerce-account #customer_login input[type="password"] {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 0.6rem;
+  font-size: 0.95rem;
+  background: white;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.woocommerce-account #customer_login input:focus {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px rgba(15, 74, 122, 0.1);
+}
+.woocommerce-account #customer_login button[type="submit"] {
+  width: 100%;
+  background: var(--color-brand) !important;
+  color: white !important;
+  padding: 0.8rem 1.5rem !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  border: none !important;
+  border-radius: 9999px !important;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 6px rgba(15, 74, 122, 0.2);
+  transition: background 0.15s;
+}
+.woocommerce-account #customer_login button[type="submit"]:hover {
+  background: var(--color-brand-2) !important;
+}
+/* Rememberme checkbox + Lost password link */
+.woocommerce-account #customer_login .woocommerce-form-login__rememberme {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #4b5563;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+}
+.woocommerce-account #customer_login .woocommerce-form-login__rememberme input[type="checkbox"] {
+  width: 16px; height: 16px;
+  accent-color: var(--color-brand);
+}
+.woocommerce-account #customer_login .woocommerce-LostPassword {
+  margin-top: 0.85rem !important;
+  text-align: center;
+  font-size: 0.85rem;
+}
+.woocommerce-account #customer_login .woocommerce-LostPassword a {
+  color: var(--color-brand);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.woocommerce-account #customer_login .woocommerce-privacy-policy-text {
+  font-size: 0.78rem;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0.5rem 0 0.85rem;
+}
+.woocommerce-account #customer_login .woocommerce-privacy-policy-text a {
+  color: var(--color-brand);
+  text-decoration: underline;
+}
+.woocommerce-account #customer_login p:has(> input[type="hidden"]) {
+  margin-bottom: 0 !important;
+}
+
+/* ============ Wishlist (favoritos) — endpoint customizado ============ */
+.cdm-wishlist {
+  margin: 0 0 1.5rem;
+}
+.cdm-wishlist-empty {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  background: var(--color-bg-cream);
+  border-radius: 1rem;
+  color: #4b5563;
+}
+.cdm-wishlist-empty .icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.cdm-wishlist-empty p {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+}
+.cdm-wishlist-empty a {
+  display: inline-block;
+  background: var(--color-brand);
+  color: white !important;
+  padding: 0.7rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-decoration: none !important;
+  font-size: 0.9rem;
+}
+.cdm-wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+@media (min-width: 640px) {
+  .cdm-wishlist-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .cdm-wishlist-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.cdm-wishlist-item {
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 0.85rem;
+  padding: 0.75rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.cdm-wishlist-item img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+.cdm-wishlist-item .name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  line-height: 1.3;
+  margin: 0 0 0.35rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cdm-wishlist-item .price {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-brand);
+  margin-bottom: 0.5rem;
+}
+.cdm-wishlist-item .price del {
+  color: #9ca3af;
+  font-weight: 400;
+  font-size: 0.8rem;
+  margin-right: 0.35rem;
+}
+.cdm-wishlist-item .actions {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: auto;
+}
+.cdm-wishlist-item .actions a {
+  flex: 1;
+  text-align: center;
+  padding: 0.45rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  background: var(--color-brand-light);
+  color: var(--color-brand) !important;
+}
+.cdm-wishlist-item .actions a.primary {
+  background: var(--color-cta);
+  color: var(--color-ink) !important;
+}
+.cdm-wishlist-item .remove {
+  position: absolute;
+  top: 0.5rem; right: 0.5rem;
+  width: 28px; height: 28px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: #6b7280;
+  transition: color 0.15s, border-color 0.15s;
+}
+.cdm-wishlist-item .remove:hover {
+  color: var(--color-sale);
+  border-color: var(--color-sale);
+}
+
+/* Botao heart no PDP / nos cards (toggle) */
+.cdm-wishlist-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: white;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 9999px;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4b5563;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.cdm-wishlist-toggle:hover {
+  border-color: var(--color-sale);
+  color: var(--color-sale);
+}
+.cdm-wishlist-toggle.is-active {
+  background: #fef2f2;
+  border-color: var(--color-sale);
+  color: var(--color-sale);
+}
+.cdm-wishlist-toggle .heart {
+  width: 18px; height: 18px;
+  display: inline-block;
+}
+.cdm-wishlist-toggle.is-active .heart {
+  fill: var(--color-sale);
 }
