@@ -215,20 +215,24 @@ add_action('rest_api_init', function () {
 function cdm_newsletter_send_email($email, $coupon, $expires) {
     $expires_pt = date_i18n('d/m/Y', strtotime($expires));
     $site_url   = 'https://ciadasmochilas.com.br';
-    $logo       = $site_url . '/logo.webp';
 
     $subject = 'Seu cupom de R$ 30 OFF chegou! 🎁';
 
+    // Wordmark textual em vez de logo com filter (que falha em Outlook/Gmail iOS).
+    // Fontes em fallback seguro: tenta Fredoka -> fallback web-safe (Arial Black/Verdana).
     $html = <<<HTML
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="utf-8"><title>{$subject}</title></head>
-<body style="margin:0;padding:0;background:#FFF8EC;font-family:Inter,sans-serif;color:#1A2B42;">
+<body style="margin:0;padding:0;background:#FFF8EC;font-family:Arial,Helvetica,sans-serif;color:#1A2B42;">
 <div style="max-width:560px;margin:0 auto;background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.06);margin-top:24px;margin-bottom:24px;">
-  <div style="background:linear-gradient(135deg,#1E7BB8,#0F4A7A);padding:32px;text-align:center;">
-    <img src="{$logo}" alt="Cia das Mochilas" width="160" style="filter:brightness(0) invert(1);height:auto;">
-    <h1 style="color:white;font-family:Fredoka,sans-serif;font-size:24px;margin:18px 0 6px;font-weight:700;">Bem-vindo a familia Cia das Mochilas!</h1>
-    <p style="color:rgba(255,255,255,0.9);margin:0;font-size:14px;">Seu cupom de boas-vindas chegou. Aproveite!</p>
+  <div style="background:linear-gradient(135deg,#1E7BB8,#0F4A7A);padding:36px 32px 32px;text-align:center;">
+    <div style="font-family:'Trebuchet MS','Helvetica Neue',Arial,sans-serif;font-size:30px;font-weight:900;letter-spacing:-0.5px;color:white;line-height:1;">
+      <span style="color:#FFC73C;">cia</span> <span>das</span> <span style="color:#FFC73C;">mochilas</span>
+    </div>
+    <div style="display:inline-block;margin-top:14px;background:rgba(255,255,255,0.18);padding:5px 14px;border-radius:9999px;font-size:11px;font-weight:700;letter-spacing:1px;color:white;text-transform:uppercase;">🎁 Bem-vinda(o)</div>
+    <h1 style="color:white;font-family:'Trebuchet MS',Arial,sans-serif;font-size:24px;margin:18px 0 6px;font-weight:700;line-height:1.25;">Seu cupom de boas-vindas chegou!</h1>
+    <p style="color:rgba(255,255,255,0.9);margin:0;font-size:14px;line-height:1.5;">Aproveite na sua primeira compra.</p>
   </div>
   <div style="padding:32px;text-align:center;">
     <p style="font-size:15px;line-height:1.55;margin:0 0 18px;color:#4b5563;">Cole o codigo abaixo no checkout pra receber <strong style="color:#1E7BB8;">R$ 30 OFF</strong> na sua primeira compra acima de <strong>R$ 199</strong>:</p>
