@@ -138,6 +138,132 @@
   width: 100% !important;
 }
 
+/* ========== Padronizacao de TODOS inputs/selects/textareas do checkout ==========
+   Cobre ECFB (Tipo de Pessoa, CPF/CNPJ), Estado, qualquer field com select native. */
+.woocommerce-checkout .form-row input.input-text,
+.woocommerce-checkout .form-row input[type="text"],
+.woocommerce-checkout .form-row input[type="email"],
+.woocommerce-checkout .form-row input[type="tel"],
+.woocommerce-checkout .form-row input[type="number"],
+.woocommerce-checkout .form-row input[type="password"],
+.woocommerce-checkout .form-row textarea {
+  width: 100% !important;
+  padding: 0.7rem 0.875rem !important;
+  font-family: var(--font-body) !important;
+  font-size: 0.95rem !important;
+  color: var(--color-ink) !important;
+  background: white !important;
+  border: 2px solid var(--color-brand-light) !important;
+  border-radius: 0.5rem !important;
+  line-height: 1.4 !important;
+  height: auto !important;
+  min-height: 44px;
+  box-shadow: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  outline: none !important;
+  transition: border-color 0.15s, box-shadow 0.15s !important;
+}
+
+/* Selects nativos: mesmo visual dos inputs + chevron SVG inline */
+.woocommerce-checkout .form-row select,
+.woocommerce-checkout .form-row .select2-selection,
+.woocommerce-checkout .form-row .woocommerce-input-wrapper select {
+  width: 100% !important;
+  padding: 0.7rem 2.5rem 0.7rem 0.875rem !important;
+  font-family: var(--font-body) !important;
+  font-size: 0.95rem !important;
+  color: var(--color-ink) !important;
+  background-color: white !important;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%231E7BB8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.85rem center !important;
+  background-size: 14px !important;
+  border: 2px solid var(--color-brand-light) !important;
+  border-radius: 0.5rem !important;
+  line-height: 1.4 !important;
+  height: auto !important;
+  min-height: 44px;
+  box-shadow: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  outline: none !important;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s !important;
+}
+
+/* Focus consistente em qualquer field */
+.woocommerce-checkout .form-row input:focus,
+.woocommerce-checkout .form-row select:focus,
+.woocommerce-checkout .form-row textarea:focus,
+.woocommerce-checkout .form-row .select2-container--focus .select2-selection {
+  border-color: var(--color-confetti-cyan) !important;
+  box-shadow: 0 0 0 3px rgba(94, 191, 214, 0.18) !important;
+}
+
+/* Select2 (Estado/Pais usam Select2 enhanced) — match com nosso visual */
+.woocommerce-checkout .select2-container .select2-selection--single {
+  height: auto !important;
+  min-height: 44px !important;
+  border: 2px solid var(--color-brand-light) !important;
+  border-radius: 0.5rem !important;
+  background: white !important;
+}
+.woocommerce-checkout .select2-container .select2-selection--single .select2-selection__rendered {
+  line-height: 1.4 !important;
+  padding: 0.7rem 2.5rem 0.7rem 0.875rem !important;
+  color: var(--color-ink) !important;
+  font-size: 0.95rem !important;
+}
+.woocommerce-checkout .select2-container .select2-selection--single .select2-selection__arrow {
+  height: 100% !important;
+  width: 2.5rem !important;
+  top: 0 !important;
+  right: 0 !important;
+}
+.woocommerce-checkout .select2-container .select2-selection--single .select2-selection__arrow b {
+  border-color: var(--color-brand) transparent transparent transparent !important;
+  border-width: 6px 5px 0 5px !important;
+  margin-left: -5px !important;
+}
+.woocommerce-checkout .select2-container--open .select2-selection--single .select2-selection__arrow b {
+  border-color: transparent transparent var(--color-brand) transparent !important;
+  border-width: 0 5px 6px 5px !important;
+}
+.woocommerce-checkout .select2-dropdown {
+  border: 2px solid var(--color-brand-light) !important;
+  border-radius: 0.5rem !important;
+  overflow: hidden;
+}
+.woocommerce-checkout .select2-search--dropdown .select2-search__field {
+  padding: 0.5rem 0.75rem !important;
+  border: 1px solid #f3f4f6 !important;
+  border-radius: 0.35rem !important;
+  font-size: 0.92rem;
+}
+.woocommerce-checkout .select2-results__option--highlighted {
+  background-color: var(--color-brand-light) !important;
+  color: var(--color-ink) !important;
+}
+.woocommerce-checkout .select2-results__option {
+  padding: 0.5rem 0.75rem !important;
+  font-size: 0.92rem;
+}
+
+/* Placeholder consistente */
+.woocommerce-checkout .form-row input::placeholder,
+.woocommerce-checkout .form-row textarea::placeholder {
+  color: #9ca3af !important;
+  opacity: 1 !important;
+}
+
+/* Textarea (Observacoes do pedido) */
+.woocommerce-checkout .form-row textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
 /* CPF, CEP, Número, Estado — campos curtos podem ser metade */
 .woocommerce-checkout .form-row#billing_cpf_field,
 .woocommerce-checkout .form-row#billing_postcode_field,
