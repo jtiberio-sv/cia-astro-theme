@@ -8,7 +8,12 @@
 
 if (!defined('ABSPATH')) exit;
 
-$logo_url   = 'https://loja.ciadasmochilas.com.br/wp-content/uploads/2025/08/logomarca_principal_transparent_clean.png';
+// Logo HD do tema (PNG 2x retina servido como 280px display) — fallback
+// para o legado da loja caso o arquivo do tema ainda nao esteja deployado.
+$logo_theme = CIA_ASTRO_DIR . '/assets/img/logo-email.png';
+$logo_url   = file_exists($logo_theme)
+    ? CIA_ASTRO_URI . '/assets/img/logo-email.png'
+    : 'https://loja.ciadasmochilas.com.br/wp-content/uploads/2025/08/logomarca_principal_transparent_clean.png';
 $tagline    = 'Material escolar com qualidade desde 2010';
 $brand      = '#0f4a7a';
 $brand_2    = '#1d6fb3';
@@ -31,8 +36,8 @@ $accent     = '#fff8e1';
           <a href="<?php echo esc_url(home_url('/')); ?>" style="display:inline-block;text-decoration:none;">
             <img src="<?php echo esc_url($logo_url); ?>"
                  alt="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>"
-                 width="180"
-                 style="display:inline-block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;max-width:180px;height:auto;" />
+                 width="280"
+                 style="display:inline-block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;max-width:280px;height:auto;" />
           </a>
         </div>
 

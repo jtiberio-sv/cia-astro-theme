@@ -860,6 +860,65 @@ body.page-id-278 .entry-title {
   margin-bottom: 0 !important;
 }
 
+/* ============ Login social Google ============ */
+.cdm-social-login {
+  margin: 0 0 1rem;
+}
+.cdm-btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  background: white !important;
+  border: 1.5px solid #dadce0 !important;
+  border-radius: 9999px !important;
+  padding: 0.7rem 1.5rem !important;
+  font-size: 0.92rem !important;
+  font-weight: 600 !important;
+  color: #3c4043 !important;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: box-shadow 0.15s, background 0.15s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+.cdm-btn-google:hover {
+  background: #f8f9fa !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.cdm-btn-google .g-icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.cdm-social-divider {
+  text-align: center;
+  margin: 1rem 0;
+  position: relative;
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+.cdm-social-divider::before,
+.cdm-social-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 1.5rem);
+  height: 1px;
+  background: #e5e7eb;
+}
+.cdm-social-divider::before { left: 0; }
+.cdm-social-divider::after { right: 0; }
+.cdm-social-divider span {
+  background: white;
+  padding: 0 0.5rem;
+  position: relative;
+  z-index: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
 /* ============ Wishlist (favoritos) — endpoint customizado ============ */
 .cdm-wishlist {
   margin: 0 0 1.5rem;

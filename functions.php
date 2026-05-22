@@ -25,3 +25,4 @@ require_once CIA_ASTRO_DIR . '/inc/wishlist.php';
 require_once CIA_ASTRO_DIR . '/inc/emails.php';
 require_once CIA_ASTRO_DIR . '/inc/cart-abandonment.php';
 require_once CIA_ASTRO_DIR . '/inc/express-checkout.php';
+require_once CIA_ASTRO_DIR . '/inc/login-google.php';
