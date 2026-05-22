@@ -977,6 +977,143 @@ body.page-id-278 .entry-title {
   border-color: var(--color-sale);
 }
 
+/* ============ Pix-first hero (pos-checkout) ============ */
+.cdm-pix-hero {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: linear-gradient(135deg, #e6fffa 0%, #ffffff 100%);
+  border: 1px solid #5eead4;
+  border-radius: 1rem;
+  padding: 1.1rem 1.25rem;
+  margin: 0 0 1.25rem;
+  box-shadow: 0 2px 8px rgba(50, 188, 173, 0.08);
+}
+.cdm-pix-hero-icon {
+  flex-shrink: 0;
+  width: 56px; height: 56px;
+  background: white;
+  border-radius: 14px;
+  display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(50, 188, 173, 0.15);
+}
+.cdm-pix-hero-text { display: flex; flex-direction: column; gap: 0.2rem; }
+.cdm-pix-hero-text strong {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--color-ink);
+  font-weight: 700;
+}
+.cdm-pix-hero-text span {
+  font-size: 0.88rem;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+/* Vindi Pix block — destaque QR e copia-cola */
+.vindi-pagamentos-order-details {
+  background: white;
+  border: 1px solid #f3f4f6;
+  border-radius: 1rem;
+  padding: 1.5rem !important;
+  margin: 0 0 1.25rem !important;
+}
+.vindi-pagamentos-order-details .woocommerce-order-details__title,
+.vindi-pagamentos-order-details h2 {
+  font-family: var(--font-display);
+  font-size: 1.05rem !important;
+  color: var(--color-ink);
+  font-weight: 700 !important;
+  margin: 0 0 0.85rem !important;
+}
+.vindi-pagamentos-order-details .wvp-qrcode-image {
+  text-align: center;
+  margin: 0 0 1.25rem;
+}
+.vindi-pagamentos-order-details .wvp-qrcode-image strong {
+  display: block;
+  font-size: 0.85rem;
+  color: #4b5563;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+.vindi-pagamentos-order-details .wvp-qrcode-image > div {
+  display: inline-block;
+  background: white;
+  padding: 1rem;
+  border-radius: 0.85rem;
+  border: 2px dashed #5eead4;
+  box-shadow: 0 4px 12px rgba(50, 188, 173, 0.1);
+}
+.vindi-pagamentos-order-details .wvp-qrcode-image object {
+  width: 220px !important;
+  height: 220px !important;
+  display: block;
+}
+.vindi-pagamentos-order-details .wvp-payment-line {
+  background: var(--color-bg-cream);
+  border-radius: 0.85rem;
+  padding: 1rem;
+}
+.vindi-pagamentos-order-details .wvp-payment-line strong {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-ink);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+.vindi-pagamentos-order-details .wvp-payment-line > div {
+  display: flex;
+  gap: 0.5rem;
+}
+.vindi-pagamentos-order-details .copy-input {
+  flex: 1;
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.5rem !important;
+  padding: 0.6rem 0.85rem !important;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace !important;
+  font-size: 0.78rem !important;
+  color: var(--color-ink) !important;
+}
+.vindi-pagamentos-order-details .copy-button {
+  background: #32BCAD !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  padding: 0 1rem !important;
+  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.vindi-pagamentos-order-details .copy-button:hover {
+  background: #0d9488 !important;
+}
+.vindi-pagamentos-order-details .copy-button::after {
+  content: " Copiar";
+  margin-left: 0.35rem;
+}
+.vindi-pagamentos-order-details .copy-image {
+  width: 16px !important;
+  height: 16px !important;
+  filter: brightness(0) invert(1);
+}
+.vindi-pagamentos-order-details .wvp-divisor {
+  border-top: 1px solid #f3f4f6;
+  margin: 1rem 0;
+}
+.vindi-pagamentos-order-details .wvp-description {
+  font-size: 0.88rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
 /* Botao heart no PDP / nos cards (toggle) */
 .cdm-wishlist-toggle {
   display: inline-flex;

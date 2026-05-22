@@ -297,6 +297,35 @@ add_filter('woocommerce_cart_shipping_method_full_label', function ($label, $met
 }, 10, 2);
 
 /**
+ * Pix-first banner: se metodo de pagamento for Vindi Pix/Bolepix, mostra
+ * destaque acima do QR Vindi com instrucoes claras (pague em segundos).
+ * Roda priority 4 — antes do woocommerce_thankyou_<gw> (10) do Vindi e
+ * antes dos CTAs cdm_thankyou_actions (5).
+ */
+add_action('woocommerce_thankyou', function ($order_id) {
+    $order = wc_get_order($order_id);
+    if (!$order) return;
+    $method = $order->get_payment_method();
+    if (!in_array($method, ['vindi-pagamentos-pix', 'vindi-pagamentos-bolepix'], true)) {
+        return;
+    }
+    ?>
+    <div class="cdm-pix-hero">
+      <div class="cdm-pix-hero-icon">
+        <svg width="36" height="36" viewBox="0 0 32 32" fill="none">
+          <path d="M16 2L29.5 11.5L29.5 20.5L16 30L2.5 20.5L2.5 11.5L16 2Z" fill="#32BCAD"/>
+          <path d="M16 9.5l5.5 4v5L16 22.5l-5.5-4v-5L16 9.5z" fill="white"/>
+        </svg>
+      </div>
+      <div class="cdm-pix-hero-text">
+        <strong>Pague em segundos com Pix</strong>
+        <span>Escaneie o QR Code abaixo ou copie o codigo. Confirmamos automaticamente quando o banco compensar.</span>
+      </div>
+    </div>
+    <?php
+}, 4);
+
+/**
  * Adiciona CTAs amigaveis (acompanhar pedido / continuar comprando) logo
  * apos o cabecalho de agradecimento na pagina order-received.
  */
