@@ -76,20 +76,11 @@ body.woocommerce-order-received #secondary.widget-area {
   box-shadow: 0 0 0 3px rgba(94, 191, 214, 0.18) !important;
 }
 
-/* Esconde botoes nativos do browser em inputs password (Edge ::-ms-reveal,
-   Safari/Chrome ::-webkit-credentials-auto-fill-button) que aparecem como
-   retangulo cinza ao lado direito do input. WC ja tem seu proprio toggle
-   .show-password-input em alguns forms. */
+/* Esconde APENAS botao reveal do Edge (::-ms-reveal) — retangulo cinza chato.
+   NAO esconde ::-webkit-credentials-auto-fill-button pq isso quebra autofill
+   de password managers (1Password, Bitwarden). */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear { display: none !important; }
-input::-webkit-credentials-auto-fill-button,
-input::-webkit-strong-password-auto-fill-button {
-  display: none !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  position: absolute !important;
-  right: 0 !important;
-}
 
 /* Password reveal icon do WC */
 .woocommerce form .password-input,
