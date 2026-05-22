@@ -1586,7 +1586,7 @@ body.page-id-278 .entry-title {
   border: 1px solid var(--color-brand-soft);
   border-radius: 1rem;
   padding: 1.1rem 1.35rem;
-  margin: 0 0 1.25rem;
+  margin: 0 0 2rem;
   position: relative;
   overflow: hidden;
 }
@@ -1709,20 +1709,20 @@ body.page-id-278 .entry-title {
 .cdm-vo-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
-@media (min-width: 1024px) {
+@media (min-width: 900px) {
   .cdm-vo-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
     align-items: start;
   }
-  /* Vindi Pix card vai pra coluna direita ao lado do order-details */
-  .cdm-vo-grid > .vindi-pagamentos-order-details {
-    grid-column: 2;
-    grid-row: 1;
-  }
+  /* Pedido (esq, mais largo) | Pix (dir, mais compacto) */
   .cdm-vo-grid > .woocommerce-order-details {
     grid-column: 1;
+    grid-row: 1;
+  }
+  .cdm-vo-grid > .vindi-pagamentos-order-details {
+    grid-column: 2;
     grid-row: 1;
   }
   /* Customer details ocupa linha cheia abaixo */
