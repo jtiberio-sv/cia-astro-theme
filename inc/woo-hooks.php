@@ -70,10 +70,25 @@ function cia_astro_account_dashboard() {
     $account_url   = wc_get_account_endpoint_url('edit-account');
     $logout_url    = wc_logout_url(wc_get_page_permalink('myaccount'));
 
+    // Saudacao dinamica por hora do dia (BRT = current_time)
+    $hour = (int) current_time('H');
+    if ($hour >= 5 && $hour < 12)       { $greet = 'Bom dia';       $emoji = '☀️'; $cls = 'morning'; }
+    elseif ($hour >= 12 && $hour < 18)  { $greet = 'Boa tarde';     $emoji = '🌤️'; $cls = 'afternoon'; }
+    elseif ($hour >= 18 && $hour < 23)  { $greet = 'Boa noite';     $emoji = '🌙'; $cls = 'evening'; }
+    else                                 { $greet = 'Boa madrugada'; $emoji = '✨'; $cls = 'night'; }
+
+    // Cookie key inclui data BRT — confete dispara so 1x por dia
+    $cookie_key = 'cdm_dash_seen_' . current_time('Y-m-d');
     ?>
-    <div class="cdm-account-welcome">
-      <h2><span class="cdm-wave" aria-hidden="true">👋</span> Olá, <?php echo esc_html($first_name); ?>!</h2>
-      <p>Acompanhe seus pedidos, atualize seu endereço de entrega ou seus dados de cadastro.</p>
+    <div class="cdm-account-welcome cdm-greet-<?php echo esc_attr($cls); ?>"
+         data-confetti-cookie="<?php echo esc_attr($cookie_key); ?>">
+      <h2>
+        <span class="cdm-greet-emoji" aria-hidden="true"><?php echo $emoji; ?></span>
+        <?php echo esc_html($greet); ?>, <?php echo esc_html($first_name); ?>!
+      </h2>
+      <p>Que bom te ver por aqui. Acompanhe seus pedidos, gerencie seus favoritos ou atualize seus dados.</p>
+      <!-- Confete container (so renderizado no 1o acesso do dia via JS) -->
+      <div class="cdm-confetti-burst" aria-hidden="true"></div>
     </div>
 
     <div class="cdm-account-shortcuts">

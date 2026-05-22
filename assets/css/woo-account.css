@@ -271,30 +271,93 @@
 .cdm-account-welcome {
   background: linear-gradient(135deg, var(--color-brand-light) 0%, white 100%);
   border-radius: 1rem;
-  padding: 1.5rem;
+  padding: 1.75rem 1.75rem 1.5rem;
   margin: 0 0 1.5rem;
   border: 1px solid var(--color-brand-soft);
+  position: relative;
+  overflow: hidden;
 }
+/* Gradients por hora do dia — overlay sutil */
+.cdm-account-welcome.cdm-greet-morning {
+  background: linear-gradient(135deg, #fef3c7 0%, white 70%);
+  border-color: #fde68a;
+}
+.cdm-account-welcome.cdm-greet-afternoon {
+  background: linear-gradient(135deg, #fef9c3 0%, #fff7ed 50%, white 100%);
+  border-color: #fed7aa;
+}
+.cdm-account-welcome.cdm-greet-evening {
+  background: linear-gradient(135deg, #ede9fe 0%, #f3e8ff 40%, white 100%);
+  border-color: #ddd6fe;
+}
+.cdm-account-welcome.cdm-greet-night {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border-color: #475569;
+  color: #f1f5f9;
+}
+.cdm-account-welcome.cdm-greet-night h2,
+.cdm-account-welcome.cdm-greet-night p {
+  color: #f1f5f9 !important;
+}
+
 .cdm-account-welcome h2 {
   font-family: var(--font-display);
-  font-size: 1.4rem !important;
+  font-size: 1.55rem !important;
   font-weight: 700 !important;
-  margin: 0 0 0.35rem !important;
+  margin: 0 0 0.5rem !important;
   color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
 }
-.cdm-account-welcome h2 .cdm-wave {
+.cdm-greet-emoji {
   display: inline-block;
-  margin-right: 0.35rem;
-  animation: cdm-wave 1.5s ease infinite;
-  transform-origin: 70% 70%;
+  font-size: 1.75rem;
+  animation: cdm-greet-bob 2.4s ease-in-out infinite;
+  transform-origin: center bottom;
 }
-@keyframes cdm-wave {
-  0%, 60%, 100% { transform: rotate(0deg); }
-  10% { transform: rotate(14deg); }
-  20% { transform: rotate(-8deg); }
-  30% { transform: rotate(14deg); }
-  40% { transform: rotate(-4deg); }
-  50% { transform: rotate(10deg); }
+@keyframes cdm-greet-bob {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-4px) rotate(3deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cdm-greet-emoji { animation: none; }
+}
+
+/* Confete burst — so renderiza no 1o acesso do dia via JS adicionar .is-active */
+.cdm-confetti-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.cdm-confetti-burst.is-active::before,
+.cdm-confetti-burst.is-active::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.cdm-confetti-burst.is-active span {
+  position: absolute;
+  top: -20px;
+  width: 10px;
+  height: 14px;
+  border-radius: 2px;
+  opacity: 0;
+  animation: cdm-confetti-fall 2.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+@keyframes cdm-confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(280px) rotate(720deg) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cdm-confetti-burst.is-active span { animation: none; opacity: 0; }
 }
 .cdm-account-welcome p {
   margin: 0;
