@@ -109,6 +109,7 @@ function cdm_wl_rest_remove(WP_REST_Request $r) {
  * ============================================================ */
 
 add_action('wp_enqueue_scripts', function () {
+    // priority 110: roda DEPOIS do enqueue.php (priority 100) registrar 'cdm-wishlist'
     wp_localize_script('cdm-wishlist', 'cdmWishlist', [
         'restUrl'  => rest_url('cdm/v1/wishlist'),
         'nonce'    => wp_create_nonce('wp_rest'),
@@ -116,7 +117,7 @@ add_action('wp_enqueue_scripts', function () {
         'loginUrl' => wc_get_page_permalink('myaccount'),
         'ids'      => cdm_wl_get_ids(),
     ]);
-}, 25);
+}, 110);
 
 /* ============================================================
  * 4) BOTAO HEART (shortcode + auto-inject no PDP)
