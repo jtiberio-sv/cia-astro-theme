@@ -26,3 +26,9 @@ require_once CIA_ASTRO_DIR . '/inc/emails.php';
 require_once CIA_ASTRO_DIR . '/inc/cart-abandonment.php';
 require_once CIA_ASTRO_DIR . '/inc/express-checkout.php';
 require_once CIA_ASTRO_DIR . '/inc/login-google.php';
+
+// Admin-only — carrega so quando estamos no wp-admin pra economizar
+// parsing PHP em requests do front (vitrine e WC frontend nao precisam).
+if (is_admin()) {
+    require_once CIA_ASTRO_DIR . '/inc/admin-ui.php';
+}
