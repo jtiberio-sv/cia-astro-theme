@@ -417,7 +417,13 @@
   margin: 0 !important;
   border-collapse: separate !important;
   border-spacing: 0 !important;
+  /* table-layout: fixed evita auto-layout dando 50/50 ao th/td quando o td
+     tem conteudo flex (.cdm-ship-method) — bug em sidebar narrow fazia
+     o nome do frete quebrar 1 letra por linha */
+  table-layout: fixed !important;
 }
+.woocommerce-cart .cart_totals table th { width: 40% !important; }
+.woocommerce-cart .cart_totals table td { width: 60% !important; }
 .woocommerce-cart .cart_totals table th,
 .woocommerce-cart .cart_totals table td {
   padding: 0.65rem 0 !important;
@@ -490,6 +496,8 @@
   font-size: 0.88rem !important;
   cursor: pointer;
   width: 100%;
+  min-width: 0 !important;
+  overflow-wrap: break-word;
 }
 .woocommerce-cart .cart_totals .shipping input[type="radio"] {
   accent-color: var(--color-brand);
@@ -520,7 +528,11 @@
   font-size: 0.88rem;
   color: var(--color-ink);
   line-height: 1.25;
-  word-break: break-word;
+  /* overflow-wrap em vez de word-break: evita quebra dentro da palavra
+     em sidebar narrow (bug 2026-05-22: "Frete padrao" virava 1 letra/linha) */
+  overflow-wrap: break-word;
+  word-break: normal;
+  min-width: 0;
 }
 .cdm-ship-prazo {
   font-size: 0.72rem;

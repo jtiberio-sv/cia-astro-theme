@@ -12,7 +12,8 @@ Documento canônico sobre **onde mora cada tipo de código** no backend WordPres
 loja.ciadasmochilas.com.br (WordPress + WooCommerce)
 │
 ├── wp-content/mu-plugins/        ← "Must-Use" — sempre carregam, não desativáveis no painel
-│   ├── cdm-jwt-bearer-auth.php   ← Auth crítico (vitrine Astro chama REST)
+│   ├── cdm-jwt-bearer-auth.php   ← Auth crítico (vitrine Astro chama REST com Bearer JWT)
+│   ├── cdm-sso-bridge.php        ← SSO vitrine↔loja (nonce one-time, cookie WP)
 │   ├── cdm-301-redirects.php     ← SEO crítico (sobrevive a troca de tema)
 │   ├── cdm-vitrine-rebuild.php   ← Webhook → GH Actions (independente de tema)
 │   ├── log-rest.php              ← Debug REST + mime fix uploads
@@ -157,6 +158,7 @@ Arquivos com múltiplas responsabilidades relacionadas (ex: `inc/admin-ui.php` =
 | Arquivo | Por que é mu-plugin | Pode mover pro tema? |
 |---|---|---|
 | `cdm-jwt-bearer-auth.php` | Decoder JWT em rotas REST custom — se desabilitar, vitrine Astro deslogga todo mundo | **Não.** Auth crítico, independente de tema |
+| `cdm-sso-bridge.php` | SSO vitrine↔loja via nonce one-time (endpoints `/cdm/v1/sso-create` + `/sso`) — se desabilitar, usuário loga 2x | **Não.** Auth/sessão crítico, independente de tema |
 | `cdm-301-redirects.php` | Redirects 301 de slugs renomeados — se trocar tema, redirects DEVEM sobreviver | **Não.** SEO crítico, independente de tema |
 | `cdm-vitrine-rebuild.php` | Webhook que dispara GH Actions rebuild da vitrine ao salvar produto — totalmente desacoplado de tema | **Não.** Integração externa, independente de tema |
 | `log-rest.php` | Debug REST API (logs) + fallback de detecção mime em uploads | **Parcialmente.** Debug é debug (talvez disable em prod); mime fix poderia ir pro tema mas é nicho |
@@ -211,3 +213,4 @@ Arquivos com múltiplas responsabilidades relacionadas (ex: `inc/admin-ui.php` =
 | 2026-05-22 | `cdm-jwt-bearer-auth.php` mantido como mu-plugin | Auth crítico — não pode quebrar se trocar tema |
 | 2026-05-22 | `cdm-301-redirects.php` mantido como mu-plugin | SEO crítico — redirects devem sobreviver a troca de tema |
 | 2026-05-22 | `cdm-vitrine-rebuild.php` mantido como mu-plugin | Integração externa (GH Actions) — independente de tema |
+| 2026-05-22 | Criado `cdm-sso-bridge.php` (mu-plugin) — SSO vitrine↔loja via nonce one-time | Auth/sessão crítico. Endpoints `POST /cdm/v1/sso-create` (Bearer JWT → nonce) + `GET /cdm/v1/sso?nonce=...&redirect=...` (set_auth_cookie + 302). Frontend interceptor em `src/lib/sso-bridge.ts` da vitrine intercepta clicks pra paths da loja. Evita login duplicado quando usuário loga na vitrine e navega pra `/minha-conta`, `/carrinho`, etc. |
