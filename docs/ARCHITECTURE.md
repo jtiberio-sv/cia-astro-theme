@@ -194,6 +194,71 @@ Arquivos com múltiplas responsabilidades relacionadas (ex: `inc/admin-ui.php` =
 
 ---
 
+## 6.5 Routing e blindagem da loja
+
+Arquitetura headless implica que **vitrine e loja são domínios separados com responsabilidades distintas**. URLs do front (catálogo, conteúdo) devem responder APENAS na vitrine; URLs dinâmicas WP (cart, checkout, my-account) APENAS na loja.
+
+### Camadas de routing (em ordem de execução)
+
+```
+Browser hit
+    │
+    ├─ 1. Vitrine (ciadasmochilas.com.br via CF Pages)
+    │     └─ public/_redirects (CF edge) — paths amigaveis vitrine -> URLs canonicas loja
+    │
+    ├─ 2. SSO interceptor (src/lib/sso-bridge.ts)
+    │     └─ Click <a> pra path da loja -> handshake JWT -> redirect com cookie WP
+    │
+    └─ 3. Loja (loja.ciadasmochilas.com.br via Hetzner nginx)
+          ├─ conf/nginx/cia-redirects.conf (server-level if-return 301) ← BLINDAGEM
+          │     ├─ Section 0: Redirects legacy especificos (dia-do-consumidor etc)
+          │     ├─ Section 1: Front paths catch-all -> vitrine
+          │     └─ Section 2: Aliases canonicos (favoritos, checkout, etc)
+          ├─ conf/nginx/w3tc.conf (W3TC page cache rewrite)
+          └─ vhost default -> WP/WC normal
+```
+
+### Lista canônica de paths
+
+**Apenas LOJA serve (whitelist):**
+- `/wp-json/*`, `/wp-admin/*`, `/wp-login.php`, `/wp-cron.php`, `/xmlrpc.php` (bloqueado)
+- `/carrinho/*`, `/finalizar-compra/*`, `/minha-conta/*`, `/rastrear-pedido/*`
+- `/wp-content/*`, `/wp-includes/*`
+- `/favicon.ico`, `/robots.txt`, `/sitemap*.xml`
+- `/` (home da loja — pode redirect futuro pra vitrine)
+
+**LOJA redireciona 301 -> VITRINE:**
+- `/produto/*`, `/categoria/*`, `/categoria-produto/*`, `/marca/*`
+- `/loja/`, `/shop/`, `/marcas/`, `/promocoes/`, `/busca/`
+- `/blog/*`, `/guia/*`
+- Pages institucionais: `/contato`, `/quem-somos`, `/como-comprar`, `/trocas-e-devolucoes`, `/prazo-e-entrega`, `/politica-de-privacidade-2`, `/termos-de-uso`, `/sample-page`, `/newsletter`
+
+**Aliases (LOJA redireciona pra path canônico):**
+| Alias | Path canônico |
+|---|---|
+| `/favoritos`, `/wishlist`, `/my-wishlist` | `/minha-conta/favoritos/` |
+| `/checkout` | `/finalizar-compra/` |
+| `/rastrear`, `/rastreio`, `/track-my-order` | `/rastrear-pedido/` |
+| `/esqueci-a-senha`, `/recuperar-senha` | `/minha-conta/esqueci-a-senha/` |
+| `/categoria/dia-do-consumidor` | `/categoria/ofertas/` (campanha encerrada) |
+
+### Três pontos de manutenção sincronizada
+
+Quando adicionar/mudar alias ou path interceptado, atualizar **os três**:
+1. **Vitrine** — `public/_redirects` (CF Pages edge redirect 302)
+2. **Vitrine** — `src/lib/sso-bridge.ts` (`LOJA_ALIASES` + `LOJA_PATH_PREFIXES`)
+3. **Loja** — `/var/www/.../conf/nginx/cia-redirects.conf` (server-level 301)
+
+### Detalhe técnico: por que `if` e não `location`
+
+O W3TC tem `rewrite .* "/wp-content/cache/..." last;` em **server level** que roda na rewrite phase do nginx (antes do location matching). Pra URLs com cache, isso reescreve a URI pra `/wp-content/cache/...` e nosso `location ~ ^/produto` nunca seria avaliado.
+
+Solução: usar `if ($request_uri ~ ^/produto)` que também roda na rewrite phase. Como `cia-redirects.conf` é incluído antes de `w3tc.conf` (alfabético), nossos ifs disparam primeiro.
+
+(O famoso "if is evil" do nginx refere-se a `if` em LOCATION context com operações complexas. `if` em SERVER context com `return` é oficialmente documentado e seguro.)
+
+---
+
 ## 7. Referências cruzadas
 
 - `README.md` — visão geral do tema, deploy, rollback
@@ -214,3 +279,5 @@ Arquivos com múltiplas responsabilidades relacionadas (ex: `inc/admin-ui.php` =
 | 2026-05-22 | `cdm-301-redirects.php` mantido como mu-plugin | SEO crítico — redirects devem sobreviver a troca de tema |
 | 2026-05-22 | `cdm-vitrine-rebuild.php` mantido como mu-plugin | Integração externa (GH Actions) — independente de tema |
 | 2026-05-22 | Criado `cdm-sso-bridge.php` (mu-plugin) — SSO vitrine↔loja via nonce one-time | Auth/sessão crítico. Endpoints `POST /cdm/v1/sso-create` (Bearer JWT → nonce) + `GET /cdm/v1/sso?nonce=...&redirect=...` (set_auth_cookie + 302). Frontend interceptor em `src/lib/sso-bridge.ts` da vitrine intercepta clicks pra paths da loja. Evita login duplicado quando usuário loga na vitrine e navega pra `/minha-conta`, `/carrinho`, etc. |
+| 2026-05-22 | Criado `cia-redirects.conf` (nginx) — blindagem da loja | Loja respondia URLs do front (`/produto/*`, `/categoria/*`, `/marca/*`, pages institucionais) causando conteúdo duplicado no Google + UX ruim (500s). Server-level `if ($request_uri ~ ...)` retorna 301 pra vitrine. Roda antes do W3TC rewrite (cia-* < w3tc alfabeticamente). Cobertura validada em 19 paths via curl. Doc na seção 6.5 deste arquivo + comentários in-file no nginx config. |
+| 2026-05-22 | SSO bridge ganhou mapa `LOJA_ALIASES` | Antes: bridge construía dest=loja.X+pathname (assumia paths iguais). Quebrou `/favoritos` → `loja.X/favoritos` (404 em vez de `loja.X/minha-conta/favoritos/`). Agora: `LOJA_ALIASES` espelha `_redirects` e `cia-redirects.conf`. Os três devem ser atualizados juntos sempre. |
