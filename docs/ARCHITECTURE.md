@@ -269,6 +269,56 @@ Solução: usar `if ($request_uri ~ ^/produto)` que também roda na rewrite phas
 
 ---
 
+## 7.5 Otimização de imagens (uploads WP)
+
+### Arquitetura
+
+Cobertura **multi-formato** com server-side content negotiation:
+
+1. **Original** (JPG/PNG/JPEG) — fallback pra browsers antigos (~5% market)
+2. **WebP** (`.jpg.webp` / `.png.webp`) — ~95% browsers (todos modernos exceto IE)
+3. **AVIF** (`.jpg.avif` / `.png.avif`) — ~85% browsers (Chrome 85+, Safari 16+, Firefox 113+)
+
+Nginx serve automaticamente o melhor formato baseado no `Accept` header:
+
+```nginx
+# /etc/nginx/common/wpcommon-php83.conf
+try_files $uri$avif_suffix $uri$webp_suffix $uri =404;
+```
+
+`$avif_suffix` e `$webp_suffix` são variáveis derivadas via `map` no `conf.d/`.
+
+### Cobertura atual (2026-05-22)
+
+| Formato | Cobertura JPG | Cobertura PNG |
+|---|---|---|
+| WebP | **100%** (6.127/6.127) | **99%** (581/582) |
+| AVIF (>20KB) | **100%** (1.980/1.980) | 76% (87/113) |
+
+26 PNGs não geraram AVIF porque ficaram maiores (logos super otimizados — comportamento esperado, fallback pra WebP/PNG).
+
+### Performance típica
+
+| Versão | Tamanho (BANNER-CIA-DAS-MOCHILAS-4) | Redução |
+|---|---|---|
+| Original JPG | 633 KB | — |
+| WebP servido | 373 KB | -41% |
+| AVIF servido | 212 KB | **-67%** |
+
+### Pipeline de manutenção
+
+Quando novo upload entrar no WP:
+1. EWWW Image Optimizer plugin gera WebP automático
+2. AVIF **NÃO é automático** — rodar `docs/scripts/generate-avif.sh` periodicamente (ex: cron mensal) pra cobrir uploads novos
+
+Scripts canônicos: `docs/scripts/` (ver `README.md` lá).
+
+### Backups `.bak` da recompressão (temporário)
+
+Recompressão de 62 banners >400KB em 2026-05-22 criou `.bak` de cada arquivo original (31 MB total). **Programado pra deletar em 2026-06-08** (issue [#4](https://github.com/jtiberio-sv/cia-astro-theme/issues/4)). Mantidos 14 dias como segurança pra rollback caso algum banner tenha perdido qualidade visual.
+
+---
+
 ## 8. Histórico de decisões arquiteturais
 
 | Data | Decisão | Motivo |
@@ -281,3 +331,4 @@ Solução: usar `if ($request_uri ~ ^/produto)` que também roda na rewrite phas
 | 2026-05-22 | Criado `cdm-sso-bridge.php` (mu-plugin) — SSO vitrine↔loja via nonce one-time | Auth/sessão crítico. Endpoints `POST /cdm/v1/sso-create` (Bearer JWT → nonce) + `GET /cdm/v1/sso?nonce=...&redirect=...` (set_auth_cookie + 302). Frontend interceptor em `src/lib/sso-bridge.ts` da vitrine intercepta clicks pra paths da loja. Evita login duplicado quando usuário loga na vitrine e navega pra `/minha-conta`, `/carrinho`, etc. |
 | 2026-05-22 | Criado `cia-redirects.conf` (nginx) — blindagem da loja | Loja respondia URLs do front (`/produto/*`, `/categoria/*`, `/marca/*`, pages institucionais) causando conteúdo duplicado no Google + UX ruim (500s). Server-level `if ($request_uri ~ ...)` retorna 301 pra vitrine. Roda antes do W3TC rewrite (cia-* < w3tc alfabeticamente). Cobertura validada em 19 paths via curl. Doc na seção 6.5 deste arquivo + comentários in-file no nginx config. |
 | 2026-05-22 | SSO bridge ganhou mapa `LOJA_ALIASES` | Antes: bridge construía dest=loja.X+pathname (assumia paths iguais). Quebrou `/favoritos` → `loja.X/favoritos` (404 em vez de `loja.X/minha-conta/favoritos/`). Agora: `LOJA_ALIASES` espelha `_redirects` e `cia-redirects.conf`. Os três devem ser atualizados juntos sempre. |
+| 2026-05-22 | Cleanup uploads órfãos + otimização imagens completa | (1) Cleanup: 3.609 arquivos / 113 MB órfãos movidos pra quarantine (dual-check filename+attachment_id). Issue [#2](https://github.com/jtiberio-sv/cia-astro-theme/issues/2) pra validar em 30d. (2) WebP gen: 757 arquivos faltantes convertidos (-60% size). (3) AVIF gen: 2.155 gerados (-84% size). (4) Recompressão de 62 banners >400KB (-13 MB). Cobertura final WebP 100% JPG / 99% PNG; AVIF 100% JPG / 76% PNG. Scripts em `docs/scripts/`. Issue [#4](https://github.com/jtiberio-sv/cia-astro-theme/issues/4) pra deletar .bak em 14d. |
