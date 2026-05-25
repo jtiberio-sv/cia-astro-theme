@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('CIA_ASTRO_VERSION', '0.2.1');
+define('CIA_ASTRO_VERSION', '0.2.2');
 define('CIA_ASTRO_DIR', get_stylesheet_directory());
 define('CIA_ASTRO_URI', get_stylesheet_directory_uri());
 

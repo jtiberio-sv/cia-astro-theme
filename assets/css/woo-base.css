@@ -2,6 +2,51 @@
    Inputs, botoes WC, layout 2-col my-account/cart, mensagens flash.
    Carregado depois de base.css e header.css pra ter precedencia. */
 
+/* ========== Defensive overflow-x: clip — fix scroll horizontal mobile ==========
+   iOS Safari ignora overflow-x: hidden em html/body em algumas situacoes
+   (especialmente com position: fixed em ancestor). overflow-x: clip eh mais
+   robusto. Aplicamos em wrapper WC + html/body pra triple-cover.
+   Bug original: checkout mobile mostrava scroll horizontal subtil em iOS. */
+html, body {
+  overflow-x: clip !important;
+  max-width: 100vw;
+}
+body.woocommerce-cart,
+body.woocommerce-checkout,
+body.woocommerce-account,
+body.woocommerce-page,
+body.woocommerce-order-received,
+body.woocommerce-checkout-pay {
+  overflow-x: clip !important;
+}
+body.woocommerce-cart .cdm-content,
+body.woocommerce-checkout .cdm-content,
+body.woocommerce-account .cdm-content,
+body.woocommerce-page .cdm-content,
+body.woocommerce-order-received .cdm-content,
+body.woocommerce-checkout-pay .cdm-content {
+  max-width: 100%;
+  overflow-x: clip;
+}
+/* Containers WC nao devem estourar */
+.woocommerce form,
+.woocommerce-page form,
+.woocommerce .shop_table,
+.woocommerce-checkout-review-order-table,
+.woocommerce-checkout #order_review {
+  max-width: 100%;
+}
+/* Inputs WC com largura controlada (box-sizing pra padding nao estourar) */
+.woocommerce form input,
+.woocommerce form select,
+.woocommerce form textarea,
+.woocommerce-page form input,
+.woocommerce-page form select,
+.woocommerce-page form textarea {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 /* ========== Wrapper conteudo principal ========== */
 .cdm-content {
   padding-top: 2rem;
