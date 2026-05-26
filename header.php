@@ -97,9 +97,17 @@ if ($cia_custom_logo_id) {
         <button type="button" id="cdm-search-mobile" class="cdm-search-mobile" aria-label="Buscar">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         </button>
-        <a href="<?php echo esc_url(cia_astro_backend_url('/minha-conta/')); ?>" class="cdm-action-link" aria-label="Minha conta">
+        <a href="<?php echo esc_url(cia_astro_backend_url('/minha-conta/')); ?>" class="cdm-action-link" aria-label="<?php echo is_user_logged_in() ? 'Minha conta' : 'Entrar / Cadastrar'; ?>">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
-          <span>Minha conta</span>
+          <span><?php
+            if (is_user_logged_in()) {
+                $u = wp_get_current_user();
+                $first = $u->first_name ?: strtok($u->display_name ?: $u->user_login, ' ');
+                echo 'Olá, ' . esc_html(ucfirst(strtolower($first)));
+            } else {
+                echo 'Minha conta';
+            }
+          ?></span>
         </a>
         <a href="<?php echo esc_url(cia_astro_backend_url('/minha-conta/favoritos/')); ?>" class="cdm-action-link wishlist" aria-label="Favoritos">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -268,7 +276,15 @@ if ($cia_custom_logo_id) {
       <h4>Sua conta</h4>
       <a href="<?php echo esc_url(cia_astro_backend_url('/minha-conta/')); ?>">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#4b5563;"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
-        <span>Minha conta</span>
+        <span><?php
+          if (is_user_logged_in()) {
+              $u = wp_get_current_user();
+              $first = $u->first_name ?: strtok($u->display_name ?: $u->user_login, ' ');
+              echo 'Olá, ' . esc_html(ucfirst(strtolower($first)));
+          } else {
+              echo 'Minha conta';
+          }
+        ?></span>
       </a>
       <a href="<?php echo esc_url(cia_astro_backend_url('/minha-conta/favoritos/')); ?>">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-confetti-pink);"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
