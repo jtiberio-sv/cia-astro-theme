@@ -152,3 +152,88 @@ function cdm_sso_resolve_redirect(string $url): string
 
     return $url;
 }
+add_action('rest_api_init', function () {
+    register_rest_route('cdm/v1', '/session', [
+        'methods'  => 'GET',
+        'callback' => 'cdm_session_check',
+        'permission_callback' => '__return_true',
+    ]);
+});
+
+/**
+ * Verifica se ha cookie WP valido e emite JWT fresh pra vitrine.
+ * Necessario porque vitrine (ciadasmochilas.com.br) e loja (loja.X) tem
+ * localStorage isolados — login na loja nao popula JWT na vitrine.
+ * Cookie WP tem domain=.ciadasmochilas.com.br (compartilhado), entao
+ * fetch da vitrine com credentials:include leva cookie -> determine_current_user
+ * detecta -> esse endpoint emite JWT.
+ */
+function cdm_session_check(WP_REST_Request $req): WP_REST_Response
+{
+    $uid = get_current_user_id();
+    if (!$uid) {
+        return new WP_REST_Response(['logged_in' => false], 200);
+    }
+
+    $secret = defined('COCART_JWT_AUTH_SECRET_KEY') ? COCART_JWT_AUTH_SECRET_KEY : '';
+    if (!$secret) {
+        return new WP_REST_Response([
+            'logged_in' => true,
+            'user'      => cdm_session_user_data($uid),
+            'jwt'       => null,
+            'error'     => 'COCART_JWT_AUTH_SECRET_KEY not defined',
+        ], 200);
+    }
+
+    $u = get_userdata($uid);
+    $now = time();
+    $payload = [
+        'iss'  => home_url(),
+        'iat'  => $now,
+        'exp'  => $now + (7 * DAY_IN_SECONDS),
+        'data' => [
+            'user' => [
+                'id'           => (int) $u->ID,
+                'first_name'   => $u->first_name,
+                'display_name' => $u->display_name,
+                'user_login'   => $u->user_login,
+                'email'        => $u->user_email,
+            ],
+        ],
+    ];
+
+    $header = ['alg' => 'HS256', 'typ' => 'JWT'];
+    $b64 = function ($d) {
+        return rtrim(strtr(base64_encode($d), '+/', '-_'), '=');
+    };
+    $head_b64 = $b64(wp_json_encode($header));
+    $payload_b64 = $b64(wp_json_encode($payload));
+    $sig = $b64(hash_hmac('sha256', "$head_b64.$payload_b64", $secret, true));
+    $jwt = "$head_b64.$payload_b64.$sig";
+
+    // Headers CORS pra vitrine (origin ciadasmochilas.com.br) — credentials:include
+    $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+    if ($origin === 'https://ciadasmochilas.com.br') {
+        header('Access-Control-Allow-Origin: ' . $origin);
+        header('Access-Control-Allow-Credentials: true');
+        header('Vary: Origin');
+    }
+
+    return new WP_REST_Response([
+        'logged_in' => true,
+        'user'      => cdm_session_user_data($uid),
+        'jwt'       => $jwt,
+        'exp'       => $payload['exp'],
+    ], 200);
+}
+
+function cdm_session_user_data(int $uid): array
+{
+    $u = get_userdata($uid);
+    return [
+        'id'           => (int) $u->ID,
+        'first_name'   => $u->first_name,
+        'display_name' => $u->display_name,
+        'user_login'   => $u->user_login,
+    ];
+}
