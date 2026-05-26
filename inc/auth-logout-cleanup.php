@@ -13,6 +13,19 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Logout "everywhere" — destrói TODAS as sessões do user em todos browsers/devices.
+ * Padrao bancos/Google. Default WP destrói só a sessão atual; outras continuam
+ * válidas até expirar (14 dias). Isso causava "click Sair mas continuo logado"
+ * em cenários com múltiplas sessões ativas simultâneas (caso JP 2026-05-26 com
+ * 19 sessões em paralelo).
+ */
+add_action('wp_logout', function ($user_id) {
+    if (!$user_id) return;
+    $manager = WP_Session_Tokens::get_instance((int) $user_id);
+    if ($manager) $manager->destroy_all();
+}, 5); // priority 5 = antes do CoCart DestroyTokens (10)
+
 add_action('clear_auth_cookie', function () {
     $expire = time() - YEAR_IN_SECONDS;
     $secure = is_ssl();
