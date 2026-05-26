@@ -71,7 +71,21 @@ function cdm_jwt_bearer_determine_user($user_id) {
         if ($u) $uid = $u->ID;
     }
 
-    return $uid ?: $user_id;
+    if (!$uid) return $user_id;
+
+    // Revogacao por usuario: se houve wp_logout depois do JWT ser emitido,
+    // o JWT está invalido. Marcado em auth-logout-cleanup.php no wp_logout hook.
+    // Comparacao: payload.iat (issued at) > user_meta._cdm_jwt_revoked_after.
+    $revoked_after = (int) get_user_meta($uid, '_cdm_jwt_revoked_after', true);
+    if ($revoked_after > 0) {
+        $iat = isset($payload['iat']) ? (int) $payload['iat'] : 0;
+        // Sem iat: rejeita pra ser conservador (qualquer JWT antigo eh suspeito apos logout)
+        if ($iat === 0 || $iat <= $revoked_after) {
+            return $user_id;
+        }
+    }
+
+    return $uid;
 }
 
 function cdm_b64url_encode($data) {

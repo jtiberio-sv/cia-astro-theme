@@ -19,11 +19,20 @@ if (!defined('ABSPATH')) {
  * válidas até expirar (14 dias). Isso causava "click Sair mas continuo logado"
  * em cenários com múltiplas sessões ativas simultâneas (caso JP 2026-05-26 com
  * 19 sessões em paralelo).
+ *
+ * Tambem invalida TODOS os JWTs CoCart do user (vitrine Astro):
+ * marca timestamp do logout em user_meta. auth-jwt-bearer.php valida
+ * JWT.iat > timestamp; se antes, rejeita 401. Sem isso, JWT continuava
+ * valido na vitrine ate expirar (7 dias) mesmo apos logout da loja
+ * (favoritos persistiam, etc).
  */
 add_action('wp_logout', function ($user_id) {
     if (!$user_id) return;
+    // 1) Destroi sessoes WP em todos devices
     $manager = WP_Session_Tokens::get_instance((int) $user_id);
     if ($manager) $manager->destroy_all();
+    // 2) Invalida JWTs emitidos ate agora (vitrine usa pra wishlist/etc)
+    update_user_meta((int) $user_id, '_cdm_jwt_revoked_after', time());
 }, 5); // priority 5 = antes do CoCart DestroyTokens (10)
 
 add_action('clear_auth_cookie', function () {
