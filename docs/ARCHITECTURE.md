@@ -2,7 +2,9 @@
 
 Documento canônico sobre **onde mora cada tipo de código** no backend WordPress da Cia das Mochilas. Use isso como matriz de decisão ao adicionar uma nova feature, hook, integração ou customização.
 
-> **TL;DR**: Use **mu-plugin** pra coisas que **não podem quebrar** se trocar de tema (auth, security, SEO, redirects, integrações). Use **tema** (`cia-astro/`) pra tudo que é **visual ou específico desta UX** (templates, CSS, hooks WC, customizações admin visuais). Use **plugin custom** se for uma feature reutilizável entre projetos.
+> **TL;DR (revisado 2026-05-26)**: **Tudo centralizado no tema `cia-astro/inc/`** (auth, SSO, SEO, integrações, debug, admin UI, WC hooks). Decisão pragmática — esse tema é o **único** tema usado nesse site e não vai trocar. Concentrar tudo num lugar facilita doc/manutenção/onboarding.
+>
+> ~~**Versão anterior** (2026-05-22): separava "auth crítico → mu-plugin / visual → tema".~~ Revertida porque o tradeoff "sobrevive a troca de tema" é teórico (não vamos trocar) e custo da fragmentação (arquivos espalhados em `mu-plugins/` + `themes/`) supera o ganho.
 
 ---
 
@@ -11,31 +13,39 @@ Documento canônico sobre **onde mora cada tipo de código** no backend WordPres
 ```
 loja.ciadasmochilas.com.br (WordPress + WooCommerce)
 │
-├── wp-content/mu-plugins/        ← "Must-Use" — sempre carregam, não desativáveis no painel
-│   ├── cdm-jwt-bearer-auth.php   ← Auth crítico (vitrine Astro chama REST com Bearer JWT)
-│   ├── cdm-sso-bridge.php        ← SSO vitrine↔loja (nonce one-time, cookie WP)
-│   ├── cdm-301-redirects.php     ← SEO crítico (sobrevive a troca de tema)
-│   ├── cdm-vitrine-rebuild.php   ← Webhook → GH Actions (independente de tema)
-│   ├── log-rest.php              ← Debug REST + mime fix uploads
-│   └── (admin-menu-rename + wfls-style FORAM MOVIDOS pro tema em 2026-05-22)
+├── wp-content/mu-plugins/        ← VAZIO desde 2026-05-26 (tudo migrado pro tema)
 │
 ├── wp-content/themes/cia-astro/  ← Tema filho do Storefront (este repo)
 │   ├── functions.php             ← Bootstrap (require_once inc/*)
 │   ├── inc/
-│   │   ├── theme-setup.php       ← add_theme_support, register_nav_menus
-│   │   ├── enqueue.php           ← Cascata CSS/JS controlada
-│   │   ├── urls.php              ← Helpers de URL
-│   │   ├── url-rewrites.php      ← Rewrites de slug WC
-│   │   ├── woo-config.php        ← remove_action Storefront que conflita
-│   │   ├── woo-hooks.php         ← add_action WC visual (dashboard, view-order)
-│   │   ├── newsletter.php        ← Form newsletter + integração
-│   │   ├── products-defaults.php ← Defaults de produto (campos custom)
-│   │   ├── wishlist.php          ← REST endpoints favoritos + menu account
-│   │   ├── emails.php            ← Subjects + headings WC PT-BR
-│   │   ├── cart-abandonment.php  ← Recuperação carrinho
-│   │   ├── express-checkout.php  ← Botão checkout rápido
-│   │   ├── login-google.php      ← Login social
-│   │   └── admin-ui.php          ← Customizações admin visuais (menu rename + page styles)
+│   │   │  -- Setup base do tema --
+│   │   ├── theme-setup.php             ← add_theme_support, register_nav_menus
+│   │   ├── enqueue.php                 ← Cascata CSS/JS controlada
+│   │   ├── urls.php                    ← Helpers de URL
+│   │   ├── url-rewrites.php            ← Rewrites de slug WC
+│   │   │  -- WooCommerce --
+│   │   ├── woo-config.php              ← remove_action Storefront que conflita
+│   │   ├── woo-hooks.php               ← add_action WC visual (dashboard, view-order)
+│   │   ├── products-defaults.php       ← Defaults de produto (campos custom)
+│   │   ├── emails.php                  ← Subjects + headings WC PT-BR
+│   │   ├── cart-abandonment.php        ← Recuperação carrinho
+│   │   ├── express-checkout.php        ← Botão checkout rápido
+│   │   │  -- Features --
+│   │   ├── newsletter.php              ← Form newsletter + integração
+│   │   ├── wishlist.php                ← REST endpoints favoritos + menu account
+│   │   ├── login-google.php            ← Login social
+│   │   │  -- Auth/sessao (migrado de mu-plugins em 2026-05-26) --
+│   │   ├── auth-jwt-bearer.php         ← JWT Bearer em rotas REST custom (/cdm/v1/*)
+│   │   ├── auth-sso-bridge.php         ← SSO vitrine↔loja (nonce one-time)
+│   │   ├── auth-logout-cleanup.php     ← Destroi cookies em todos domains/paths
+│   │   │  -- SEO --
+│   │   ├── seo-redirects.php           ← 301 redirects manuais (legacy URLs)
+│   │   │  -- Integrações --
+│   │   ├── integration-vitrine-rebuild.php ← Webhook GitHub Actions (auto-rebuild Astro)
+│   │   │  -- Debug --
+│   │   ├── debug-rest-logger.php       ← Log REST API + mime fix uploads
+│   │   │  -- Admin (carregado só em is_admin()) --
+│   │   └── admin-ui.php                ← Menu renames + page styles (Wordfence/etc)
 │   ├── assets/
 │   │   ├── css/                  ← Front CSS (tokens, base, header, footer, woo-*)
 │   │   └── js/                   ← Front JS
@@ -51,29 +61,29 @@ loja.ciadasmochilas.com.br (WordPress + WooCommerce)
 
 ## 2. Matriz de decisão — onde mora o quê
 
-Quando for adicionar código novo, pergunte:
+**Resposta única (pós-refactor 2026-05-26)**: vai em `cia-astro/inc/<prefixo>-<feature>.php`. Use convenção de nomes:
 
-### Pergunta 1 — Se desativar o tema, esse código DEVE continuar funcionando?
+| Prefixo | Tipo | Exemplos atuais |
+|---|---|---|
+| `auth-*` | Autenticação, sessão, login/logout | `auth-jwt-bearer.php`, `auth-sso-bridge.php`, `auth-logout-cleanup.php` |
+| `woo-*` | Hooks/templates/config WooCommerce | `woo-hooks.php`, `woo-config.php`, `products-defaults.php` |
+| `seo-*` | Redirects 301, schemas, meta | `seo-redirects.php` |
+| `integration-*` | Webhooks, APIs externas | `integration-vitrine-rebuild.php` |
+| `debug-*` | Logging, diagnóstico | `debug-rest-logger.php` |
+| `admin-*` | Customizações wp-admin (carregar com `is_admin()` guard) | `admin-ui.php` |
+| `<feature>.php` | Features standalone com nome óbvio | `wishlist.php`, `newsletter.php`, `cart-abandonment.php`, `emails.php`, `login-google.php` |
 
-| Resposta | Onde |
+Pra cada novo arquivo: `require_once` em `functions.php` (na seção apropriada — vide ordem do file).
+
+### Exceções (raros casos onde NÃO usar `inc/`)
+
+| Caso | Onde |
 |---|---|
-| **Sim** — é infra crítica (auth, security, SEO, redirects, integrações com sistemas externos) | **mu-plugin** |
-| **Não** — é visual ou específico desta UX (templates, CSS, hooks WC visuais, admin styling) | **tema** |
-
-### Pergunta 2 — Esse código é reutilizável em outros projetos?
-
-| Resposta | Onde |
-|---|---|
-| **Sim** — feature genérica que pode virar produto interno SV/Tyber | **plugin custom próprio** (em `plugins/`, ativável, versionável) |
-| **Não** — é específico do Cia das Mochilas | mu-plugin OU tema (volta pra pergunta 1) |
-
-### Pergunta 3 — É CSS/JS do front ou do admin?
-
-| Resposta | Onde |
-|---|---|
-| Front (vitrine WC: cart, checkout, account, single-product) | `assets/css/woo-*.css` + `inc/enqueue.php` |
-| Admin visual (página de plugin terceiro, menu rename) | `inc/admin-ui.php` |
-| Email transacional (header, footer, subjects) | `woocommerce/emails/*.php` (template override) ou `inc/emails.php` (subjects/headings) |
+| Plugin reutilizável entre projetos (open source ou interno SV/Tyber) | **Plugin custom em `plugins/`** (ativável, versionável) |
+| Template WC que NÃO dá pra resolver via action/filter hooks | **`woocommerce/`** overrides — último recurso, fica desatualizado em updates WC |
+| Library JS/CSS de terceiros (jQuery, etc) | **Plugin/CDN** — não copiar pra `assets/` |
+| CSS front (estilos visuais) | `assets/css/*.css` + enfileirado via `inc/enqueue.php` |
+| Email template (header/footer visual) | `woocommerce/emails/*.php` (overrides) |
 
 ---
 
@@ -332,3 +342,5 @@ Recompressão de 62 banners >400KB em 2026-05-22 criou `.bak` de cada arquivo or
 | 2026-05-22 | Criado `cia-redirects.conf` (nginx) — blindagem da loja | Loja respondia URLs do front (`/produto/*`, `/categoria/*`, `/marca/*`, pages institucionais) causando conteúdo duplicado no Google + UX ruim (500s). Server-level `if ($request_uri ~ ...)` retorna 301 pra vitrine. Roda antes do W3TC rewrite (cia-* < w3tc alfabeticamente). Cobertura validada em 19 paths via curl. Doc na seção 6.5 deste arquivo + comentários in-file no nginx config. |
 | 2026-05-22 | SSO bridge ganhou mapa `LOJA_ALIASES` | Antes: bridge construía dest=loja.X+pathname (assumia paths iguais). Quebrou `/favoritos` → `loja.X/favoritos` (404 em vez de `loja.X/minha-conta/favoritos/`). Agora: `LOJA_ALIASES` espelha `_redirects` e `cia-redirects.conf`. Os três devem ser atualizados juntos sempre. |
 | 2026-05-22 | Cleanup uploads órfãos + otimização imagens completa | (1) Cleanup: 3.609 arquivos / 113 MB órfãos movidos pra quarantine (dual-check filename+attachment_id). Issue [#2](https://github.com/jtiberio-sv/cia-astro-theme/issues/2) pra validar em 30d. (2) WebP gen: 757 arquivos faltantes convertidos (-60% size). (3) AVIF gen: 2.155 gerados (-84% size). (4) Recompressão de 62 banners >400KB (-13 MB). Cobertura final WebP 100% JPG / 99% PNG; AVIF 100% JPG / 76% PNG. Scripts em `docs/scripts/`. Issue [#4](https://github.com/jtiberio-sv/cia-astro-theme/issues/4) pra deletar .bak em 14d. |
+| 2026-05-26 | **Centralização completa: todos os mu-plugins migrados pro tema** | Antes: 6 mu-plugins espalhados em `wp-content/mu-plugins/`. Agora: tudo em `cia-astro/inc/` com convenção de nomes por prefixo (`auth-`, `seo-`, `integration-`, `debug-`). Mu-plugins backup em `/tmp/cdm-muplugins-backup-2026-05-26/` no server. Reverteu decisão arquitetural de 2026-05-22 (mu-plugin pra auth crítico) — tradeoff "sobrevive a troca de tema" é teórico, fragmentação custa mais que protege. Files criados: `auth-jwt-bearer.php` + `auth-sso-bridge.php` + `auth-logout-cleanup.php` + `seo-redirects.php` + `integration-vitrine-rebuild.php` + `debug-rest-logger.php`. Validado: SSO endpoints respondem identico (401/302). |
+| 2026-05-26 | Criado `auth-logout-cleanup.php` | Bug reportado por JP: click "Sair" em /minha-conta/ não destruía cookie WP (continuava logado). Causa: cookie setado em domain X, WP tentava destruir em domain Y. Fix defensivo: destrói cookies em TODOS combos domain/path possíveis (com/sem ponto, host real, COOKIEPATH/SITECOOKIEPATH/ADMIN). |
